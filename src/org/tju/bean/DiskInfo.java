@@ -197,7 +197,7 @@ public class DiskInfo {
 	/**
 	 * @return the blocksList
 	 */
-	public HashMap<Integer, BlockInfo> getFilesList() {
+	public HashMap<Integer, BlockInfo> getBlockList() {
 		return blocksList;
 	}
 
@@ -205,7 +205,7 @@ public class DiskInfo {
 	/**
 	 * @param blocksList the blocksList to set
 	 */
-	public void setFilesList(HashMap<Integer, BlockInfo> blocksList) {
+	public void setBlockList(HashMap<Integer, BlockInfo> blocksList) {
 		this.blocksList = blocksList;
 	}
 	
