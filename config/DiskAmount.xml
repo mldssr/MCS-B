@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action size="2000000" operpower="8.0"> </action>
+	<action datadisk="20" cachedisk="4" ssd="1"> </action>
 </package>

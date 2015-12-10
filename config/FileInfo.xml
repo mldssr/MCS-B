@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action size="200"> </action>
+	<action basic="180" err="10"> </action>
 </package>
