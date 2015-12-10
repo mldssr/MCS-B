@@ -22,7 +22,7 @@ public class DiskInfo {
 	
 	private double operPower;        //Operational Power
 	
-	private HashMap<Integer, BlockInfo> filesList;		//Stored Blocks' List
+	private HashMap<Integer, BlockInfo> blocksList;		//Stored Blocks' List
 
 	
 	
@@ -48,11 +48,11 @@ public class DiskInfo {
 	 * @param blockAmount
 	 * @param idleTime
 	 * @param operPower
-	 * @param filesList
+	 * @param blocksList
 	 */
 	public DiskInfo(int diskId, int diskType, int diskState, double totalSpace,
 			double leftSpace, int blockAmount, int idleTime, double operPower,
-			HashMap<Integer, BlockInfo> filesList) {
+			HashMap<Integer, BlockInfo> blocksList) {
 		super();
 		this.diskId = diskId;
 		this.diskType = diskType;
@@ -62,7 +62,7 @@ public class DiskInfo {
 		this.blockAmount = blockAmount;
 		this.idleTime = idleTime;
 		this.operPower = operPower;
-		this.filesList = filesList;
+		this.blocksList = blocksList;
 	}
 
 
@@ -195,18 +195,18 @@ public class DiskInfo {
 
 
 	/**
-	 * @return the filesList
+	 * @return the blocksList
 	 */
 	public HashMap<Integer, BlockInfo> getFilesList() {
-		return filesList;
+		return blocksList;
 	}
 
 
 	/**
-	 * @param filesList the filesList to set
+	 * @param blocksList the blocksList to set
 	 */
-	public void setFilesList(HashMap<Integer, BlockInfo> filesList) {
-		this.filesList = filesList;
+	public void setFilesList(HashMap<Integer, BlockInfo> blocksList) {
+		this.blocksList = blocksList;
 	}
 	
 	
