@@ -17,6 +17,7 @@ public class DiskInfo {
 	private int diskState;           //(0,1)is(Down,Up)
 	private double totalSpace;
 	private double leftSpace;
+	private int blockAmount;
 	private int idleTime;
 	
 	private double operPower;        //Operational Power
@@ -44,12 +45,13 @@ public class DiskInfo {
 	 * @param diskState
 	 * @param totalSpace
 	 * @param leftSpace
+	 * @param blockAmount
 	 * @param idleTime
 	 * @param operPower
 	 * @param filesList
 	 */
 	public DiskInfo(int diskId, int diskType, int diskState, double totalSpace,
-			double leftSpace, int idleTime, double operPower,
+			double leftSpace, int blockAmount, int idleTime, double operPower,
 			HashMap<Integer, BlockInfo> filesList) {
 		super();
 		this.diskId = diskId;
@@ -57,6 +59,7 @@ public class DiskInfo {
 		this.diskState = diskState;
 		this.totalSpace = totalSpace;
 		this.leftSpace = leftSpace;
+		this.blockAmount = blockAmount;
 		this.idleTime = idleTime;
 		this.operPower = operPower;
 		this.filesList = filesList;
@@ -140,6 +143,22 @@ public class DiskInfo {
 	 */
 	public void setLeftSpace(double leftSpace) {
 		this.leftSpace = leftSpace;
+	}
+
+
+	/**
+	 * @return the blockAmount
+	 */
+	public int getBlockAmount() {
+		return blockAmount;
+	}
+
+
+	/**
+	 * @param blockAmount the blockAmount to set
+	 */
+	public void setBlockAmount(int blockAmount) {
+		this.blockAmount = blockAmount;
 	}
 
 
