@@ -42,7 +42,7 @@ public class InitEnvironment {
 	public int blockSize = Integer.valueOf(ReadXml.readname("config/BlockAmount.xml", "size"));
 	public int fileInBlock = Integer.valueOf(ReadXml.readname("config/BlockAmount.xml", "fileamount"));
 	
-	//get observe info (skyzone and tme)
+	//get observe info (skyzone and time)
 	public int timeAmount = Integer.valueOf(ReadXml.readname("config/ObserveInfo.xml", "time"));
 	public int skyzoneAmount = Integer.valueOf(ReadXml.readname("config/ObserveInfo.xml", "skyzone"));
 	
