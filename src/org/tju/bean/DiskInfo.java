@@ -15,8 +15,8 @@ public class DiskInfo {
 	private int diskId;
 	private int diskType;            //(0,1,2)is(First Level Cache,Second Level Cache, Data Disks)
 	private int diskState;           //(0,1)is(Down,Up)
-	private double totalSpace;
-	private double leftSpace;
+	private int totalSpace;
+	private int leftSpace;
 	private int blockAmount;
 	private int idleTime;
 	
@@ -50,8 +50,8 @@ public class DiskInfo {
 	 * @param operPower
 	 * @param blocksList
 	 */
-	public DiskInfo(int diskId, int diskType, int diskState, double totalSpace,
-			double leftSpace, int blockAmount, int idleTime, double operPower,
+	public DiskInfo(int diskId, int diskType, int diskState, int totalSpace,
+			int leftSpace, int blockAmount, int idleTime, double operPower,
 			HashMap<Integer, BlockInfo> blocksList) {
 		super();
 		this.diskId = diskId;
@@ -117,7 +117,7 @@ public class DiskInfo {
 	/**
 	 * @return the totalSpace
 	 */
-	public double getTotalSpace() {
+	public int getTotalSpace() {
 		return totalSpace;
 	}
 
@@ -125,7 +125,7 @@ public class DiskInfo {
 	/**
 	 * @param totalSpace the totalSpace to set
 	 */
-	public void setTotalSpace(double totalSpace) {
+	public void setTotalSpace(int totalSpace) {
 		this.totalSpace = totalSpace;
 	}
 
@@ -133,7 +133,7 @@ public class DiskInfo {
 	/**
 	 * @return the leftSpace
 	 */
-	public double getLeftSpace() {
+	public int getLeftSpace() {
 		return leftSpace;
 	}
 
@@ -141,7 +141,7 @@ public class DiskInfo {
 	/**
 	 * @param leftSpace the leftSpace to set
 	 */
-	public void setLeftSpace(double leftSpace) {
+	public void setLeftSpace(int leftSpace) {
 		this.leftSpace = leftSpace;
 	}
 
