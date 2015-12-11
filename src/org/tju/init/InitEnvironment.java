@@ -76,6 +76,61 @@ public class InitEnvironment {
 	//initialize the basic environment
 	public void initEnvironment() {
 		
+		System.out.println("========>>>>Start Initialize Environment!!!<<<<========\n");		
+		
+		//Initialize First Level Cache Disk
+		initSSDDisk();
+		
+		//Initialize First Level Cache Disk
+		initCacheDisk();
+		
+		//Initialize data Disk
+		initDataDisk();
+		
+		//Initialize Environment End
+		System.out.println("========>>>>Initialize Environment Success!!!<<<<========\n");		
+		
+	}
+	
+	
+	
+	//Initialize First Level Cache Disk
+	public void initSSDDisk(){
+		
+		System.out.println("========>>>>Start Initialize SSD Disk!!!<<<<========\n");
+
+		HashMap<Integer, BlockInfo> SSDBlockList = new HashMap<Integer, BlockInfo>();
+		for(int i=SSDDiskStartId; i<SSDDiskStartId+SSDAmount; i++){
+			SSDDisk[i-SSDDiskStartId] = new DiskInfo(i, 0, 0, SSDSize, SSDSize, 0, 0, SSDOperPower, SSDBlockList);
+		}
+		
+		//Initialize First Level Cache Disk End
+		System.out.println("========>>>>Initialize SSD Disk Success!!!<<<<========\n");
+		
+	}
+	
+	
+	//Initialize Second Level Cache Disk
+	public void initCacheDisk(){
+		
+		System.out.println("========>>>>Start Initialize Cache Disks!!!<<<<========\n");
+
+		HashMap<Integer, BlockInfo> cacheBlockList = new HashMap<Integer, BlockInfo>();
+		for(int i=cacheDiskStartId; i<cacheDiskStartId+cacheAmount; i++){
+			cacheDisks[i-cacheDiskStartId] = new DiskInfo(i, 1, 0, diskSize, diskSize, 0, 0, diskOperPower, cacheBlockList);
+		}
+		
+		//Initialize Second Level Cache Disk End
+		System.out.println("========>>>>Initialize Cache Disks Success!!!<<<<========\n");
+				
+	}
+	
+	
+	//Initialize data Disk
+	public void initDataDisk(){
+		
+		System.out.println("========>>>>Start Initialize Data Disks!!!<<<<========\n");
+
 		//duplicate block list
 		HashMap<Integer, BlockInfo> duplicateBlocksList = new HashMap<Integer, BlockInfo>();	
 		//first duplicate block list
@@ -151,32 +206,7 @@ public class InitEnvironment {
 		
 		//Initialize Data Disks End
 		System.out.println("========>>>>Initialize Data Disks Success!!!<<<<========\n");
-		
-		
-		
-		//Initialize First Level Cache Disk
-		HashMap<Integer, BlockInfo> SSDBlockList = new HashMap<Integer, BlockInfo>();
-		for(int i=SSDDiskStartId; i<SSDDiskStartId+SSDAmount; i++){
-			SSDDisk[i-SSDDiskStartId] = new DiskInfo(i, 0, 0, SSDSize, SSDSize, 0, 0, SSDOperPower, SSDBlockList);
-		}
-		
-		//Initialize First Level Cache Disk End
-		System.out.println("========>>>>Initialize SSD Disk Success!!!<<<<========\n");
-				
-		
-		//Initialize Second Level Cache Disk
-		HashMap<Integer, BlockInfo> cacheBlockList = new HashMap<Integer, BlockInfo>();
-		for(int i=cacheDiskStartId; i<cacheDiskStartId+cacheAmount; i++){
-			cacheDisks[i-cacheDiskStartId] = new DiskInfo(i, 1, 0, diskSize, diskSize, 0, 0, diskOperPower, cacheBlockList);
-		}
-		
-		//Initialize First Level Cache Disk End
-		System.out.println("========>>>>Initialize HDD Disks Success!!!<<<<========\n");
-				
-		
-		//Initialize Environment End
-		System.out.println("========>>>>Initialize Environment Success!!!<<<<========\n");		
-		
+			
 	}
 	
 	
