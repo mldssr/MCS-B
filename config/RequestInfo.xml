@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action slidingwindow="10" light="10" normal="100" mode="single" err="5" amount="10000" rule="time"> </action>
+	<action slidingwindow="10" light="10" normal="100" mode="single" err="5" amount="10000" rule="time" correlation="2"> </action>
 </package>
