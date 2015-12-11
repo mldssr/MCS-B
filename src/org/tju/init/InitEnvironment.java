@@ -6,7 +6,7 @@ import java.util.Random;
 import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 import org.tju.bean.FileInfo;
-import org.tju.tool.ReadXml;
+import org.tju.util.ValueOfConfigureFile;
 
 /**
  * Name: InitEnvironment
@@ -19,7 +19,10 @@ import org.tju.tool.ReadXml;
 public class InitEnvironment {
 	
 	//Random
-	Random random = new Random();
+	public Random random = new Random();
+	
+	//Value of configure files
+	public ValueOfConfigureFile valueOfConfigureFile = new ValueOfConfigureFile();
 	
 	//the start nums
 	public int skyzone = 0;
@@ -28,32 +31,32 @@ public class InitEnvironment {
 	public int diskId = 0;
 	
 	//the disks' starting ID
-	public int dataDiskStartId = Integer.valueOf(ReadXml.readname("config/DiskNum.xml", "datadisk"));
-	public int cacheDiskStartId = Integer.valueOf(ReadXml.readname("config/DiskNum.xml", "cache"));
-	public int SSDDiskStartId = Integer.valueOf(ReadXml.readname("config/DiskNum.xml", "ssd"));
+	public int dataDiskStartId = valueOfConfigureFile.getDataDiskStartId();
+	public int cacheDiskStartId = valueOfConfigureFile.getCacheDiskStartId();
+	public int SSDDiskStartId = valueOfConfigureFile.getSSDDiskStartId();
 	
 	//get files' info
-	public int fileAmount = Integer.valueOf(ReadXml.readname("config/FileAmount.xml", "amount"));
-	public int fileBasicSize = Integer.valueOf(ReadXml.readname("config/FileInfo.xml", "basic"));
-	public int fileSizeErr = Integer.valueOf(ReadXml.readname("config/FileInfo.xml", "err"));
+	public int fileAmount = valueOfConfigureFile.getFileAmount();
+	public int fileBasicSize = valueOfConfigureFile.getFileBasicSize();
+	public int fileSizeErr = valueOfConfigureFile.getFileSizeErr();
 	
 	//get blocks' info
-	public int blockAmount = Integer.valueOf(ReadXml.readname("config/BlockAmount.xml", "amount"));
-	public int blockSize = Integer.valueOf(ReadXml.readname("config/BlockAmount.xml", "size"));
-	public int fileInBlock = Integer.valueOf(ReadXml.readname("config/BlockAmount.xml", "fileamount"));
+	public int blockAmount = valueOfConfigureFile.getBlockAmount();
+	public int blockSize = valueOfConfigureFile.getBlockSize();
+	public int fileInBlock = valueOfConfigureFile.getFileInBlock();
 	
 	//get observe info (skyzone and time)
-	public int timeAmount = Integer.valueOf(ReadXml.readname("config/ObserveInfo.xml", "time"));
-	public int skyzoneAmount = Integer.valueOf(ReadXml.readname("config/ObserveInfo.xml", "skyzone"));
+	public int timeAmount = valueOfConfigureFile.getTimeAmount();
+	public int skyzoneAmount = valueOfConfigureFile.getSkyzoneAmount();
 	
 	//get duplicate amount
-	public int duplicateAmount = Integer.valueOf(ReadXml.readname("config/Duplicate.xml", "amount"));
+	public int duplicateAmount = valueOfConfigureFile.getDuplicateAmount();
 	
 	/**get disks' info**/
 	//get disks' amount
-	public int SSDAmount = Integer.valueOf(ReadXml.readname("config/DiskAmount.xml", "ssd"));
-	public int cacheAmount = Integer.valueOf(ReadXml.readname("config/DiskAmount.xml", "cachedisk"));
-	public int dataDiskAmount = Integer.valueOf(ReadXml.readname("config/DiskAmount.xml", "datadisk"));
+	public int SSDAmount = valueOfConfigureFile.getSSDAmount();
+	public int cacheAmount = valueOfConfigureFile.getCacheAmount();
+	public int dataDiskAmount = valueOfConfigureFile.getDataDiskAmount();
 	
 	//Declare disks' info
 	public DiskInfo[] SSDDisk = new DiskInfo[SSDAmount];
@@ -61,16 +64,16 @@ public class InitEnvironment {
 	public DiskInfo[] dataDisks = new DiskInfo[dataDiskAmount];
 	
 	//get HDD disks' parameters
-	public int diskSize = Integer.valueOf(ReadXml.readname("config/HDDDisk.xml", "size"));
-	public double diskOperPower = Double.valueOf(ReadXml.readname("config/HDDDisk.xml", "operpower"));
+	public int diskSize = valueOfConfigureFile.getDiskSize();
+	public double diskOperPower = valueOfConfigureFile.getDiskOperPower();
 	
 	//get SSD disks' parameters
-	public int SSDSize = Integer.valueOf(ReadXml.readname("config/SSDDisk.xml", "size"));
-	public double SSDOperPower = Double.valueOf(ReadXml.readname("config/SSDDisk.xml", "operpower"));
+	public int SSDSize = valueOfConfigureFile.getSSDSize();
+	public double SSDOperPower = valueOfConfigureFile.getSSDOperPower();
 	
 	//get disks' capacity
-	public int blockInDisk = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "blockamount"));
-	public int skyzoneInDisk = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "skyzone"));
+	public int blockInDisk = valueOfConfigureFile.getBlockInDisk();
+	public int skyzoneInDisk = valueOfConfigureFile.getSkyzoneInDisk();
 	
 	
 	//initialize the basic environment
@@ -152,7 +155,7 @@ public class InitEnvironment {
 			}
 			
 			//order by skyzone
-			for( ; skyzone<skyzoneInDisk*(i+1)-i && skyzone<skyzoneAmount; skyzone++){
+			for( ; skyzone<skyzoneInDisk*(i-dataDiskStartId+1)-(i-dataDiskStartId) && skyzone<skyzoneAmount; skyzone++){
 				//initialize block
 				//the files in block
 				HashMap<String, FileInfo> filesList = new HashMap<String, FileInfo>();
