@@ -1,4 +1,4 @@
-package org.tju.tool;
+package org.tju.util;
 
 import org.dom4j.io.SAXReader;
 import org.dom4j.Document;
