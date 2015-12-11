@@ -12,7 +12,6 @@ import java.util.Date;
  */
 public class RequestInfo {
 	
-	private int requestId;
 	private String requestFileName;
 	private Date generateTime;
 	private Date responseTime;
@@ -27,31 +26,15 @@ public class RequestInfo {
 	 * @param responseTime
 	 * @param qos
 	 */
-	public RequestInfo(int requestId, String requestFileName,
+	public RequestInfo(String requestFileName,
 			Date generateTime, Date responseTime, double qos) {
 		super();
-		this.requestId = requestId;
 		this.requestFileName = requestFileName;
 		this.generateTime = generateTime;
 		this.responseTime = responseTime;
 		this.qos = qos;
 	}
 
-
-	/**
-	 * @return the requestId
-	 */
-	public int getRequestId() {
-		return requestId;
-	}
-
-
-	/**
-	 * @param requestId the requestId to set
-	 */
-	public void setRequestId(int requestId) {
-		this.requestId = requestId;
-	}
 
 
 	/**
