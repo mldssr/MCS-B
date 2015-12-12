@@ -39,6 +39,9 @@ public class GenerateRequest {
 	//get requests' correlation size
 	public int requestCorrelation = valueOfConfigureFile.getRequestCorrelation();
 	
+	//get requests' window NO.
+	public int windowNum = valueOfConfigureFile.getWindowNum();
+	
 	//Request group
 	public RequestInfo[] requestInfo = new RequestInfo[requestCorrelation*2+1];
 	
@@ -64,18 +67,57 @@ public class GenerateRequest {
 	
 	
 	//Generate request function
-	public void generateRequest(){
+	public HashMap<Integer, HashMap<String, RequestInfo>> generateRequest(){
 		
-		//Request List of one sliding window
+		//Request List of sliding window
 		HashMap<String, RequestInfo> requestInSlidingWindowList = new HashMap<String, RequestInfo>();
-		
-		//Request List of all
-		HashMap<String, RequestInfo> requestList = new HashMap<String, RequestInfo>();
+		HashMap<String, RequestInfo> requestPerWindowList = new HashMap<String, RequestInfo>();
 
+		//Request List of all
+		HashMap<Integer, HashMap<String, RequestInfo>> requestList = new HashMap<Integer, HashMap<String, RequestInfo>>();
+
+		//generate request
+		for(int i=0; i<requestAmount; ){
+			if (mode.equalsIgnoreCase("light")) {
+				requestInSlidingWindowList = generateRequestInLight(requestGenerateRule);
+				
+				int j = 0;
+				for(HashMap.Entry<String, RequestInfo> entry : requestInSlidingWindowList.entrySet()) {
+					requestPerWindowList.put(entry.getKey(), entry.getValue());
+					
+					if(++j == requestInSlidingWindowList.size()/windowNum){
+						requestList.put(i++, requestPerWindowList);
+						requestPerWindowList.clear();
+					}
+				}			
+			} else if (mode.equalsIgnoreCase("normal")) {
+				requestInSlidingWindowList = generateRequestInNormal(requestGenerateRule);
+				
+				int j = 0;
+				for(HashMap.Entry<String, RequestInfo> entry : requestInSlidingWindowList.entrySet()) {
+					requestPerWindowList.put(entry.getKey(), entry.getValue());
+					
+					if(++j == requestInSlidingWindowList.size()/windowNum){
+						requestList.put(i++, requestPerWindowList);
+						requestPerWindowList.clear();
+					}
+				}			
+			} else if (mode.equalsIgnoreCase("mix")) {
+				requestInSlidingWindowList = generateRequestInMix(requestGenerateRule);
+				
+				int j = 0;
+				for(HashMap.Entry<String, RequestInfo> entry : requestInSlidingWindowList.entrySet()) {
+					requestPerWindowList.put(entry.getKey(), entry.getValue());
+					
+					if(++j == requestInSlidingWindowList.size()/windowNum){
+						requestList.put(i++, requestPerWindowList);
+						requestPerWindowList.clear();
+					}
+				}			
+			}
+		}	
 		
-				
-				
-				
+		return requestList;
 	}
 	
 	
@@ -187,29 +229,133 @@ public class GenerateRequest {
 	}
 	
 	
-	
-	//test
-	public static void main(String[] args){
-		GenerateRequest gen = new GenerateRequest();
-		RequestInfo[] requests = gen.generateRequestByTime();
+	//Generate request by Skyzone & time  ===>>NULL<<===
+	public RequestInfo[] generateRequestByMix(){
 		
-		for(int i=0; i<requests.length; i++){
-			System.out.println(requests[i].getRequestFileName());
-		}
-		
-		
-		RequestInfo[] requests1 = gen.generateRequestBySkyzone();
-		
-		for(int i=0; i<requests1.length; i++){
-			System.out.println(requests1[i].getRequestFileName());
-		}
+		RequestInfo[] requestInfos = new RequestInfo[requestCorrelation*2+1];
+			
+		return requestInfos;
 		
 	}
 	
 	
+	//Generate request in light mode
+	public HashMap<String, RequestInfo> generateRequestInLight(String rule){
+		
+		HashMap<String, RequestInfo> requestInSlidingWindowList = new HashMap<String, RequestInfo>();
+		
+		int requestErr = random.nextInt(err);
+		int realRequestArrivalRate = lightRequestArrivalRate + requestErr;
+		
+		for(int i=0; i<windowNum; i++){
+			if(rule.equalsIgnoreCase("time")){
+				for(int j=0; j<realRequestArrivalRate; j++){
+					RequestInfo[] requests = generateRequestByTime();
+					for(int k=0; k<requests.length; k++){
+						requestInSlidingWindowList.put(requests[k].getRequestFileName(), requests[k]);
+					}
+				}
+			} else if(rule.equalsIgnoreCase("skyzone")){
+				for(int j=0; j<realRequestArrivalRate; j++){
+					RequestInfo[] requests = generateRequestBySkyzone();
+					for(int k=0; k<requests.length; k++){
+						requestInSlidingWindowList.put(requests[k].getRequestFileName(), requests[k]);
+					}
+				}
+			} else if(rule.equalsIgnoreCase("mix")){
+				for(int j=0; j<realRequestArrivalRate; j++){
+					RequestInfo[] requests = generateRequestByMix();
+					for(int k=0; k<requests.length; k++){
+						requestInSlidingWindowList.put(requests[k].getRequestFileName(), requests[k]);
+					}
+				}
+			}		
+		}
+		
+		return requestInSlidingWindowList;
+		
+	}
 	
+	
+	//Generate request in normal mode
+	public HashMap<String, RequestInfo> generateRequestInNormal(String rule){
+		
+		HashMap<String, RequestInfo> requestInSlidingWindowList = new HashMap<String, RequestInfo>();
+		
+		int requestErr = random.nextInt(err);
+		int realRequestArrivalRate = normalRequestArrivalRate + requestErr;
+		
+		for(int i=0; i<windowNum; i++){
+			if(rule.equalsIgnoreCase("time")){
+				for(int j=0; j<realRequestArrivalRate; j++){
+					RequestInfo[] requests = generateRequestByTime();
+					for(int k=0; k<requests.length; k++){
+						requestInSlidingWindowList.put(requests[k].getRequestFileName(), requests[k]);
+					}
+				}
+			} else if(rule.equalsIgnoreCase("skyzone")){
+				for(int j=0; j<realRequestArrivalRate; j++){
+					RequestInfo[] requests = generateRequestBySkyzone();
+					for(int k=0; k<requests.length; k++){
+						requestInSlidingWindowList.put(requests[k].getRequestFileName(), requests[k]);
+					}
+				}
+			} else if(rule.equalsIgnoreCase("mix")){
+				for(int j=0; j<realRequestArrivalRate; j++){
+					RequestInfo[] requests = generateRequestByMix();
+					for(int k=0; k<requests.length; k++){
+						requestInSlidingWindowList.put(requests[k].getRequestFileName(), requests[k]);
+					}
+				}
+			}		
+		}
+		
+		
+		return requestInSlidingWindowList;
+		
+	}
+	
+	//Generate request in Mix(ligth & normal) mode
+	public HashMap<String, RequestInfo> generateRequestInMix(String rule){
+		
+		int i = random.nextInt(2);
+		
+		if(i == 0){
+			return generateRequestInLight(requestGenerateRule);
+		} else {
+			return generateRequestInNormal(requestGenerateRule);
+		}	
+		
+	}
+    
+	
+	
+	
+	//test
+	public static void main(String[] args){
+		GenerateRequest gen = new GenerateRequest();	
+		
+//		HashMap<String, RequestInfo> list = gen.generateRequestInNormal("time");
+//
+//		for (HashMap.Entry<String, RequestInfo> entry : list.entrySet()) {
+//
+//		    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//
+//		}
+		
+		HashMap<Integer, HashMap<String, RequestInfo>> list = gen.generateRequest();
+		
+		HashMap<String, RequestInfo> list1 = list.get(0);
+		
+		for (HashMap.Entry<String, RequestInfo> entry : list1.entrySet()) {
 
-	
-	
+		    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 
+		}
+		
+		System.out.println(list.size()+"===="+list1.size());
+		
+		
+	}
+	
 }
