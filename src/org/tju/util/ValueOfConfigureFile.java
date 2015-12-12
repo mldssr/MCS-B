@@ -69,6 +69,10 @@ public class ValueOfConfigureFile {
 	//get requests' correlation size
 	public int requestCorrelation = Integer.valueOf(ReadXml.readname("config/RequestInfo.xml", "correlation"));
 	
+	//get window NO.
+	public int windowNum = Integer.valueOf(ReadXml.readname("config/RequestInfo.xml", "windownum"));
+
+	
 	//get SSD disks' parameters from SSDDisk.xml
 	public int SSDSize = Integer.valueOf(ReadXml.readname("config/SSDDisk.xml", "size"));
 	public double SSDOperPower = Double.valueOf(ReadXml.readname("config/SSDDisk.xml", "operpower"));
