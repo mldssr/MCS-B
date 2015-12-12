@@ -304,6 +304,14 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
+	 * @return the windowNum
+	 */
+	public int getWindowNum() {
+		return windowNum;
+	}
+
+
+	/**
 	 * @return the sSDSize
 	 */
 	public int getSSDSize() {
