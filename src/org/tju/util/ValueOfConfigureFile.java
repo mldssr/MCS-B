@@ -78,7 +78,18 @@ public class ValueOfConfigureFile {
 	public double SSDOperPower = Double.valueOf(ReadXml.readname("config/SSDDisk.xml", "operpower"));
 	
 	
+	//get Path info from FilePathInfo.xml
+	public String requestFilePath = ReadXml.readname("config/FilePathInfo.xml", "request");
 	
+	
+	/**
+	 * @return the requestFilePath
+	 */
+	public String getRequestFilePath() {
+		return requestFilePath;
+	}
+
+
 	/**
 	 * @return the blockAmount
 	 */
