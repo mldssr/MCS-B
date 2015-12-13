@@ -86,5 +86,41 @@ public class TrackOfRequest {
 	}
 	
 	
+	
+	//test
+	public static void main(String[] args){
+		
+		TrackOfRequest track = new TrackOfRequest();
+		
+		String filePath = "track/requestGen.csv";
+		
+		String[] lables = {"RequestFileName", "GenerateTime"};
+		
+		RequestInfo request = new RequestInfo("test", null, null, 2);
+		
+		track.CreateFileOfRequestGen(filePath);
+		
+		track.HeaderOfRequestGen(filePath, lables);	
+		
+		track.TrackOfRequestGen(filePath, request);
+		
+		
+		
+		//test statistic
+		TrackOfRequest track1 = new TrackOfRequest();
+			
+		filePath = "track/requestSta.csv";		
+
+		String[] lables1 = {"RequestFileName", "GenerateTime", "ResponseTime", "Qos"};
+		
+		track1.CreateFileOfRequestSta(filePath);
+		
+		track1.HeaderOfRequestSta(filePath, lables1);	
+		
+		track1.TrackOfRequestSta(filePath, request);	
+		
+	}
+	
+	
 
 }
