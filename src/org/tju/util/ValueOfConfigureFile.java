@@ -80,7 +80,11 @@ public class ValueOfConfigureFile {
 	
 	//get Path info from FilePathInfo.xml
 	public String requestFilePath = ReadXml.readname("config/FilePathInfo.xml", "request");
-	
+	public String requestStaFilePath = ReadXml.readname("config/FilePathInfo.xml", "requeststa");
+	public String blockExchangeFilePath = ReadXml.readname("config/FilePathInfo.xml", "blockexchange");
+	public String dataDiskStateFilePath = ReadXml.readname("config/FilePathInfo.xml", "datadiskstate");
+	public String cacheDiskStateFilePath = ReadXml.readname("config/FilePathInfo.xml", "cachediskstate");
+
 	
 	/**
 	 * @return the requestFilePath
