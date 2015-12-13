@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+	<action requestgen1="RequestFileName" requestgen2="GenerateTime" requestgensize="2"> </action>
+	<action requeststa1="RequestFileName" requeststa2="GenerateTime" requeststa3="ResponseTime" requeststa4="Qos" requeststasize="4"> </action>
+	
+	<action blockexchange1="Time" blockexchange2="Data2SSD" blockexchange3= "Data2Cache" blockexchange4="Cache2SSD" blockexchange5="Cache2Cache" blockexchange6="Total" blockexchangesize="6"> </action>
+</package>
