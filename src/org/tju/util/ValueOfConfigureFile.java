@@ -86,6 +86,54 @@ public class ValueOfConfigureFile {
 	public String cacheDiskStateFilePath = ReadXml.readname("config/FilePathInfo.xml", "cachediskstate");
 
 	
+	//get files' labels' Info from FileLableInfo.xml
+	public String[] requestGenLables = {ReadXml.readname("config/FileLableInfo.xml", "requestgen1"), 
+											ReadXml.readname("config/FileLableInfo.xml", "requestgen2")};
+	
+	public String[] requestStaLables = {ReadXml.readname("config/FileLableInfo.xml", "requeststa1"), 
+											ReadXml.readname("config/FileLableInfo.xml", "requeststa2"),
+											ReadXml.readname("config/FileLableInfo.xml", "requeststa3"),
+											ReadXml.readname("config/FileLableInfo.xml", "requeststa4")};
+
+	public String[] blockExchangeLables = {ReadXml.readname("config/FileLableInfo.xml", "blockexchange1"),
+											ReadXml.readname("config/FileLableInfo.xml", "blockexchange2"),
+											ReadXml.readname("config/FileLableInfo.xml", "blockexchange3"),
+											ReadXml.readname("config/FileLableInfo.xml", "blockexchange4"),
+											ReadXml.readname("config/FileLableInfo.xml", "blockexchange5"),
+											ReadXml.readname("config/FileLableInfo.xml", "blockexchange6")};
+	
+	//get data disk state lables
+	public String[] getDataDiskStateLables(){
+		
+		String[] dataDiskStateLables = new String[dataDiskAmount+1];
+		
+		dataDiskStateLables[0] = "Time";
+		
+		for(int i=1; i<=dataDiskAmount; i++){
+			dataDiskStateLables[i] = String.valueOf(i-1);
+		}	
+		
+		return dataDiskStateLables;
+
+	}
+	
+	
+	//get cache disk state lables
+	public String[] getCacheDiskStateLables(){
+		
+		String[] cacheDiskStateLables = new String[cacheAmount+1];
+		
+		cacheDiskStateLables[0] = "Time";
+		
+		for(int i=1; i<=cacheAmount; i++){
+			cacheDiskStateLables[i] = String.valueOf(i-1);
+		}	
+		
+		return cacheDiskStateLables;
+
+	}
+
+	
 	/**
 	 * @return the requestFilePath
 	 */
@@ -339,6 +387,62 @@ public class ValueOfConfigureFile {
 	 */
 	public double getSSDOperPower() {
 		return SSDOperPower;
+	}
+
+
+	/**
+	 * @return the requestStaFilePath
+	 */
+	public String getRequestStaFilePath() {
+		return requestStaFilePath;
+	}
+
+
+	/**
+	 * @return the blockExchangeFilePath
+	 */
+	public String getBlockExchangeFilePath() {
+		return blockExchangeFilePath;
+	}
+
+
+	/**
+	 * @return the dataDiskStateFilePath
+	 */
+	public String getDataDiskStateFilePath() {
+		return dataDiskStateFilePath;
+	}
+
+
+	/**
+	 * @return the cacheDiskStateFilePath
+	 */
+	public String getCacheDiskStateFilePath() {
+		return cacheDiskStateFilePath;
+	}
+
+
+	/**
+	 * @return the requestGenLables
+	 */
+	public String[] getRequestGenLables() {
+		return requestGenLables;
+	}
+
+
+	/**
+	 * @return the requestStaLables
+	 */
+	public String[] getRequestStaLables() {
+		return requestStaLables;
+	}
+
+
+	/**
+	 * @return the blockExchangeLables
+	 */
+	public String[] getBlockExchangeLables() {
+		return blockExchangeLables;
 	}
 	
 }
