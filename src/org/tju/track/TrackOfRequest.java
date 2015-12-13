@@ -8,7 +8,7 @@ import org.tju.util.FileOperation;
  *
  * @date 2015年12月13日 上午10:26:43
  */
-public class TrackofRequest {
+public class TrackOfRequest {
 	
 	//get file operation
 	public FileOperation fileOper= new FileOperation();
