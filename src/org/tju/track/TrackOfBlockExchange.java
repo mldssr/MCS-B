@@ -20,6 +20,7 @@ public class TrackOfBlockExchange {
 							blockExchange.getData2SSD() + "," +
 							blockExchange.getData2Cache() + "," +
 							blockExchange.getCache2SSD() + "," +
+							blockExchange.getCache2Cache() + "," +
 							blockExchange.getTotal() + "\n";
 		
 		AppendBlockExchangeFile(filePath, content);		
@@ -60,9 +61,9 @@ public class TrackOfBlockExchange {
 		
 		String filePath = "track/BlockExchange.csv";
 		
-		BlockExchange block = new BlockExchange(1, 1, 1, 1, 3);
+		BlockExchange block = new BlockExchange(1, 1, 1, 1, 1, 3);
 
-		String[] lables = {"Time", "Data2SSD", "Data2Cache", "Cache2SSD", "Total"};
+		String[] lables = {"Time", "Data2SSD", "Data2Cache", "Cache2SSD", "Cache2Cache", "Total"};
 		
 		
 		track.CreateFileOfBlockExchange(filePath);
@@ -70,8 +71,7 @@ public class TrackOfBlockExchange {
 		track.HeaderOfBlockExchange(filePath, lables);
 		
 		track.TrackOfBlockExchangeFile(filePath, block);
-		
-		
+			
 	}
 
 }
