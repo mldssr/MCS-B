@@ -14,7 +14,7 @@ import org.tju.bean.DiskInfo;
  *
  * @date 2015年12月14日 上午11:17:20
  */
-public class ReplacementStrategy {
+public class DataExchange {
 	
 	
 	//Data Disk ====>> SSD Replacement Strategy
