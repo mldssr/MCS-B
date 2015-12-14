@@ -136,10 +136,10 @@ public class ValueOfConfigureFile {
 	
 	//get All Threshold from Threshold.xml
 	public int SSDSizeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "ssdsizeth"));
-	public int arrivalRateTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "arrivalrateth"));
-	public int priorityTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "priorityth"));
-	public int idleTimeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "idletimeth"));
-	
+	public double arrivalRateTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "arrivalrateth"));
+	public double priorityTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "priorityth"));
+	public double highPriorityTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "highpriorityth"));
+	public int idleTimeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "idletimeth"));	
 	
 
 
@@ -467,7 +467,7 @@ public class ValueOfConfigureFile {
 	/**
 	 * @return the arrivalRateTh
 	 */
-	public int getArrivalRateTh() {
+	public double getArrivalRateTh() {
 		return arrivalRateTh;
 	}
 
@@ -475,8 +475,16 @@ public class ValueOfConfigureFile {
 	/**
 	 * @return the priorityTh
 	 */
-	public int getPriorityTh() {
+	public double getPriorityTh() {
 		return priorityTh;
+	}
+
+
+	/**
+	 * @return the highPriorityTh
+	 */
+	public double getHighPriorityTh() {
+		return highPriorityTh;
 	}
 
 
