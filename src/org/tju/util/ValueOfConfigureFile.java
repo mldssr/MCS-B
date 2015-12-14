@@ -132,6 +132,16 @@ public class ValueOfConfigureFile {
 		return cacheDiskStateLables;
 
 	}
+	
+	
+	//get All Threshold from Threshold.xml
+	public int SSDSizeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "ssdsizeth"));
+	public int arrivalRateTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "arrivalrateth"));
+	public int priorityTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "priorityth"));
+	public int idleTimeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "idletimeth"));
+	
+	
+
 
 	
 	/**
@@ -443,6 +453,38 @@ public class ValueOfConfigureFile {
 	 */
 	public String[] getBlockExchangeLables() {
 		return blockExchangeLables;
+	}
+
+
+	/**
+	 * @return the sSDSizeTh
+	 */
+	public int getSSDSizeTh() {
+		return SSDSizeTh;
+	}
+
+
+	/**
+	 * @return the arrivalRateTh
+	 */
+	public int getArrivalRateTh() {
+		return arrivalRateTh;
+	}
+
+
+	/**
+	 * @return the priorityTh
+	 */
+	public int getPriorityTh() {
+		return priorityTh;
+	}
+
+
+	/**
+	 * @return the idleTimeTh
+	 */
+	public int getIdleTimeTh() {
+		return idleTimeTh;
 	}
 	
 }
