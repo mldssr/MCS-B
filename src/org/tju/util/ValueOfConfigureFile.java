@@ -17,7 +17,9 @@ public class ValueOfConfigureFile {
 	public int cacheAmount = Integer.valueOf(ReadXml.readname("config/DiskAmount.xml", "cachedisk"));
 	public int dataDiskAmount = Integer.valueOf(ReadXml.readname("config/DiskAmount.xml", "datadisk"));
 	
-	//get disks' capacity from DiskCapacity.xml
+	//get disks' capacity from DiskCapacity.xml 
+	public int blockInSSD = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "ssdblockamount"));
+	public int blockInCache = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "cacheblockamount"));
 	public int blockInDisk = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "blockamount"));
 	public int skyzoneInDisk = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "skyzone"));
 	
@@ -200,6 +202,22 @@ public class ValueOfConfigureFile {
 	}
 	
 	
+	/**
+	 * @return the blockInSSD
+	 */
+	public int getBlockInSSD() {
+		return blockInSSD;
+	}
+
+
+	/**
+	 * @return the blockInCache
+	 */
+	public int getBlockInCache() {
+		return blockInCache;
+	}
+
+
 	/**
 	 * @return the blockInDisk
 	 */
