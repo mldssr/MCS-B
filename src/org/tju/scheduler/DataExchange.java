@@ -84,10 +84,14 @@ public class DataExchange {
 	
 	
 	//Cache Disk ====>>Cache Disk Replacement Strategy
-	public static void Cache2CacheReplacement(DiskInfo[] cacheDisks, HashMap<Integer,BlockInfo> totalBlocks, int blockInCache){
+	public static void Cache2CacheReplacement(DiskInfo[] cacheDisks, int blockInCache){
+		
+		//All Blocks Info
+		HashMap<Integer,BlockInfo> totalBlocks = new HashMap<Integer, BlockInfo>();
 		
 		//Clear BolckList of each cache disks && close disk
 		for (int i=0; i<cacheDisks.length; i++) {
+			totalBlocks.putAll(cacheDisks[i].getBlockList());
 			cacheDisks[i].getBlockList().clear();
 			cacheDisks[i].setDiskState(0);
 		}
