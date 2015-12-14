@@ -1,4 +1,4 @@
-package org.tju.init;
+package org.tju.initialization;
 
 import java.util.HashMap;
 import java.util.Random;
