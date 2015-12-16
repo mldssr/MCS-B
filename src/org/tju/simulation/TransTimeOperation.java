@@ -60,7 +60,11 @@ public class TransTimeOperation {
 	
 	//get Transmission Time of cache disk
 	public static int getTransTime(DiskInfo disk, int blockId){
-		return disk.getBlockList().get(blockId).getTransmissionTime();
+		
+		BlockInfo block = disk.getBlockList().get(blockId);
+		
+		return block.getTransmissionTime();
+		
 	}
 	
 	
