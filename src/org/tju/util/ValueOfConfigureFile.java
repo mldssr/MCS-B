@@ -41,7 +41,8 @@ public class ValueOfConfigureFile {
 	//get HDD disks' parameters from HDDDisk.xml
 	public int diskSize = Integer.valueOf(ReadXml.readname("config/HDDDisk.xml", "size"));
 	public double diskOperPower = Double.valueOf(ReadXml.readname("config/HDDDisk.xml", "operpower"));
-	
+	public int openTime = Integer.valueOf(ReadXml.readname("config/HDDDisk.xml", "opentime"));
+
 	//get observe info (skyzone and time) from ObserveInfo.xml
 	public int timeAmount = Integer.valueOf(ReadXml.readname("config/ObserveInfo.xml", "time"));
 	public int skyzoneAmount = Integer.valueOf(ReadXml.readname("config/ObserveInfo.xml", "skyzone"));

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action size="2000000" operpower="8.0"> </action>
+	<action size="2000000" operpower="8.0" opentime="10"> </action>
 </package>
