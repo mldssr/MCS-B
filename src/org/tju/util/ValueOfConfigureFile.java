@@ -144,8 +144,12 @@ public class ValueOfConfigureFile {
 	public double highPriorityTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "highpriorityth"));
 	public int idleTimeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "idletimeth"));	
 	
-
-
+	
+	//get response time of disks
+	public int SSDResponseTime = Integer.valueOf(ReadXml.readname("config/ResponseTime.xml", "ssd"));
+	public int cacheResponseTime = Integer.valueOf(ReadXml.readname("config/ResponseTime.xml", "cache"));
+	public int dataResponseTime = Integer.valueOf(ReadXml.readname("config/ResponseTime.xml", "data"));
+	
 	
 	/**
 	 * @return the requestFilePath
@@ -520,6 +524,30 @@ public class ValueOfConfigureFile {
 	 */
 	public int getIdleTimeTh() {
 		return idleTimeTh;
+	}
+
+
+	/**
+	 * @return the sSDResponseTime
+	 */
+	public int getSSDResponseTime() {
+		return SSDResponseTime;
+	}
+
+
+	/**
+	 * @return the cacheResponseTime
+	 */
+	public int getCacheResponseTime() {
+		return cacheResponseTime;
+	}
+
+
+	/**
+	 * @return the dataResponseTime
+	 */
+	public int getDataResponseTime() {
+		return dataResponseTime;
 	}
 	
 }
