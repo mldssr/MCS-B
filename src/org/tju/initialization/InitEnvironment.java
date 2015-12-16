@@ -6,6 +6,7 @@ import java.util.Random;
 import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 import org.tju.bean.FileInfo;
+import org.tju.scheduler.BlockOperation;
 import org.tju.util.ValueOfConfigureFile;
 
 /**
@@ -206,6 +207,9 @@ public class InitEnvironment {
 		    System.out.println("FileId = " + (fileId-1));
 		    System.out.println();
 		}
+		
+		//initialize data disks' blocks' list 
+		BlockOperation.initBlocksList(dataDisks);
 		
 		//Initialize Data Disks End
 		System.out.println("========>>>>Initialize Data Disks Success!!!<<<<========\n");
