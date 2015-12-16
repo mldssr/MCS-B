@@ -308,6 +308,14 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
+	 * @return the openTime
+	 */
+	public int getOpenTime() {
+		return openTime;
+	}
+
+
+	/**
 	 * @return the timeAmount
 	 */
 	public int getTimeAmount() {
