@@ -1,7 +1,5 @@
 package org.tju.request;
 
-import java.util.Date;
-
 /**
  * Name: RequestInfo
  * Description: Requests' basic Information
@@ -13,8 +11,8 @@ import java.util.Date;
 public class RequestInfo {
 	
 	private String requestFileName;
-	private Date generateTime;
-	private Date responseTime;
+	private int generateTime;
+	private int responseTime;
 	private double qos;
 	
 	
@@ -27,7 +25,7 @@ public class RequestInfo {
 	 * @param qos
 	 */
 	public RequestInfo(String requestFileName,
-			Date generateTime, Date responseTime, double qos) {
+			int generateTime, int responseTime, double qos) {
 		super();
 		this.requestFileName = requestFileName;
 		this.generateTime = generateTime;
@@ -56,7 +54,7 @@ public class RequestInfo {
 	/**
 	 * @return the generateTime
 	 */
-	public Date getGenerateTime() {
+	public int getGenerateTime() {
 		return generateTime;
 	}
 
@@ -64,7 +62,7 @@ public class RequestInfo {
 	/**
 	 * @param generateTime the generateTime to set
 	 */
-	public void setGenerateTime(Date generateTime) {
+	public void setGenerateTime(int generateTime) {
 		this.generateTime = generateTime;
 	}
 
@@ -72,7 +70,7 @@ public class RequestInfo {
 	/**
 	 * @return the responseTime
 	 */
-	public Date getResponseTime() {
+	public int getResponseTime() {
 		return responseTime;
 	}
 
@@ -80,7 +78,7 @@ public class RequestInfo {
 	/**
 	 * @param responseTime the responseTime to set
 	 */
-	public void setResponseTime(Date responseTime) {
+	public void setResponseTime(int responseTime) {
 		this.responseTime = responseTime;
 	}
 

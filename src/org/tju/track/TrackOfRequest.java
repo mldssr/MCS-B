@@ -96,7 +96,7 @@ public class TrackOfRequest {
 		
 		String[] lables = {"RequestFileName", "GenerateTime"};
 		
-		RequestInfo request = new RequestInfo("test", null, null, 2);
+		RequestInfo request = new RequestInfo("test", 0, 0, 2);
 		
 		track.CreateFileOfRequestGen(filePath);
 		
