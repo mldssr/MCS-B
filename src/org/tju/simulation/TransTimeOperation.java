@@ -14,7 +14,6 @@ import org.tju.bean.DiskInfo;
  */
 public class TransTimeOperation {
 	
-	
 	//update disks' blocks' transmissionTime in cache disks
 	public static void UpdateTranTime(DiskInfo[] disks){
 		
@@ -44,5 +43,26 @@ public class TransTimeOperation {
 		}
 		
 	}
+	
+	
+	//get Transmission Time of cache disks
+	public static int getTransTime(DiskInfo[] disks, int blockId){
+		
+		int time = 0;
+		
+		for(int i=0; i<disks.length; i++){
+			time = getTransTime(disks[i], blockId);
+		}
+		
+		return time;
+		
+	}
+	
+	//get Transmission Time of cache disk
+	public static int getTransTime(DiskInfo disk, int blockId){
+		return disk.getBlockList().get(blockId).getTransmissionTime();
+	}
+	
+	
 
 }
