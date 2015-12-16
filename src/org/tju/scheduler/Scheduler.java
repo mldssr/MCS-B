@@ -48,7 +48,7 @@ public class Scheduler {
 	
 	
 	//Scheduler of All Disks per second
-	public static void SchedulerOfSecond(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks){
+	public static void SchedulerOfSecond(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks, DiskInfo[] dataDisks){
 	
 		//update blocks' info in cache disks
 		//update blocks' info in SSD
@@ -57,35 +57,37 @@ public class Scheduler {
 		//update blocks' info in Cache Disks
 		SchedulerOfSecond(cacheDisks);
 		
+		//update blocks' info in data Disks
+		SchedulerOfSecond(dataDisks);
+		
 	}
 	
 	
 	//Scheduler of Disks per second
 	public static void SchedulerOfSecond(DiskInfo[] Disks){
 		
-		//tmp blocks' List
-		HashMap<Integer, BlockInfo> tmpBlocks = new HashMap<Integer, BlockInfo>();
-		
-		
 		//update blocks' info in cache disks
 		for(int i=0; i<Disks.length; i++){
-			HashMap<Integer, BlockInfo> blocks = Disks[i].getBlockList();
-			Iterator<Entry<Integer, BlockInfo>> iter = blocks.entrySet().iterator();
+			//tmp blocks' List
+			HashMap<Integer, BlockInfo> tmpBlocks = new HashMap<Integer, BlockInfo>();
 			
-			while (iter.hasNext()){
-				Entry<Integer, BlockInfo> entry = iter.next();
+			if(Disks[i].getDiskState()==1){
+				HashMap<Integer, BlockInfo> blocks = Disks[i].getBlockList();
+				Iterator<Entry<Integer, BlockInfo>> iter = blocks.entrySet().iterator();
 				
-				BlockInfo block = entry.getValue();
-				block.setIdleTime(block.getObserveTime()+1);
-				block.setRequestNum(block.getRequestNum()+1);
+				while (iter.hasNext()){
+					Entry<Integer, BlockInfo> entry = iter.next();
+					
+					BlockInfo block = entry.getValue();
+					block.setIdleTime(block.getIdleTime()+1);				
+					tmpBlocks.put(block.getBlockId(), block);
+				}
 				
-				tmpBlocks.put(block.getBlockId(), block);
-			}
-			
-			//Add to SSD
-			Disks[i].setBlockList(null);
-			Disks[i].setBlockList(tmpBlocks);
-			tmpBlocks.clear();
+				//Add to SSD
+				Disks[i].setBlockList(null);
+				Disks[i].setBlockList(tmpBlocks);
+//				tmpBlocks.clear();
+			}	
 		}
 		
 			
