@@ -1,6 +1,7 @@
 package org.tju.scheduler;
 
 import org.tju.bean.DiskInfo;
+import org.tju.util.ValueOfConfigureFile;
 
 /**
  * @author yuan
@@ -8,6 +9,16 @@ import org.tju.bean.DiskInfo;
  * @date 2015年12月14日 下午3:06:28
  */
 public class DiskOperation {
+	
+	//Value of configure files
+	public static ValueOfConfigureFile valueOfConfigureFile = new ValueOfConfigureFile();
+	
+	//disks' open time
+	public static int openTime = valueOfConfigureFile.getOpenTime();
+	
+	//data disks' idle time threshold
+	public static int idleTimeTh = valueOfConfigureFile.getIdleTimeTh();
+	
 	
 	//Close data disks
 	public static void closeDisks(DiskInfo[] disks){
@@ -23,8 +34,16 @@ public class DiskOperation {
 	public static void closeDisk(DiskInfo disk){
 		
 		disk.setDiskState(0);
-		disk.setIdleTime(0);
+		disk.setIdleTime(0-openTime);
 		
+	}
+	
+	
+	//Open data disks
+	public static void openDisks(DiskInfo[] disks){
+		for(int i=0; i<disks.length; i++){
+			openDisk(disks[i]);
+		}
 	}
 	
 	
@@ -32,6 +51,7 @@ public class DiskOperation {
 	public static void openDisk(DiskInfo disk){
 		
 		disk.setDiskState(1);
+		disk.setIdleTime(0-openTime);
 		
 	}
 	
@@ -57,15 +77,15 @@ public class DiskOperation {
 	
 	
 	//Check disks' idle time: if idleTime > TH then close disk endif
-	public static void checkDDs(DiskInfo[] dataDisks, int idleTimeTh){
+	public static void checkDDs(DiskInfo[] dataDisks){
 		for(int i=0; i<dataDisks.length; i++){
-			checkDD(dataDisks[i], idleTimeTh);
+			checkDD(dataDisks[i]);
 		}
 	}
 	
 	
 	//Check disk's idle time: if idleTime > TH then close disk endif
-	public static void checkDD(DiskInfo dataDisk, int idleTimeTh){
+	public static void checkDD(DiskInfo dataDisk){
 		
 		if(dataDisk.getIdleTime() > idleTimeTh){
 			closeDisk(dataDisk);			
