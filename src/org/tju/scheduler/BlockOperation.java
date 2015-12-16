@@ -38,7 +38,7 @@ public class BlockOperation {
 		//tmp blocks' List
 		HashMap<Integer, BlockInfo> tmpBlocks = new HashMap<Integer, BlockInfo>();
 			
-		if(dataDisk.getDiskState()==1){
+		if(dataDisk.getDiskState()==0){
 			HashMap<Integer, BlockInfo> blocks = dataDisk.getBlockList();
 			Iterator<Entry<Integer, BlockInfo>> iter = blocks.entrySet().iterator();
 			
@@ -54,7 +54,7 @@ public class BlockOperation {
 			//Add to SSD
 			dataDisk.setBlockList(null);
 			dataDisk.setBlockList(tmpBlocks);
-			tmpBlocks.clear();
+//			tmpBlocks.clear();
 		}
 		
 	}
