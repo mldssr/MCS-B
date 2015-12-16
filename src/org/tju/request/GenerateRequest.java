@@ -1,7 +1,9 @@
 package org.tju.request;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import org.tju.util.ValueOfConfigureFile;
 
@@ -152,13 +154,13 @@ public class GenerateRequest {
 			
 			requestFileName = String.valueOf(diskId)+"-"+String.valueOf(blockId)+"-"+String.valueOf(skyzone)+"-"+String.valueOf(observeTime-i);
 			
-			requestInfos[requestCorrelation-i] = new RequestInfo(requestFileName, null, null, 0);
+			requestInfos[requestCorrelation-i] = new RequestInfo(requestFileName, 0, 0, 0);
 		}
 		
 		blockId = skyzone*(timeAmount/fileInBlock) + observeTime/fileInBlock;
 		requestFileName = String.valueOf(diskId)+"-"+String.valueOf(blockId)+"-"+String.valueOf(skyzone)+"-"+String.valueOf(observeTime);
 
-		requestInfos[requestCorrelation] = new RequestInfo(requestFileName, null, null, 0);
+		requestInfos[requestCorrelation] = new RequestInfo(requestFileName, 0, 0, 0);
 		
 		
 		for(int i=1; i<=requestCorrelation; i++){
@@ -167,7 +169,7 @@ public class GenerateRequest {
 
 			requestFileName = String.valueOf(diskId)+"-"+String.valueOf(blockId)+"-"+String.valueOf(skyzone)+"-"+String.valueOf(observeTime+i);
 			
-			requestInfos[requestCorrelation+i] = new RequestInfo(requestFileName, null, null, 0);
+			requestInfos[requestCorrelation+i] = new RequestInfo(requestFileName, 0, 0, 0);
 		}
 			
 		return requestInfos;
@@ -205,14 +207,14 @@ public class GenerateRequest {
 			
 			requestFileName = String.valueOf(diskId)+"-"+String.valueOf(blockId)+"-"+String.valueOf(skyzone-i)+"-"+String.valueOf(observeTime);
 			
-			requestInfos[requestCorrelation-i] = new RequestInfo(requestFileName, null, null, 0);
+			requestInfos[requestCorrelation-i] = new RequestInfo(requestFileName, 0, 0, 0);
 		}
 		
 		blockId = skyzone*(timeAmount/fileInBlock) + (timeAmount/fileInBlock);
 
 		requestFileName = String.valueOf(diskId)+"-"+String.valueOf(blockId)+"-"+String.valueOf(skyzone)+"-"+String.valueOf(observeTime);
 
-		requestInfos[requestCorrelation] = new RequestInfo(requestFileName, null, null, 0);
+		requestInfos[requestCorrelation] = new RequestInfo(requestFileName, 0, 0, 0);
 		
 		
 		for(int i=1; i<=requestCorrelation; i++){
@@ -221,7 +223,7 @@ public class GenerateRequest {
 
 			requestFileName = String.valueOf(diskId)+"-"+String.valueOf(blockId)+"-"+String.valueOf(skyzone+i)+"-"+String.valueOf(observeTime);
 			
-			requestInfos[requestCorrelation+i] = new RequestInfo(requestFileName, null, null, 0);
+			requestInfos[requestCorrelation+i] = new RequestInfo(requestFileName, 0, 0, 0);
 		}
 			
 		return requestInfos;
@@ -315,6 +317,7 @@ public class GenerateRequest {
 		
 	}
 	
+	
 	//Generate request in Mix(ligth & normal) mode
 	public HashMap<String, RequestInfo> generateRequestInMix(String rule){
 		
@@ -326,6 +329,28 @@ public class GenerateRequest {
 			return generateRequestInNormal(requestGenerateRule);
 		}	
 		
+	}
+	
+	
+	//Specifies the requests' generation time
+	public void specifiesRequestTime(HashMap<Integer, HashMap<String, RequestInfo>> requestsList){
+		
+		for(int i=0; i<requestAmount; i++){
+			HashMap<String, RequestInfo> requests = requestsList.get(i);
+			Iterator<Entry<String, RequestInfo>> iter = requests.entrySet().iterator();
+			
+			while (iter.hasNext()){
+				Entry<String, RequestInfo> entry = iter.next();
+				
+				RequestInfo request = entry.getValue();
+				
+				int genTime = i*slidingWindowSize + random.nextInt(slidingWindowSize);
+
+				request.setGenerateTime(genTime);
+				
+				requests.put(request.getRequestFileName(), request);				
+			}
+		}
 	}
     
 	
