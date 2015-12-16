@@ -12,7 +12,7 @@ import org.tju.bean.DiskInfo;
  *
  * @date 2015年12月16日 下午1:21:11
  */
-public class UpdateTransTime {
+public class TransTimeOperation {
 	
 	
 	//update disks' blocks' transmissionTime in cache disks
