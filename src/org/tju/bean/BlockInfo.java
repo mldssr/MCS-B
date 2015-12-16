@@ -22,6 +22,7 @@ public class BlockInfo {
 	private int requestNum;
 	private double priority;
 	private int idleTime;
+	private int transmissionTime;		//if disk is off += diskOpenTime
 	
 	private int fileAmount;				//The amount of file in this block
 	private HashMap<String, FileInfo> filesList;	//Stored Files' List in this block
@@ -239,6 +240,22 @@ public class BlockInfo {
 	 */
 	public void setIdleTime(int idleTime) {
 		this.idleTime = idleTime;
+	}
+
+
+	/**
+	 * @return the transmissionTime
+	 */
+	public int getTransmissionTime() {
+		return transmissionTime;
+	}
+
+
+	/**
+	 * @param transmissionTime the transmissionTime to set
+	 */
+	public void setTransmissionTime(int transmissionTime) {
+		this.transmissionTime = transmissionTime;
 	}
 
 
