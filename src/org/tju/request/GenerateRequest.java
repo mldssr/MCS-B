@@ -71,15 +71,15 @@ public class GenerateRequest {
 	//Generate request function
 	public HashMap<Integer, HashMap<String, RequestInfo>> generateRequest(){
 		
-		//Request List of sliding window
-		HashMap<String, RequestInfo> requestInSlidingWindowList = new HashMap<String, RequestInfo>();
-		HashMap<String, RequestInfo> requestPerWindowList = new HashMap<String, RequestInfo>();
-
 		//Request List of all
 		HashMap<Integer, HashMap<String, RequestInfo>> requestList = new HashMap<Integer, HashMap<String, RequestInfo>>();
-
+		
 		//generate request
 		for(int i=0; i<requestAmount; ){
+			//Request List of sliding window
+			HashMap<String, RequestInfo> requestInSlidingWindowList = new HashMap<String, RequestInfo>();
+			HashMap<String, RequestInfo> requestPerWindowList = new HashMap<String, RequestInfo>();
+
 			if (mode.equalsIgnoreCase("light")) {
 				requestInSlidingWindowList = generateRequestInLight(requestGenerateRule);
 				
@@ -350,6 +350,8 @@ public class GenerateRequest {
 				
 				requests.put(request.getRequestFileName(), request);				
 			}
+			
+			requestsList.put(i, requests);			
 		}
 	}
     
