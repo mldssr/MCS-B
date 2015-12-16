@@ -1,5 +1,10 @@
 package org.tju.scheduler;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 import org.tju.util.ValueOfConfigureFile;
 
@@ -38,6 +43,56 @@ public class Scheduler {
 		
 		//Data Exchange
 		DataExchange.Cache2CacheReplacement(cacheDisks, blockInCache);
+			
+	}
+	
+	
+	//Scheduler of All Disks per second
+	public static void SchedulerOfSecond(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks){
+	
+		//update blocks' info in cache disks
+		//update blocks' info in SSD
+		SchedulerOfSecond(SSDDisks);
+		
+		//update blocks' info in Cache Disks
+		SchedulerOfSecond(cacheDisks);
+		
+	}
+	
+	
+	//Scheduler of Disks per second
+	public static void SchedulerOfSecond(DiskInfo[] Disks){
+		
+		//tmp blocks' List
+		HashMap<Integer, BlockInfo> tmpBlocks = new HashMap<Integer, BlockInfo>();
+		
+		
+		//update blocks' info in cache disks
+		for(int i=0; i<Disks.length; i++){
+			HashMap<Integer, BlockInfo> blocks = Disks[i].getBlockList();
+			Iterator<Entry<Integer, BlockInfo>> iter = blocks.entrySet().iterator();
+			
+			while (iter.hasNext()){
+				Entry<Integer, BlockInfo> entry = iter.next();
+				
+				BlockInfo block = entry.getValue();
+				block.setIdleTime(block.getObserveTime()+1);
+				block.setRequestNum(block.getRequestNum()+1);
+				
+				tmpBlocks.put(block.getBlockId(), block);
+			}
+			
+			//Add to SSD
+			Disks[i].setBlockList(null);
+			Disks[i].setBlockList(tmpBlocks);
+			tmpBlocks.clear();
+		}
+		
+			
+		//Calculate blocks' priority 
+		for(int i=0; i<Disks.length; i++){
+			PriorityOperation.calculatePriority(Disks[i]);
+		}
 			
 	}
 
