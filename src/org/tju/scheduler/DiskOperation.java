@@ -34,4 +34,21 @@ public class DiskOperation {
 		
 	}
 	
+	
+	//update Data Disks' info: idleTime
+	public static void updateDDs(DiskInfo[] dataDisks){
+		for(int i=0; i<dataDisks.length; i++){
+			updateDD(dataDisks[i]);
+		}
+	}
+	
+	
+	//update Data Disk's info: idleTime
+	public static void updateDD(DiskInfo dataDisk){
+		
+		if(dataDisk.getDiskState()==1){
+			dataDisk.setIdleTime(dataDisk.getIdleTime()+1);
+		}
+	}
+	
 }
