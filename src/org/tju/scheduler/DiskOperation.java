@@ -23,6 +23,7 @@ public class DiskOperation {
 	public static void closeDisk(DiskInfo disk){
 		
 		disk.setDiskState(0);
+		disk.setIdleTime(0);
 		
 	}
 	
@@ -37,9 +38,11 @@ public class DiskOperation {
 	
 	//update Data Disks' info: idleTime
 	public static void updateDDs(DiskInfo[] dataDisks){
+		
 		for(int i=0; i<dataDisks.length; i++){
 			updateDD(dataDisks[i]);
 		}
+		
 	}
 	
 	
@@ -49,6 +52,25 @@ public class DiskOperation {
 		if(dataDisk.getDiskState()==1){
 			dataDisk.setIdleTime(dataDisk.getIdleTime()+1);
 		}
+		
+	}
+	
+	
+	//Check disks' idle time: if idleTime > TH then close disk endif
+	public static void checkDDs(DiskInfo[] dataDisks, int idleTimeTh){
+		for(int i=0; i<dataDisks.length; i++){
+			checkDD(dataDisks[i], idleTimeTh);
+		}
+	}
+	
+	
+	//Check disk's idle time: if idleTime > TH then close disk endif
+	public static void checkDD(DiskInfo dataDisk, int idleTimeTh){
+		
+		if(dataDisk.getIdleTime() > idleTimeTh){
+			closeDisk(dataDisk);			
+		}
+		
 	}
 	
 }
