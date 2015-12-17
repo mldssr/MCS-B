@@ -32,11 +32,15 @@ public class Simulation {
 	public static int cacheResponseTime = valueOfConfigureFile.getCacheResponseTime();
 	public static int dataResponseTime = valueOfConfigureFile.getDataResponseTime();
 	
-	//data disks' idle time threshold
-	public static int idleTimeTh = valueOfConfigureFile.getIdleTimeTh();
-	
 	//Refresh time
 	public static int refreshTime = valueOfConfigureFile.getRefreshTime();
+	
+	//get All Threshold from Threshold.xml
+	public static int SSDSizeTh = valueOfConfigureFile.getSSDSizeTh();
+	public static double arrivalRateTh = valueOfConfigureFile.getArrivalRateTh();
+	public static double lowPriorityTh = valueOfConfigureFile.getLowPriorityTh();
+	public static double highPriorityTh = valueOfConfigureFile.getHighPriorityTh();
+	public static int idleTimeTh = valueOfConfigureFile.getIdleTimeTh();
 	
 	
 	//initialize basic environment
@@ -162,8 +166,13 @@ public class Simulation {
 				DiskOperation.updateDDs(dataDisks);
 				
 				//check data disks' idle time
-				DiskOperation.checkDDs(dataDisks);	
+				DiskOperation.checkDDs(dataDisks);
 				
+				
+				//Refresh of Cache: SSD && Cache Disks
+				if((j+1)%refreshTime == 0){
+					Refresh.RefreshOfCache(SSDDisks, cacheDisks);
+				}		
 			}
 			
 		}

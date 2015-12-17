@@ -23,7 +23,7 @@ public class Scheduler {
 	
 	
 	//Scheduler of All Disks, when is time to refresh
-	public static void SchedulerOfDisks(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks, DiskInfo[] dataDisks){
+	public static void SchedulerOfDisks(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks){
 		
 		//Calculate blocks' priority 
 		//Calculate blocks' priority in SSD
@@ -39,11 +39,7 @@ public class Scheduler {
 		
 		//Clear Cache Disks
 		CacheCleaner.clearCache(SSDDisks, lowPriorityTh);
-		CacheCleaner.clearCache(cacheDisks, lowPriorityTh);		
-		
-		//Data Exchange
-		DataExchange.Cache2CacheReplacement(cacheDisks, blockInCache);
-			
+		CacheCleaner.clearCache(cacheDisks, lowPriorityTh);				
 	}
 	
 	

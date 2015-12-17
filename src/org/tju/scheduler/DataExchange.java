@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
+import org.tju.util.ValueOfConfigureFile;
 
 /**
  * @author yuan
@@ -15,6 +16,13 @@ import org.tju.bean.DiskInfo;
  * @date 2015年12月14日 上午11:17:20
  */
 public class DataExchange {
+	
+	//Value of configure files
+	public static ValueOfConfigureFile valueOfConfigureFile = new ValueOfConfigureFile();
+	
+	//get disks' capacity from DiskCapacity.xml 
+	public static int blockInSSD = valueOfConfigureFile.getBlockInSSD();
+	public static int blockInCache = valueOfConfigureFile.getBlockInCache();
 	
 	
 	//Data Disk ====>> SSD Replacement Strategy
@@ -84,7 +92,7 @@ public class DataExchange {
 	
 	
 	//Cache Disk ====>>Cache Disk Replacement Strategy
-	public static void Cache2CacheReplacement(DiskInfo[] cacheDisks, int blockInCache){
+	public static void Cache2Cache(DiskInfo[] cacheDisks, int blockInCache){
 		
 		//All Blocks Info
 		HashMap<Integer,BlockInfo> totalBlocks = new HashMap<Integer, BlockInfo>();
@@ -115,5 +123,56 @@ public class DataExchange {
 		}
 	
 	}
+	
+	
+	//Refresh Replacement Strategy
+	public static void RefreshReplacement(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks){
+		//All Blocks Info
+		HashMap<Integer,BlockInfo> totalBlocks = new HashMap<Integer, BlockInfo>();
+				
+		//Clear BlockList of SSD
+		for(int i=0; i<SSDDisks.length; i++){
+			totalBlocks.putAll(SSDDisks[i].getBlockList());
+			SSDDisks[i].getBlockList().clear();
+		}
+		
+		//Clear BolckList of each cache disks && close disk
+		for(int i=0; i<cacheDisks.length; i++) {
+			totalBlocks.putAll(cacheDisks[i].getBlockList());
+			cacheDisks[i].getBlockList().clear();
+			cacheDisks[i].setDiskState(0);
+		}
+		
+		//Sorted By Blocks' Priority
+		PriorityOperation.sortedByPriority(totalBlocks);
+				
+		Iterator<Entry<Integer,BlockInfo>> iterTotal = totalBlocks.entrySet().iterator();
+		
+		int SSDId = 0;
+		int cacheId = 0;
+		
+		while (iterTotal.hasNext()){
+			Entry<Integer,BlockInfo> entry = iterTotal.next();
+			
+			if(SSDDisks[SSDId].getBlockAmount() <=blockInSSD){
+				SSDDisks[SSDId].setDiskState(1);
+				SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
+				SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount()+1);
+			} else if(SSDId+1 < SSDDisks.length){
+				SSDDisks[++SSDId].setDiskState(1);
+				SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
+				SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount()+1);
+			} else if(cacheDisks[cacheId].getBlockAmount() <= blockInCache){
+				cacheDisks[cacheId].setDiskState(1);
+				cacheDisks[cacheId].getBlockList().put(entry.getKey(), entry.getValue());
+				cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount()+1);
+			}else if (cacheId+1 < cacheDisks.length){
+				cacheDisks[++cacheId].setDiskState(1);
+				cacheDisks[cacheId].getBlockList().put(entry.getKey(), entry.getValue());
+				cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount()+1);
+			}
+		}
+	}
+		
 	
 }
