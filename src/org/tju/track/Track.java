@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import org.tju.request.RequestInfo;
 import org.tju.track.bean.ArrivalRate;
+import org.tju.track.bean.DiskState;
 import org.tju.util.ValueOfConfigureFile;
 
 /**
@@ -77,5 +78,51 @@ public class Track {
 			arrivalRate.TrackOfRate(arrivalRateFilePath, arrivalRateInfo);
 		}	
 	} 
+	
+	
+	//Track of Disks' state
+	public static TrackOfDiskState diskState = new TrackOfDiskState();
+	
+	//Track of Data Disks' state
+	public static void trackOfDataDiskState(HashMap<Integer, DiskState> dataDiskStateTrack, String[] lables){
+		
+		diskState.CreateFileOfDiskState(dataDiskStateFilePath);
+		
+		diskState.HeaderOfDiskState(dataDiskStateFilePath, lables);
+		
+		Iterator<Entry<Integer, DiskState>> iter = dataDiskStateTrack.entrySet().iterator();
+		
+		while (iter.hasNext()){
+			Entry<Integer, DiskState> entry = iter.next();
+			
+			DiskState diskStateInfo = entry.getValue();
+			
+			diskState.TrackOfDataDiskStateFile(dataDiskStateFilePath, diskStateInfo);
+		}	
+		
+	}
+		
+	//Track of Disks' state
+	public static TrackOfDiskState cacheDiskState = new TrackOfDiskState();
 
+	//Track of cache Disks' state
+	public static void trackOfCacheDiskState(HashMap<Integer, DiskState> cacheDiskStateTrack, String[] lables){
+		
+		cacheDiskState.CreateFileOfDiskState(cacheDiskStateFilePath);
+		
+		cacheDiskState.HeaderOfDiskState(cacheDiskStateFilePath, lables);
+		
+		Iterator<Entry<Integer, DiskState>> iter = cacheDiskStateTrack.entrySet().iterator();
+		
+		while (iter.hasNext()){
+			Entry<Integer, DiskState> entry = iter.next();
+			
+			DiskState diskStateInfo = entry.getValue();
+			
+			cacheDiskState.TrackOfDataDiskStateFile(cacheDiskStateFilePath, diskStateInfo);
+		}	
+		
+	}
+	
+	
 }

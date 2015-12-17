@@ -1,6 +1,6 @@
 package org.tju.track;
 
-import org.tju.bean.DiskInfo;
+import org.tju.track.bean.DiskState;
 import org.tju.util.FileOperation;
 
 /**
@@ -15,37 +15,9 @@ public class TrackOfDiskState {
 	
 	
 	//Track of Data Disks' state
-	public void TrackOfDataDiskStateFile(String filePath, int time, DiskInfo[] dataDisks){
+	public void TrackOfDataDiskStateFile(String filePath, DiskState diskState){
 		
-		String content = time + ",";
-		
-		int i=0;
-		for( ; i<dataDisks.length-1; i++){						
-			content += dataDisks[i].getDiskState() + ",";
-		}
-		
-		if(i == dataDisks.length-1){
-			content += dataDisks[i].getDiskState() + "\n";
-		}
-		
-		AppendDiskStateFile(filePath, content);
-		
-	}
-	
-	
-	//Track of Cache Disks' state
-	public void TrackOfCacheDiskStateFile(String filePath, int time, DiskInfo[] cacheDisks){
-		
-		String content = time + ",";
-		
-		int i=0;
-		for( ; i<cacheDisks.length-1; i++){						
-			content += cacheDisks[i].getDiskState() + ",";
-		}
-		
-		if(i == cacheDisks.length-1){
-			content += cacheDisks[i].getDiskState() + "\n";
-		}
+		String content = diskState.getTime() + "," + diskState.getContent() + "\n";
 		
 		AppendDiskStateFile(filePath, content);
 		
@@ -72,40 +44,6 @@ public class TrackOfDiskState {
 	public void AppendDiskStateFile(String filePath, String content){
 		
 		fileOper.FileAppend(filePath, content);
-		
-	}
-	
-	
-	
-	
-	//test
-	public static void main(String[] args){
-		
-		TrackOfDiskState track = new TrackOfDiskState();
-		
-		String filePath = "track/DataDiskState.csv";
-		
-		DiskInfo disk = new DiskInfo(0, 0, 0);
-		DiskInfo[] disks = {disk};
-
-		String[] lables = {"Time", "0"};
-		
-		
-		track.CreateFileOfDiskState(filePath);
-		
-		track.HeaderOfDiskState(filePath, lables);
-		
-		track.TrackOfDataDiskStateFile(filePath, 0, disks);
-		
-		
-		filePath = "track/CacheDiskState.csv";
-		
-		track.CreateFileOfDiskState(filePath);
-		
-		track.HeaderOfDiskState(filePath, lables);
-		
-		track.TrackOfCacheDiskStateFile(filePath, 0, disks);
-		
 		
 	}
 

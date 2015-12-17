@@ -13,6 +13,7 @@ import org.tju.scheduler.DiskOperation;
 import org.tju.scheduler.Scheduler;
 import org.tju.track.Track;
 import org.tju.track.bean.ArrivalRate;
+import org.tju.track.bean.DiskState;
 import org.tju.util.ValueOfConfigureFile;
 
 /**
@@ -48,7 +49,13 @@ public class Simulation {
 	
 	//Track of arrivalRate
 	public static HashMap<Integer, ArrivalRate> arrivalRateTrack = new HashMap<Integer, ArrivalRate>();
-		
+	
+	//Track of data disks' state
+	public static HashMap<Integer, DiskState> dataDiskStateTrack = new HashMap<Integer, DiskState>();
+	
+	//Track of cache disks' state
+	public static HashMap<Integer, DiskState> cacheDiskStateTrack = new HashMap<Integer, DiskState>();
+	
 	//Transmission time
 	public static int transTime = 0;
 	
@@ -63,6 +70,22 @@ public class Simulation {
 		DiskInfo[] SSDDisks = init.getSSDDisk();
 		DiskInfo[] cacheDisks = init.getCacheDisks();
 		DiskInfo[] dataDisks = init.getDataDisks();
+		
+		
+		//Lables of Data Disks
+		String[] dataDiskLables = new String[dataDisks.length+1];
+		dataDiskLables[0] = "Time";
+		for(int i=1; i<dataDiskLables.length; i++){
+			dataDiskLables[i] = "Disk-" + i;
+		}
+		
+		
+		//Lables of Cache Disks
+		String[] cacheDiskLables = new String[cacheDisks.length+1];
+		cacheDiskLables[0] = "Time";
+		for(int i=1; i<cacheDiskLables.length; i++){
+			cacheDiskLables[i] = "Cache-" + i;
+		}
 		
 		
 		
@@ -187,7 +210,25 @@ public class Simulation {
 				//Refresh of Cache: SSD && Cache Disks
 				if(refreshCountdown == 0){
 					Refresh.RefreshOfCache(SSDDisks, cacheDisks);
-				}		
+				}
+				
+				
+				//Track of Disks' state
+				//Track of Data Disks state
+				String content = "";
+				for(int l=0; l<dataDisks.length; l++){
+					content += dataDisks[l].getDiskState() + ",";
+				}
+				DiskState diskStateInfo = new DiskState(j, content);
+				dataDiskStateTrack.put(j, diskStateInfo);
+				
+				//Track of Cache Disks state
+				content = "";
+				for(int l=0; l<cacheDisks.length; l++){
+					content += cacheDisks[l].getDiskState() + ",";
+				}
+				diskStateInfo = new DiskState(j, content);
+				cacheDiskStateTrack.put(j, diskStateInfo);
 			}
 			
 		}
@@ -195,6 +236,8 @@ public class Simulation {
 		//Track
 		Track.trackOfRequest(requestsTrack);
 		Track.trackOfArrivalRate(arrivalRateTrack);
+		Track.trackOfDataDiskState(dataDiskStateTrack, dataDiskLables);
+		Track.trackOfCacheDiskState(cacheDiskStateTrack, cacheDiskLables);
 				
 	}
 
