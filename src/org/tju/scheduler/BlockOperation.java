@@ -48,6 +48,7 @@ public class BlockOperation {
 				BlockInfo block = entry.getValue();
 				block.setIdleTime(0-openTime);	
 				block.setTransmissionTime(openTime);	
+				block.setRequestNum(1);
 				tmpBlocks.put(block.getBlockId(), block);
 			}
 			
