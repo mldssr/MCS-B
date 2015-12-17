@@ -87,8 +87,9 @@ public class ValueOfConfigureFile {
 	public String blockExchangeFilePath = ReadXml.readname("config/FilePathInfo.xml", "blockexchange");
 	public String dataDiskStateFilePath = ReadXml.readname("config/FilePathInfo.xml", "datadiskstate");
 	public String cacheDiskStateFilePath = ReadXml.readname("config/FilePathInfo.xml", "cachediskstate");
-
+    public String arrivalRateFilePath = ReadXml.readname("config/FilePathInfo.xml", "arrivalrate");
 	
+    
 	//get files' labels' Info from FileLableInfo.xml
 	public String[] requestGenLables = {ReadXml.readname("config/FileLableInfo.xml", "requestgen1"), 
 											ReadXml.readname("config/FileLableInfo.xml", "requestgen2")};
@@ -104,6 +105,10 @@ public class ValueOfConfigureFile {
 											ReadXml.readname("config/FileLableInfo.xml", "blockexchange4"),
 											ReadXml.readname("config/FileLableInfo.xml", "blockexchange5"),
 											ReadXml.readname("config/FileLableInfo.xml", "blockexchange6")};
+	
+	public String[] arrivalRateLables = {ReadXml.readname("config/FileLableInfo.xml", "arrivalrate1"),
+											ReadXml.readname("config/FileLableInfo.xml", "arrivalrate1")};
+	
 	
 	//get data disk state lables
 	public String[] getDataDiskStateLables(){
@@ -567,5 +572,21 @@ public class ValueOfConfigureFile {
 	public int getRefreshTh() {
 		return refreshTh;
 	}
-	
+
+
+	/**
+	 * @return the arrivalRateFilePath
+	 */
+	public String getArrivalRateFilePath() {
+		return arrivalRateFilePath;
+	}
+
+
+	/**
+	 * @return the arrivalRateLables
+	 */
+	public String[] getArrivalRateLables() {
+		return arrivalRateLables;
+	}
+		
 }
