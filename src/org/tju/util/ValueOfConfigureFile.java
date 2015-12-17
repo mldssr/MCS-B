@@ -139,6 +139,7 @@ public class ValueOfConfigureFile {
 	
 	//get All Threshold from Threshold.xml
 	public int SSDSizeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "ssdsizeth"));
+	public int cacheSizeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "cachesizeth"));
 	public double arrivalRateTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "arrivalrateth"));
 	public double lowPriorityTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "lowpriorityth"));
 	public double highPriorityTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "highpriorityth"));
@@ -493,6 +494,14 @@ public class ValueOfConfigureFile {
 	 */
 	public int getSSDSizeTh() {
 		return SSDSizeTh;
+	}
+
+
+	/**
+	 * @return the cacheSizeTh
+	 */
+	public int getCacheSizeTh() {
+		return cacheSizeTh;
 	}
 
 
