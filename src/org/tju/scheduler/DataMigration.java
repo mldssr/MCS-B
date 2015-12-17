@@ -140,13 +140,14 @@ public class DataMigration {
 		for(int i=0; i<SSDDisks.length; i++){
 			totalBlocks.putAll(SSDDisks[i].getBlockList());
 			SSDDisks[i].getBlockList().clear();
+			DiskOperation.closeCache(SSDDisks[i]);
 		}
 		
 		//Clear BolckList of each cache disks && close disk
 		for(int i=0; i<cacheDisks.length; i++) {
 			totalBlocks.putAll(cacheDisks[i].getBlockList());
 			cacheDisks[i].getBlockList().clear();
-			cacheDisks[i].setDiskState(0);
+			DiskOperation.closeCache(cacheDisks[i]);
 		}
 		
 		//Sorted By Blocks' Priority

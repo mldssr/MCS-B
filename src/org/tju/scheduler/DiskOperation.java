@@ -67,6 +67,16 @@ public class DiskOperation {
 		
 	}
 	
+	//Close cache disk
+	public static void closeCache(DiskInfo disk){
+		
+		disk.setDiskState(0);
+		disk.setIdleTime(0);
+		disk.setBlockAmount(0);
+		disk.setLeftSpace(disk.getTotalSpace());
+		
+	}
+	
 	
 	//update Data Disks' info: idleTime
 	public static void updateDDs(DiskInfo[] dataDisks){
