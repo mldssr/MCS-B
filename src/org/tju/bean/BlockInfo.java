@@ -38,12 +38,13 @@ public class BlockInfo {
 	 * @param filesList
 	 */
 	public BlockInfo(int blockId, int observeTime, int skyZone, int diskId,
-			int fileAmount, HashMap<String, FileInfo> filesList) {
+			int transmissionTime, int fileAmount, HashMap<String, FileInfo> filesList) {
 		super();
 		this.blockId = blockId;
 		this.observeTime = observeTime;
 		this.skyZone = skyZone;
 		this.diskId = diskId;
+		this.transmissionTime = transmissionTime;
 		this.fileAmount = fileAmount;
 		this.filesList = filesList;
 	}
@@ -65,8 +66,8 @@ public class BlockInfo {
 	 */
 	public BlockInfo(int blockId, int totalSpace, int leftSpace,
 			int observeTime, int skyZone, int diskId, int isHit,
-			int requestNum, double priority, int idleTime, int fileAmount,
-			HashMap<String, FileInfo> filesList) {
+			int requestNum, double priority, int idleTime, int transmissionTime,
+			int fileAmount, HashMap<String, FileInfo> filesList) {
 		super();
 		this.blockId = blockId;
 		this.totalSpace = totalSpace;
@@ -78,6 +79,7 @@ public class BlockInfo {
 		this.requestNum = requestNum;
 		this.priority = priority;
 		this.idleTime = idleTime;
+		this.transmissionTime = transmissionTime;
 		this.fileAmount = fileAmount;
 		this.filesList = filesList;
 	}

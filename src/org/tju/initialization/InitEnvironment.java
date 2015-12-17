@@ -76,6 +76,9 @@ public class InitEnvironment {
 	public int blockInDisk = valueOfConfigureFile.getBlockInDisk();
 	public int skyzoneInDisk = valueOfConfigureFile.getSkyzoneInDisk();
 	
+	//disks' open time
+	public int openTime = valueOfConfigureFile.getOpenTime();
+	
 	
 	//initialize the basic environment
 	public void initEnvironment() {
@@ -176,7 +179,7 @@ public class InitEnvironment {
 					blockLeftSpace -= fileSize;
 					
 					if((l+1)%fileInBlock == 0){
-						BlockInfo block = new BlockInfo(blockId++, blockSize, blockLeftSpace, l+1-fileInBlock, skyzone, i, 0, 0, 0, 0, fileInBlock, filesList);
+						BlockInfo block = new BlockInfo(blockId++, blockSize, blockLeftSpace, l+1-fileInBlock, skyzone, i, 0, 0, 0, 0, openTime, fileInBlock, filesList);
 						blocksList.put(block.getBlockId(), block);
 						blockLeftSpace = blockSize;
 						diskLeftSpace -= blockSize;
