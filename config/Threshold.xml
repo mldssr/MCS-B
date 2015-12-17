@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action ssdsizeth="20" cachesizeth="20" arrivalrateth="100" lowpriorityth="3" highpriorityth="5" idletimeth="3" refreshth="2"> </action>
+	<action ssdsizeth="20" cachesizeth="20" arrivalrateth="100" lowpriorityth="-10" highpriorityth="5" idletimeth="3" refreshth="2"> </action>
 </package>

@@ -11,6 +11,7 @@ import org.tju.request.GenerateRequest;
 import org.tju.request.RequestInfo;
 import org.tju.scheduler.DiskOperation;
 import org.tju.scheduler.Scheduler;
+import org.tju.track.ArrivalRate;
 import org.tju.track.Track;
 import org.tju.util.ValueOfConfigureFile;
 
@@ -45,6 +46,9 @@ public class Simulation {
 	//Track of all requests
 	public static HashMap<String, RequestInfo> requestsTrack = new HashMap<String, RequestInfo>();
 	
+	//Track of arrivalRate
+	public static HashMap<Integer, ArrivalRate> arrivalRateTrack = new HashMap<Integer, ArrivalRate>();
+		
 	//Transmission time
 	public static int transTime = 0;
 	
@@ -76,6 +80,10 @@ public class Simulation {
 			HashMap<String, RequestInfo> requestsPerWindow = requestsList.get(i);
 			
 			double arrivalRate = ((double)requestsList.size())/requests.slidingWindowSize;
+			
+			//Track of arrivalRate
+			ArrivalRate R = new ArrivalRate(i, arrivalRate);
+			arrivalRateTrack.put(i, R);
 			
 			for(int j=i*requests.slidingWindowSize; j<(i+1)*requests.slidingWindowSize; j++){
 				
@@ -186,6 +194,7 @@ public class Simulation {
 		
 		//Track
 		Track.trackOfRequest(requestsTrack);
+		Track.trackOfArrivalRate(arrivalRateTrack);
 				
 	}
 

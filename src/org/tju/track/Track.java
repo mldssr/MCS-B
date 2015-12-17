@@ -23,28 +23,26 @@ public class Track {
 	public static String blockExchangeFilePath = valueOfConfigureFile.getBlockExchangeFilePath();
 	public static String dataDiskStateFilePath = valueOfConfigureFile.getDataDiskStateFilePath();
 	public static String cacheDiskStateFilePath = valueOfConfigureFile.getCacheDiskStateFilePath();
-
-	//get files' labels' Info from FileLableInfo.xml
-	public String[] requestGenLables = valueOfConfigureFile.getRequestGenLables();
-	public String[] requestStaLables = valueOfConfigureFile.getRequestStaLables();
-	public String[] blockExchangeLables = valueOfConfigureFile.getBlockExchangeLables();
-	public String[] dataDiskStateLables = valueOfConfigureFile.getDataDiskStateLables();
-	public String[] cacheDiskStateLables = valueOfConfigureFile.getCacheDiskStateLables();
+	public static String arrivalRateFilePath = valueOfConfigureFile.getArrivalRateFilePath();
 	
+	//get files' labels' Info from FileLableInfo.xml
+	public static String[] requestGenLables = valueOfConfigureFile.getRequestGenLables();
+	public static String[] requestStaLables = valueOfConfigureFile.getRequestStaLables();
+	public static String[] blockExchangeLables = valueOfConfigureFile.getBlockExchangeLables();
+	public static String[] dataDiskStateLables = valueOfConfigureFile.getDataDiskStateLables();
+	public static String[] cacheDiskStateLables = valueOfConfigureFile.getCacheDiskStateLables();
+	public static String[] arrivalRateLables = valueOfConfigureFile.getArrivalRateLables();
 	
 	//Track of requests
 	public static TrackOfRequest request = new TrackOfRequest();
-//	public static 
 	
-	//
+	
+	//Track of request
 	public static void trackOfRequest(HashMap<String, RequestInfo> requestsTrack){
-		
-			
-		String[] lables1 = {"RequestFileName", "GenerateTime", "ResponseTime", "Qos"};
-		
+				
 		request.CreateFileOfRequestSta(requestStaFilePath);
 		
-		request.HeaderOfRequestSta(requestStaFilePath, lables1);	
+		request.HeaderOfRequestSta(requestStaFilePath, requestStaLables);	
 		
 		Iterator<Entry<String, RequestInfo>> iter = requestsTrack.entrySet().iterator();
 		
@@ -56,5 +54,27 @@ public class Track {
 		    request.TrackOfRequestSta(requestStaFilePath, requestInfo);
 		}	
 	}
+	
+	
+	//Track of Arrival Rate
+	public static TrackOfArrivalRate arrivalRate = new TrackOfArrivalRate();
+	
+	//Track of request
+	public static void trackOfArrivalRate(HashMap<Integer, ArrivalRate> arrivalRateTrack){
+				
+		arrivalRate.CreateFileOfArrivalRate(arrivalRateFilePath);
+		
+		arrivalRate.HeaderOfArrivalRate(arrivalRateFilePath, arrivalRateLables);	
+		
+		Iterator<Entry<Integer, ArrivalRate>> iter = arrivalRateTrack.entrySet().iterator();
+		
+		while (iter.hasNext()){
+			Entry<Integer, ArrivalRate> entry = iter.next();
+			
+			ArrivalRate arrivalRateInfo = entry.getValue();
+			
+			arrivalRate.TrackOfRate(arrivalRateFilePath, arrivalRateInfo);
+		}	
+	} 
 
 }
