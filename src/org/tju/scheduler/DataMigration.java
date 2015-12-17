@@ -31,15 +31,18 @@ public class DataMigration {
 		BlockInfo block = dataDisk.getBlockList().get(blockId-1);
 		SSDDisk.getBlockList().put(blockId-1, block);
 		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
+		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
 		
 		block = dataDisk.getBlockList().get(blockId);
 		SSDDisk.getBlockList().put(blockId, block);
 		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
+		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
 
 		block = dataDisk.getBlockList().get(blockId+1);
 		SSDDisk.getBlockList().put(blockId+1, block);	
 		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
-
+		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
+		
 	}
 	
 	
@@ -49,14 +52,17 @@ public class DataMigration {
 		BlockInfo block = dataDisk.getBlockList().get(blockId-1);
 		cacheDisk.getBlockList().put(blockId-1, block);
 		cacheDisk.setBlockAmount(cacheDisk.getBlockAmount()+1);
+		cacheDisk.setLeftSpace(cacheDisk.getLeftSpace()-1);
 
 		block = dataDisk.getBlockList().get(blockId);
 		cacheDisk.getBlockList().put(blockId, block);
 		cacheDisk.setBlockAmount(cacheDisk.getBlockAmount()+1);
-	
+		cacheDisk.setLeftSpace(cacheDisk.getLeftSpace()-1);
+
 		block = dataDisk.getBlockList().get(blockId+1);
 		cacheDisk.getBlockList().put(blockId+1, block);	
 		cacheDisk.setBlockAmount(cacheDisk.getBlockAmount()+1);
+		cacheDisk.setLeftSpace(cacheDisk.getLeftSpace()-1);
 
 	}
 	
@@ -158,18 +164,22 @@ public class DataMigration {
 				SSDDisks[SSDId].setDiskState(1);
 				SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
 				SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount()+1);
+				SSDDisks[SSDId].setLeftSpace(SSDDisks[SSDId].getLeftSpace()-1);
 			} else if(SSDId+1 < SSDDisks.length){
 				SSDDisks[++SSDId].setDiskState(1);
 				SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
 				SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount()+1);
+				SSDDisks[SSDId].setLeftSpace(SSDDisks[SSDId].getLeftSpace()-1);
 			} else if(cacheDisks[cacheId].getBlockAmount() <= blockInCache){
 				cacheDisks[cacheId].setDiskState(1);
 				cacheDisks[cacheId].getBlockList().put(entry.getKey(), entry.getValue());
 				cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount()+1);
+				cacheDisks[cacheId].setLeftSpace(cacheDisks[cacheId].getLeftSpace()-1);
 			}else if (cacheId+1 < cacheDisks.length){
 				cacheDisks[++cacheId].setDiskState(1);
 				cacheDisks[cacheId].getBlockList().put(entry.getKey(), entry.getValue());
 				cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount()+1);
+				cacheDisks[cacheId].setLeftSpace(cacheDisks[cacheId].getLeftSpace()-1);
 			}
 		}
 	}
