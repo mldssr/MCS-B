@@ -143,6 +143,7 @@ public class ValueOfConfigureFile {
 	public double lowPriorityTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "lowpriorityth"));
 	public double highPriorityTh = Double.valueOf(ReadXml.readname("config/Threshold.xml", "highpriorityth"));
 	public int idleTimeTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "idletimeth"));	
+	public int refreshTh = Integer.valueOf(ReadXml.readname("config/Threshold.xml", "refreshth"));	
 	
 	
 	//get response time of disks
@@ -548,6 +549,14 @@ public class ValueOfConfigureFile {
 	 */
 	public int getDataResponseTime() {
 		return dataResponseTime;
+	}
+
+
+	/**
+	 * @return the refreshTh
+	 */
+	public int getRefreshTh() {
+		return refreshTh;
 	}
 	
 }
