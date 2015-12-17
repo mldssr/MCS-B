@@ -107,7 +107,7 @@ public class ValueOfConfigureFile {
 											ReadXml.readname("config/FileLableInfo.xml", "blockexchange6")};
 	
 	public String[] arrivalRateLables = {ReadXml.readname("config/FileLableInfo.xml", "arrivalrate1"),
-											ReadXml.readname("config/FileLableInfo.xml", "arrivalrate1")};
+											ReadXml.readname("config/FileLableInfo.xml", "arrivalrate2")};
 	
 	
 	//get data disk state lables

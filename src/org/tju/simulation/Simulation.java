@@ -11,8 +11,8 @@ import org.tju.request.GenerateRequest;
 import org.tju.request.RequestInfo;
 import org.tju.scheduler.DiskOperation;
 import org.tju.scheduler.Scheduler;
-import org.tju.track.ArrivalRate;
 import org.tju.track.Track;
+import org.tju.track.bean.ArrivalRate;
 import org.tju.util.ValueOfConfigureFile;
 
 /**
@@ -79,7 +79,7 @@ public class Simulation {
 		for(int i=0; i<requestsList.size(); i++){
 			HashMap<String, RequestInfo> requestsPerWindow = requestsList.get(i);
 			
-			double arrivalRate = ((double)requestsList.size())/requests.slidingWindowSize;
+			double arrivalRate = ((double)requestsPerWindow.size())/requests.slidingWindowSize;
 			
 			//Track of arrivalRate
 			ArrivalRate R = new ArrivalRate(i, arrivalRate);
