@@ -75,12 +75,17 @@ public class Scheduler {
 					Entry<Integer, BlockInfo> entry = iter.next();
 					
 					BlockInfo block = entry.getValue();
-					block.setIdleTime(block.getIdleTime()+1);				
-					tmpBlocks.put(block.getBlockId(), block);
+					
+					if(block == null){
+						continue ;
+					} else {
+						block.setIdleTime(block.getIdleTime()+1);				
+						tmpBlocks.put(block.getBlockId(), block);
+					}			
 				}
 				
 				//Add to SSD
-				Disks[i].setBlockList(null);
+				Disks[i].getBlockList().clear();
 				Disks[i].setBlockList(tmpBlocks);
 //				tmpBlocks.clear();
 			}	

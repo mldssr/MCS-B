@@ -50,18 +50,25 @@ public class TransTimeOperation {
 		
 		int time = 0;
 		
-		for(int i=0; i<disks.length; i++){
-			time = getTransTime(disks[i], blockId);
+		for(int i=0; i<disks.length; ){
+			time = getTransTime(disks[i++], blockId);
+			
+			if(time >= 0){
+				return time;
+			}		
 		}
-		
+			
 		return time;
-		
 	}
 	
 	//get Transmission Time of cache disk
 	public static int getTransTime(DiskInfo disk, int blockId){
 		
 		BlockInfo block = disk.getBlockList().get(blockId);
+		
+		if(block == null){
+			return -1;
+		}
 		
 		return block.getTransmissionTime();
 		
