@@ -35,13 +35,6 @@ public class Simulation {
 	//Refresh time
 	public static int refreshTime = valueOfConfigureFile.getRefreshTime();
 	
-	//get All Threshold from Threshold.xml
-	public static int SSDSizeTh = valueOfConfigureFile.getSSDSizeTh();
-	public static double arrivalRateTh = valueOfConfigureFile.getArrivalRateTh();
-	public static double lowPriorityTh = valueOfConfigureFile.getLowPriorityTh();
-	public static double highPriorityTh = valueOfConfigureFile.getHighPriorityTh();
-	public static int idleTimeTh = valueOfConfigureFile.getIdleTimeTh();
-	
 	
 	//initialize basic environment
 	public static InitEnvironment init = new InitEnvironment();
@@ -82,7 +75,12 @@ public class Simulation {
 		for(int i=0; i<requestsList.size(); i++){
 			HashMap<String, RequestInfo> requestsPerWindow = requestsList.get(i);
 			
+			double arrivalRate = ((double)requestsList.size())/requests.slidingWindowSize;
+			
 			for(int j=i*requests.slidingWindowSize; j<(i+1)*requests.slidingWindowSize; j++){
+				
+				//refresh Countdown
+				int refreshCountdown = (j+1)%refreshTime;
 				
 				//update blocks' transmissionTime in cache disks
 				//update blocks' transmissionTime in SSD
@@ -146,6 +144,12 @@ public class Simulation {
 							System.out.println(request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
 						
 							
+							//Data Migration: From Data Disk To Cache Disks
+							Cache.DataMigration(SSDDisks, cacheDisks, dataDisks[diskId], blockId, refreshCountdown);
+							
+							
+							//Disk Operation
+							PreheatDisk.PreheatCaches(SSDDisks, cacheDisks, arrivalRate);
 						
 						} else {
 							//update requests' info
@@ -173,7 +177,7 @@ public class Simulation {
 				
 				
 				//Refresh of Cache: SSD && Cache Disks
-				if((j+1)%refreshTime == 0){
+				if(refreshCountdown == 0){
 					Refresh.RefreshOfCache(SSDDisks, cacheDisks);
 				}		
 			}
