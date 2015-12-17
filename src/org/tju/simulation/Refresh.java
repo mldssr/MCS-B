@@ -1,7 +1,7 @@
 package org.tju.simulation;
 
 import org.tju.bean.DiskInfo;
-import org.tju.scheduler.DataExchange;
+import org.tju.scheduler.DataMigration;
 import org.tju.scheduler.Scheduler;
 
 /**
@@ -18,7 +18,7 @@ public class Refresh {
 		Scheduler.SchedulerOfDisks(SSDDisks, cacheDisks);
 		
 		//Data migration
-		DataExchange.RefreshReplacement(SSDDisks, cacheDisks);
+		DataMigration.RefreshReplacement(SSDDisks, cacheDisks);
 		
 	}
 

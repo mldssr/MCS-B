@@ -15,7 +15,7 @@ import org.tju.util.ValueOfConfigureFile;
  *
  * @date 2015年12月14日 上午11:17:20
  */
-public class DataExchange {
+public class DataMigration {
 	
 	//Value of configure files
 	public static ValueOfConfigureFile valueOfConfigureFile = new ValueOfConfigureFile();

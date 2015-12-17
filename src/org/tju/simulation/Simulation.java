@@ -144,6 +144,9 @@ public class Simulation {
 							
 							//Message
 							System.out.println(request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
+						
+							
+						
 						} else {
 							//update requests' info
 							request.setResponseTime(j);
