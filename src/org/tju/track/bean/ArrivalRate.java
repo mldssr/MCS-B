@@ -1,4 +1,4 @@
-package org.tju.track;
+package org.tju.track.bean;
 
 /**
  * @author yuan

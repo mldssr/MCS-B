@@ -1,5 +1,6 @@
 package org.tju.track;
 
+import org.tju.track.bean.BlockExchange;
 import org.tju.util.FileOperation;
 
 /**

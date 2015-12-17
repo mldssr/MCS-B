@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import org.tju.request.RequestInfo;
+import org.tju.track.bean.ArrivalRate;
 import org.tju.util.ValueOfConfigureFile;
 
 /**
