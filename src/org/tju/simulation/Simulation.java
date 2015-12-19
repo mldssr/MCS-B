@@ -100,10 +100,10 @@ public class Simulation {
 			responseLables[m] = "SSD-" + m;
 		}
 		for( ; m-SSDDisks.length<cacheDisks.length; m++){
-			responseLables[m] = "Cache-" + m;
+			responseLables[m] = "Cache-" + (m-SSDDisks.length);
 		}
 		for( ; m-SSDDisks.length-cacheDisks.length<dataDisks.length; m++){
-			responseLables[m] = "DataDisk-" + m;
+			responseLables[m] = "DataDisk-" + (m-SSDDisks.length-cacheDisks.length);
 		}
 		
 		
