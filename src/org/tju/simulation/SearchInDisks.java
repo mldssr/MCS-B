@@ -21,6 +21,7 @@ public class SearchInDisks {
 				block.setIdleTime(-1);
 				block.setRequestNum(block.getRequestNum()+1);
 				SSDDisks[i].getBlockList().put(blockId, block);
+				SSDDisks[i].setRequestNum(SSDDisks[i].getRequestNum()+1);
 				return true;
 			}
 		}
@@ -38,6 +39,7 @@ public class SearchInDisks {
 				block.setIdleTime(-1);
 				block.setRequestNum(block.getRequestNum()+1);
 				cacheDisks[i].getBlockList().put(blockId, block);
+				cacheDisks[i].setRequestNum(cacheDisks[i].getRequestNum()+1);
 				return true;
 			}
 		}
@@ -56,6 +58,7 @@ public class SearchInDisks {
 				DiskOperation.openDisk(dataDisks[diskId]);
 				BlockOperation.initBlocksList(dataDisks[diskId]);
 			}
+			dataDisks[diskId].setRequestNum(dataDisks[diskId].getRequestNum()+1);
 			return true;
 		}
 		
