@@ -108,7 +108,7 @@ public class InitEnvironment {
 
 		HashMap<Integer, BlockInfo> SSDBlockList = new HashMap<Integer, BlockInfo>();
 		for(int i=SSDDiskStartId; i<SSDDiskStartId+SSDAmount; i++){
-			SSDDisk[i-SSDDiskStartId] = new DiskInfo(i, 0, 0, SSDSize, SSDSize, 0, 0, SSDOperPower, SSDBlockList);
+			SSDDisk[i-SSDDiskStartId] = new DiskInfo(i, 0, 0, SSDSize, SSDSize, 0, 0, 0, SSDOperPower, SSDBlockList);
 		}
 		
 		//Initialize First Level Cache Disk End
@@ -124,7 +124,7 @@ public class InitEnvironment {
 
 		HashMap<Integer, BlockInfo> cacheBlockList = new HashMap<Integer, BlockInfo>();
 		for(int i=cacheDiskStartId; i<cacheDiskStartId+cacheAmount; i++){
-			cacheDisks[i-cacheDiskStartId] = new DiskInfo(i, 1, 0, diskSize, diskSize, 0, 0, diskOperPower, cacheBlockList);
+			cacheDisks[i-cacheDiskStartId] = new DiskInfo(i, 1, 0, diskSize, diskSize, 0, 0, 0,diskOperPower, cacheBlockList);
 		}
 		
 		//Initialize Second Level Cache Disk End
@@ -155,7 +155,7 @@ public class InitEnvironment {
 			//add duplicate block list to disk block list
 			if(duplicateBlocksList.size()!=0){
 				blocksList.putAll(duplicateBlocksList);
-				duplicateBlocksList.clear();
+				duplicateBlocksList = new HashMap<Integer, BlockInfo>();
 			}
 			
 			//order by skyzone
@@ -202,7 +202,7 @@ public class InitEnvironment {
 				blocksList.putAll(firstduplicateBlocksList);
 			}
 
-			dataDisks[i] = new DiskInfo(i, 2, 0, diskSize, diskLeftSpace, blockInDisk, 0, diskOperPower, blocksList);
+			dataDisks[i] = new DiskInfo(i, 2, 0, diskSize, diskLeftSpace, blockInDisk, 0, 0, diskOperPower, blocksList);
 		
 		    System.out.println("The Disk-"+ i + " ready!");
 		    System.out.println("skyznone = " + (skyzone-1));
