@@ -36,6 +36,10 @@ public class TransTimeOperation {
 			
 			BlockInfo block = entry.getValue();
 			
+			if(block == null){
+				continue ;
+			}
+			
 			if(block.getTransmissionTime()>0){
 				block.setTransmissionTime(block.getTransmissionTime()-1);
 				disk.getBlockList().put(block.getBlockId(), block);
