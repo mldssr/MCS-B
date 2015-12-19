@@ -73,20 +73,38 @@ public class Simulation {
 		
 		
 		//Lables of Data Disks
-		String[] dataDiskLables = new String[dataDisks.length+1];
+		String[] dataDiskLables = new String[dataDisks.length+2];
 		dataDiskLables[0] = "Time";
-		for(int i=1; i<dataDiskLables.length; i++){
+		for(int i=1; i<dataDiskLables.length-1; i++){
 			dataDiskLables[i] = "Disk-" + i;
 		}
 		
+		dataDiskLables[dataDiskLables.length-1] = "Total";
 		
+			
 		//Lables of Cache Disks
-		String[] cacheDiskLables = new String[cacheDisks.length+1];
+		String[] cacheDiskLables = new String[cacheDisks.length+2];
 		cacheDiskLables[0] = "Time";
-		for(int i=1; i<cacheDiskLables.length; i++){
+		for(int i=1; i<cacheDiskLables.length-1; i++){
 			cacheDiskLables[i] = "Cache-" + i;
 		}
 		
+		cacheDiskLables[cacheDiskLables.length-1] = "Total";
+		
+		
+		//Lables of Response
+		String[] responseLables = new String[SSDDisks.length+cacheDisks.length+dataDisks.length];
+		
+		int m = 0;
+		for( ; m<SSDDisks.length; m++){
+			responseLables[m] = "SSD-" + m;
+		}
+		for( ; m-SSDDisks.length<cacheDisks.length; m++){
+			responseLables[m] = "Cache-" + m;
+		}
+		for( ; m-SSDDisks.length-cacheDisks.length<dataDisks.length; m++){
+			responseLables[m] = "DataDisk-" + m;
+		}
 		
 		
 		//Generate Requests
@@ -216,17 +234,23 @@ public class Simulation {
 				//Track of Disks' state
 				//Track of Data Disks state
 				String content = "";
+				int total = 0;
 				for(int l=0; l<dataDisks.length; l++){
+					total += dataDisks[l].getDiskState();
 					content += dataDisks[l].getDiskState() + ",";
 				}
+				content += total;
 				DiskState diskStateInfo = new DiskState(j, content);
 				dataDiskStateTrack.put(j, diskStateInfo);
 				
 				//Track of Cache Disks state
 				content = "";
+				total = 0;
 				for(int l=0; l<cacheDisks.length; l++){
+					total += cacheDisks[l].getDiskState();
 					content += cacheDisks[l].getDiskState() + ",";
 				}
+				content += total;
 				diskStateInfo = new DiskState(j, content);
 				cacheDiskStateTrack.put(j, diskStateInfo);
 			}
@@ -238,6 +262,7 @@ public class Simulation {
 		Track.trackOfArrivalRate(arrivalRateTrack);
 		Track.trackOfDataDiskState(dataDiskStateTrack, dataDiskLables);
 		Track.trackOfCacheDiskState(cacheDiskStateTrack, cacheDiskLables);
+		Track.trackOfResponse(SSDDisks, cacheDisks, dataDisks, responseLables);
 				
 	}
 
