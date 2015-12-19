@@ -31,6 +31,9 @@ public class ValueOfConfigureFile {
 	//get duplicate amount from Duplicate.xml
 	public int duplicateAmount = Integer.valueOf(ReadXml.readname("config/Duplicate.xml", "amount"));
 	
+	//get Cache Correlation from CacheCorrelation.xml
+	public int cacheCorrelation = Integer.valueOf(ReadXml.readname("config/CacheCorrelation.xml", "correlation"));
+		
 	//get files' amount from FileAmount.xml
 	public int fileAmount = Integer.valueOf(ReadXml.readname("config/FileAmount.xml", "amount"));
 	
@@ -596,6 +599,14 @@ public class ValueOfConfigureFile {
 	 */
 	public String getResponseFilePath() {
 		return responseFilePath;
+	}
+
+
+	/**
+	 * @return the cacheCorrelation
+	 */
+	public int getCacheCorrelation() {
+		return cacheCorrelation;
 	}
 		
 }

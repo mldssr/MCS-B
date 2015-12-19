@@ -24,24 +24,35 @@ public class DataMigration {
 	public static int blockInSSD = valueOfConfigureFile.getBlockInSSD();
 	public static int blockInCache = valueOfConfigureFile.getBlockInCache();
 	
+	//get Cache Correlation
+	public static int cacheCorrelation = valueOfConfigureFile.getCacheCorrelation();
+	
 	
 	//Data Disk ====>> SSD Replacement Strategy
 	public static void DD2SSD(DiskInfo dataDisk, DiskInfo SSDDisk, int blockId){
 		
-		BlockInfo block = dataDisk.getBlockList().get(blockId-1);
-		SSDDisk.getBlockList().put(blockId-1, block);
-		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
-		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
-		
-		block = dataDisk.getBlockList().get(blockId);
+		BlockInfo block = dataDisk.getBlockList().get(blockId);
 		SSDDisk.getBlockList().put(blockId, block);
 		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
 		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
-
-		block = dataDisk.getBlockList().get(blockId+1);
-		SSDDisk.getBlockList().put(blockId+1, block);	
-		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
-		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
+		
+		for(int i=cacheCorrelation; i>0; i--){
+			block = dataDisk.getBlockList().get(blockId-i);
+			if(block!=null){
+				SSDDisk.getBlockList().put(blockId-i, block);
+				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
+				SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
+			}
+		}
+		
+		for(int i=cacheCorrelation; i>0; i--){
+			block = dataDisk.getBlockList().get(blockId+i);
+			if(block!=null){
+				SSDDisk.getBlockList().put(blockId+i, block);
+				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
+				SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
+			}
+		}
 		
 	}
 	
