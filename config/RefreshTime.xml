@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action refreshtime="60"> </action>
+	<action refreshtime="500"> </action>
 </package>
