@@ -225,22 +225,6 @@ public class DiskInfo {
 	public void setRequestNum(int requestNum) {
 		this.requestNum = requestNum;
 	}
-
-
-	/**
-	 * @return the blocksList
-	 */
-	public HashMap<Integer, BlockInfo> getBlocksList() {
-		return blocksList;
-	}
-
-
-	/**
-	 * @param blocksList the blocksList to set
-	 */
-	public void setBlocksList(HashMap<Integer, BlockInfo> blocksList) {
-		this.blocksList = blocksList;
-	}
 	
 	
 }
