@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action request="track/RequestGen.csv" requeststa="track/RequestSta.csv" blockexchange="track/BlockExchange.csv" datadiskstate="track/DataDiskState.csv" cachediskstate="track/CacheDiskState.csv" arrivalrate="track/ArrivalRate.csv"> </action>
+	<action request="track/RequestGen.csv" requeststa="track/RequestSta.csv" blockexchange="track/BlockExchange.csv" datadiskstate="track/DataDiskState.csv" cachediskstate="track/CacheDiskState.csv" arrivalrate="track/ArrivalRate.csv" response="track/Response.csv"> </action>
 </package>

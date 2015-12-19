@@ -88,6 +88,7 @@ public class ValueOfConfigureFile {
 	public String dataDiskStateFilePath = ReadXml.readname("config/FilePathInfo.xml", "datadiskstate");
 	public String cacheDiskStateFilePath = ReadXml.readname("config/FilePathInfo.xml", "cachediskstate");
     public String arrivalRateFilePath = ReadXml.readname("config/FilePathInfo.xml", "arrivalrate");
+    public String responseFilePath = ReadXml.readname("config/FilePathInfo.xml", "response");
 	
     
 	//get files' labels' Info from FileLableInfo.xml
@@ -587,6 +588,14 @@ public class ValueOfConfigureFile {
 	 */
 	public String[] getArrivalRateLables() {
 		return arrivalRateLables;
+	}
+
+
+	/**
+	 * @return the responseFilePath
+	 */
+	public String getResponseFilePath() {
+		return responseFilePath;
 	}
 		
 }

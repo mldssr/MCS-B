@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.tju.bean.DiskInfo;
 import org.tju.request.RequestInfo;
 import org.tju.track.bean.ArrivalRate;
 import org.tju.track.bean.DiskState;
@@ -26,6 +27,7 @@ public class Track {
 	public static String dataDiskStateFilePath = valueOfConfigureFile.getDataDiskStateFilePath();
 	public static String cacheDiskStateFilePath = valueOfConfigureFile.getCacheDiskStateFilePath();
 	public static String arrivalRateFilePath = valueOfConfigureFile.getArrivalRateFilePath();
+	public static String responseFilePath = valueOfConfigureFile.getResponseFilePath(); 
 	
 	//get files' labels' Info from FileLableInfo.xml
 	public static String[] requestGenLables = valueOfConfigureFile.getRequestGenLables();
@@ -121,6 +123,20 @@ public class Track {
 			
 			cacheDiskState.TrackOfDataDiskStateFile(cacheDiskStateFilePath, diskStateInfo);
 		}	
+		
+	}
+	
+	//Track of Response
+	public static TrackOfResponse response = new TrackOfResponse();
+
+	//Track of Response
+	public static void trackOfResponse(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks, DiskInfo[] dataDisks, String[] lables){
+		
+		response.CreateFileOfResponse(responseFilePath);
+		
+		response.HeaderOfResponse(responseFilePath, lables);
+		
+		response.TrackOfResponseLoc(responseFilePath, SSDDisks, cacheDisks, dataDisks);
 		
 	}
 	
