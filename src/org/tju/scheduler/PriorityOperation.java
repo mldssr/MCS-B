@@ -59,8 +59,17 @@ public class PriorityOperation {
 			
 			BlockInfo block = entry.getValue();
 			
-			//P = requestNum/idleTime
-			block.setPriority(((double)block.getRequestNum())/(block.getIdleTime()));
+			if(block == null){
+				continue ;
+			}
+			
+			if(block.getIdleTime() > 0){
+				//P = requestNum/idleTime
+				block.setPriority(((double)block.getRequestNum())/(block.getIdleTime()));
+			} else {
+				//P = requestNum/1.0
+				block.setPriority(block.getRequestNum()/1.0);
+			}
 			
 			cacheDisks.getBlockList().put(entry.getKey(), block);			
 		}

@@ -106,7 +106,7 @@ public class DataMigration {
 		//Clear BolckList of each cache disks && close disk
 		for (int i=0; i<cacheDisks.length; i++) {
 			totalBlocks.putAll(cacheDisks[i].getBlockList());
-			cacheDisks[i].getBlockList().clear();
+			cacheDisks[i].setBlockList(new HashMap<Integer, BlockInfo>());
 			cacheDisks[i].setDiskState(0);
 		}
 			
@@ -139,16 +139,38 @@ public class DataMigration {
 		//Clear BlockList of SSD
 		for(int i=0; i<SSDDisks.length; i++){
 			totalBlocks.putAll(SSDDisks[i].getBlockList());
-			SSDDisks[i].getBlockList().clear();
+			SSDDisks[i].setBlockList(new HashMap<Integer, BlockInfo>());
 			DiskOperation.closeCache(SSDDisks[i]);
 		}
 		
 		//Clear BolckList of each cache disks && close disk
 		for(int i=0; i<cacheDisks.length; i++) {
 			totalBlocks.putAll(cacheDisks[i].getBlockList());
-			cacheDisks[i].getBlockList().clear();
+			cacheDisks[i].setBlockList(new HashMap<Integer, BlockInfo>());
 			DiskOperation.closeCache(cacheDisks[i]);
 		}
+		
+		if(totalBlocks.containsValue(null)){
+			HashMap<Integer,BlockInfo> nullBlocks = new HashMap<Integer, BlockInfo>();
+			//clear null
+			Iterator<Entry<Integer,BlockInfo>> iter = totalBlocks.entrySet().iterator();
+
+			while (iter.hasNext()){
+				Entry<Integer,BlockInfo> entry = iter.next();
+				if(entry.getValue() == null){
+					nullBlocks.put(entry.getKey(), entry.getValue());
+				}
+			}
+			
+			iter = nullBlocks.entrySet().iterator();
+			
+			while (iter.hasNext()){
+				Entry<Integer,BlockInfo> entry = iter.next();
+				totalBlocks.remove(entry.getKey(), entry.getValue());
+			}
+		}
+		
+		
 		
 		//Sorted By Blocks' Priority
 		PriorityOperation.sortedByPriority(totalBlocks);

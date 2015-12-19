@@ -85,7 +85,7 @@ public class Scheduler {
 				}
 				
 				//Add to SSD
-				Disks[i].getBlockList().clear();
+				Disks[i].setBlockList(new HashMap<Integer, BlockInfo>());
 				Disks[i].setBlockList(tmpBlocks);
 //				tmpBlocks.clear();
 			}	

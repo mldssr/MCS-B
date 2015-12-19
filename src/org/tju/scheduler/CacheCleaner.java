@@ -40,8 +40,12 @@ public class CacheCleaner {
 		while (iter.hasNext()){
 			Entry<Integer, BlockInfo> entry = iter.next();
 			BlockInfo block = entry.getValue();
+			
+			if(block == null){
+				continue ;
+			}
 
-			if(block.getPriority() < lowPriorityTh){
+			if(Math.abs(block.getPriority()) < lowPriorityTh){
 				lowPriorityBlock.put(block.getBlockId(), block);
 				lowPriorityBlockId.add(block.getBlockId());
 			}		
