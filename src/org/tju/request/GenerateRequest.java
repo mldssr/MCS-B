@@ -89,7 +89,8 @@ public class GenerateRequest {
 					
 					if(++j == requestInSlidingWindowList.size()/windowNum){
 						requestList.put(i++, requestPerWindowList);
-						requestPerWindowList.clear();
+						requestPerWindowList = new HashMap<String, RequestInfo>();
+						j = 0;
 					}
 				}			
 			} else if (mode.equalsIgnoreCase("normal")) {
@@ -101,7 +102,8 @@ public class GenerateRequest {
 					
 					if(++j == requestInSlidingWindowList.size()/windowNum){
 						requestList.put(i++, requestPerWindowList);
-						requestPerWindowList.clear();
+						requestPerWindowList = new HashMap<String, RequestInfo>();
+						j = 0;
 					}
 				}			
 			} else if (mode.equalsIgnoreCase("mix")) {
@@ -113,7 +115,8 @@ public class GenerateRequest {
 					
 					if(++j == requestInSlidingWindowList.size()/windowNum){
 						requestList.put(i++, requestPerWindowList);
-						requestPerWindowList.clear();
+						requestPerWindowList = new HashMap<String, RequestInfo>();
+						j = 0;
 					}
 				}			
 			}
