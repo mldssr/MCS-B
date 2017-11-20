@@ -1,13 +1,5 @@
 package org.tju.request;
 
-/**
- * Name: RequestInfo
- * Description: Requests' basic Information
- * 
- * @author yuan
- *
- * @date 2015年12月11日 下午6:08:20
- */
 public class RequestInfo {
 	
 	private String requestFileName;

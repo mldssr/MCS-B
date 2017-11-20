@@ -3,11 +3,6 @@ package org.tju.track;
 import org.tju.request.RequestInfo;
 import org.tju.util.FileOperation;
 
-/**
- * @author yuan
- *
- * @date 2015年12月13日 上午10:26:43
- */
 public class TrackOfRequest {
 	
 	//get file operation
@@ -57,7 +52,7 @@ public class TrackOfRequest {
 							request.getResponseTime() + "," +
 							request.getQos() + "\n";
 		
-		AppendRequestGenFile(filePath, content);		
+		AppendRequestStaFile(filePath, content);		
 		
 	}
 	

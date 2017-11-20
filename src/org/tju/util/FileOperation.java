@@ -4,11 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * @author yuan
- *
- * @date 2015年12月13日 上午11:24:39
- */
 public class FileOperation {
 	
 	//Create file

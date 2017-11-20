@@ -1,10 +1,5 @@
 package org.tju.util;
 
-/**
- * @author yuan
- *
- * @date 2015年12月11日 下午7:45:08
- */
 public class ValueOfConfigureFile {
 	
 	//get blocks' info from BlockAmount.xml

@@ -1,13 +1,5 @@
 package org.tju.bean;
 
-/**
- * Name: FileInfo
- * Description: Files' basic Information
- * 
- * @author yuan
- *
- * @date 2015年12月10日 上午10:19:26
- */
 public class FileInfo {
 	
 	private int fileId;

@@ -8,11 +8,6 @@ import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * @author yuan
- *
- * @date 2015年12月16日 下午3:55:15
- */
 public class BlockOperation {
 	
 	//Value of configure files
@@ -22,7 +17,7 @@ public class BlockOperation {
 	public static int openTime = valueOfConfigureFile.getOpenTime();
 	
 	
-	//initialize data disks' blocks' list
+	//initialize data disks' blocks' list，设置磁盘组中关闭状态磁盘的所有Block的idleTime/transmissionTime/requestNum
 	public static void initBlocksList(DiskInfo[] dataDisks){
 		
 		for(int i=0; i<dataDisks.length; i++){
@@ -32,7 +27,7 @@ public class BlockOperation {
 	}
 	
 	
-	//initialize data disk's blocks' list
+	//initialize data disk's blocks' list，设置关闭状态磁盘所有Block的idleTime/transmissionTime/requestNum
 	public static void initBlocksList(DiskInfo dataDisk){
 		
 		//tmp blocks' List
@@ -48,7 +43,7 @@ public class BlockOperation {
 				BlockInfo block = entry.getValue();
 				block.setIdleTime(0-openTime);	
 				block.setTransmissionTime(openTime);	
-				block.setRequestNum(1);
+				block.setRequestNum(1);  //Why not 0?
 				tmpBlocks.put(block.getBlockId(), block);
 			}
 			
@@ -56,6 +51,8 @@ public class BlockOperation {
 			dataDisk.setBlockList(null);
 			dataDisk.setBlockList(tmpBlocks);
 //			tmpBlocks.clear();
+			
+			System.out.println("InitBlocksList of DataDisk " + dataDisk.getDiskId());
 		}
 		
 	}

@@ -2,14 +2,6 @@ package org.tju.bean;
 
 import java.util.HashMap;
 
-/**
- * Name: BlockInfo
- * Description: Blocks' basic Information
- * 
- * @author yuan
- *
- * @date 2015年12月10日 上午10:24:57
- */
 public class BlockInfo {
 	
 	private int blockId;

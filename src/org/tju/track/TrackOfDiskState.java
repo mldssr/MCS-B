@@ -3,11 +3,6 @@ package org.tju.track;
 import org.tju.track.bean.DiskState;
 import org.tju.util.FileOperation;
 
-/**
- * @author yuan
- *
- * @date 2015年12月13日 上午11:47:15
- */
 public class TrackOfDiskState {
 	
 	//get file operation

@@ -2,14 +2,6 @@ package org.tju.bean;
 
 import java.util.HashMap;
 
-/**
- * Name: DiskInfo
- * Description: Disks' basic Information
- * 
- * @author yuan
- *
- * @date 2015年12月10日 上午10:46:16
- */
 public class DiskInfo {
 	
 	private int diskId;
@@ -22,6 +14,10 @@ public class DiskInfo {
 	private int requestNum;
 	
 	private double operPower;        //Operational Power
+	
+	// add
+	private int startedTime;
+	private int startedCount;
 	
 	private HashMap<Integer, BlockInfo> blocksList;		//Stored Blocks' List
 
@@ -40,6 +36,7 @@ public class DiskInfo {
 	}
 
 
+	
 	/**
 	 * @param diskId
 	 * @param diskType
@@ -64,6 +61,34 @@ public class DiskInfo {
 		this.idleTime = idleTime;
 		this.operPower = operPower;
 		this.blocksList = blocksList;
+	}
+
+	/**
+	 * @param diskId
+	 * @param diskType
+	 * @param diskState
+	 * @param totalSpace
+	 * @param leftSpace
+	 * @param blockAmount
+	 * @param idleTime
+	 * @param operPower
+	 * @param blocksList
+	 */
+	public DiskInfo(int diskId, int diskType, int diskState, int totalSpace,
+			int leftSpace, int blockAmount, int idleTime, int requestNum,
+			double operPower, HashMap<Integer, BlockInfo> blocksList, int startedTime, int startedCount) {
+		super();
+		this.diskId = diskId;
+		this.diskType = diskType;
+		this.diskState = diskState;
+		this.totalSpace = totalSpace;
+		this.leftSpace = leftSpace;
+		this.blockAmount = blockAmount;
+		this.idleTime = idleTime;
+		this.operPower = operPower;
+		this.blocksList = blocksList;
+		this.startedTime = startedTime;
+		this.startedCount = startedCount;
 	}
 
 
@@ -224,6 +249,30 @@ public class DiskInfo {
 	 */
 	public void setRequestNum(int requestNum) {
 		this.requestNum = requestNum;
+	}
+
+
+
+	public int getStartedTime() {
+		return startedTime;
+	}
+
+
+
+	public void setStartedTime(int startedTime) {
+		this.startedTime = startedTime;
+	}
+
+
+
+	public int getStartedCount() {
+		return startedCount;
+	}
+
+
+
+	public void setStartedCount(int startedCount) {
+		this.startedCount = startedCount;
 	}
 	
 	

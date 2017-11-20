@@ -12,14 +12,9 @@ import java.util.Map.Entry;
 import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 
-/**
- * @author yuan
- *
- * @date 2015年12月14日 上午11:18:59
- */
 public class PriorityOperation {
 	
-	
+	//A bug here: This method does not have blockList sorted by priority correctly
 	//Sorted By Blocks' Priority
 	public static void sortedByPriority(HashMap<Integer, BlockInfo> blockInfo){
 		
@@ -36,7 +31,7 @@ public class PriorityOperation {
 										return 0;
 									   }else {
 										return -1;
-									}
+									   }
 			                         }
 			                       }); 
 		
@@ -49,10 +44,10 @@ public class PriorityOperation {
 	}
 	
 	
-	//Priority Calculation: Calculate blocks' priority in cache disks
-	public static void calculatePriority(DiskInfo cacheDisks){
+	//Priority Calculation: Calculate blocks' priority in cache disk and SSD
+	public static void calculatePriority(DiskInfo cacheDisk){
 		
-		Iterator<Entry<Integer, BlockInfo>> iter = cacheDisks.getBlockList().entrySet().iterator();
+		Iterator<Entry<Integer, BlockInfo>> iter = cacheDisk.getBlockList().entrySet().iterator();
 		
 		while (iter.hasNext()) {
 			Entry<Integer, BlockInfo> entry = iter.next();
@@ -63,7 +58,7 @@ public class PriorityOperation {
 				continue ;
 			}
 			
-			if(block.getIdleTime() > 0){
+			if(block.getIdleTime() > 0) {
 				//P = requestNum/idleTime
 				block.setPriority(((double)block.getRequestNum())/(block.getIdleTime()));
 			} else {
@@ -71,9 +66,10 @@ public class PriorityOperation {
 				block.setPriority(block.getRequestNum()/1.0);
 			}
 			
-			cacheDisks.getBlockList().put(entry.getKey(), block);			
+			cacheDisk.getBlockList().put(entry.getKey(), block);			
 		}
 		
+		System.out.println("calculatePriority of diskId " + cacheDisk.getDiskId());
 	}
 
 }

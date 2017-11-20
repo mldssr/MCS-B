@@ -9,14 +9,6 @@ import org.tju.bean.FileInfo;
 import org.tju.scheduler.BlockOperation;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * Name: InitEnvironment
- * Description: Initialization Simulation Environment
- * 
- * @author yuan
- *
- * @date 2015年12月10日 上午11:13:15
- */
 public class InitEnvironment {
 	
 	//Random
@@ -108,7 +100,7 @@ public class InitEnvironment {
 
 		HashMap<Integer, BlockInfo> SSDBlockList = new HashMap<Integer, BlockInfo>();
 		for(int i=SSDDiskStartId; i<SSDDiskStartId+SSDAmount; i++){
-			SSDDisk[i-SSDDiskStartId] = new DiskInfo(i, 0, 0, SSDSize, SSDSize, 0, 0, 0, SSDOperPower, SSDBlockList);
+			SSDDisk[i-SSDDiskStartId] = new DiskInfo(i, 0, 0, SSDSize, SSDSize, 0, 0, 0, SSDOperPower, SSDBlockList, 0, 0);
 		}
 		
 		//Initialize First Level Cache Disk End
@@ -124,7 +116,7 @@ public class InitEnvironment {
 
 		HashMap<Integer, BlockInfo> cacheBlockList = new HashMap<Integer, BlockInfo>();
 		for(int i=cacheDiskStartId; i<cacheDiskStartId+cacheAmount; i++){
-			cacheDisks[i-cacheDiskStartId] = new DiskInfo(i, 1, 0, diskSize, diskSize, 0, 0, 0,diskOperPower, cacheBlockList);
+			cacheDisks[i-cacheDiskStartId] = new DiskInfo(i, 1, 0, diskSize, diskSize, 0, 0, 0,diskOperPower, cacheBlockList, 0, 0);
 		}
 		
 		//Initialize Second Level Cache Disk End
@@ -158,8 +150,11 @@ public class InitEnvironment {
 				duplicateBlocksList = new HashMap<Integer, BlockInfo>();
 			}
 			
-			//order by skyzone
-			for( ; skyzone<skyzoneInDisk*(i-dataDiskStartId+1)-(i-dataDiskStartId) && skyzone<skyzoneAmount; skyzone++){
+			//order by skyzone, if duplicateAmount == 1, skyzone will be arranged as follows:
+			//skyzone in disk0:   0- 49
+			//skyzone in disk1:  49- 98
+			//skyzone in disk0:  98-147
+			for( ; skyzone < skyzoneInDisk*(i-dataDiskStartId+1)-(i-dataDiskStartId) && skyzone<skyzoneAmount; skyzone++){
 				//initialize block
 				//the files in block
 				HashMap<String, FileInfo> filesList = new HashMap<String, FileInfo>();
@@ -173,18 +168,22 @@ public class InitEnvironment {
 					int fileSize = fileBasicSize + random.nextInt()%fileSizeErr;
 					
 					FileInfo file = new FileInfo(fileId++, fileName, fileSize, l, skyzone, blockId, 0, 0, 0);
-					
 					filesList.put(fileName, file);
 					
 					blockLeftSpace -= fileSize;
-					
+					//如果生成的文件刚好组成一个block，则。。。如果l不是fileInBlock的整倍数，多余的文件会被抛弃
 					if((l+1)%fileInBlock == 0){
 						BlockInfo block = new BlockInfo(blockId++, blockSize, blockLeftSpace, l+1-fileInBlock, skyzone, i, 0, 0, 0, 0, openTime, fileInBlock, filesList);
+//						System.out.println("A new block is created, contains " + filesList.size()+" files.");
+//						System.out.println("blockLeftSpace: " + blockLeftSpace);
+						//add:
+						filesList.clear();
 						blocksList.put(block.getBlockId(), block);
 						blockLeftSpace = blockSize;
 						diskLeftSpace -= blockSize;
+//						System.out.println("diskLeftSpace: " + diskLeftSpace);
 						
-						//add duplicate to duplicate block list
+						//add duplicate to duplicate block list which would be added into next disk later
 						if(skyzone+duplicateAmount >= skyzoneInDisk*(i+1)-i){
 							duplicateBlocksList.put(block.getBlockId(), block);
 						}
@@ -202,12 +201,14 @@ public class InitEnvironment {
 				blocksList.putAll(firstduplicateBlocksList);
 			}
 
-			dataDisks[i] = new DiskInfo(i, 2, 0, diskSize, diskLeftSpace, blockInDisk, 0, 0, diskOperPower, blocksList);
+			dataDisks[i] = new DiskInfo(i, 2, 0, diskSize, diskLeftSpace, blockInDisk, 0, 0, diskOperPower, blocksList, 0, 0);
 		
 		    System.out.println("The Disk-"+ i + " ready!");
 		    System.out.println("skyznone = " + (skyzone-1));
 		    System.out.println("BlockId = " + (blockId-1));
 		    System.out.println("FileId = " + (fileId-1));
+//		    System.out.println();
+//		    System.out.println(blocksList.keySet());
 		    System.out.println();
 		}
 		
@@ -220,7 +221,11 @@ public class InitEnvironment {
 	}
 	
 	
-	
+	public static void main(String[] args){
+		System.out.println("Test begin!");
+		InitEnvironment init = new InitEnvironment();
+		init.initEnvironment();
+	}
 	
 	
 	/**

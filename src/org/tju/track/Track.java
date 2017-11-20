@@ -1,20 +1,21 @@
 package org.tju.track;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
+import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 import org.tju.request.RequestInfo;
 import org.tju.track.bean.ArrivalRate;
 import org.tju.track.bean.DiskState;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * @author yuan
- *
- * @date 2015年12月16日 下午7:35:42
- */
 public class Track {
 	
 	//Value of configure files
@@ -46,8 +47,35 @@ public class Track {
 				
 		request.CreateFileOfRequestSta(requestStaFilePath);
 		
-		request.HeaderOfRequestSta(requestStaFilePath, requestStaLables);	
+		request.HeaderOfRequestSta(requestStaFilePath, requestStaLables);
 		
+		List<Entry<String, RequestInfo>> list = new ArrayList<Entry<String, RequestInfo>>(requestsTrack.entrySet());
+		
+		Collections.sort(list, new Comparator<Map.Entry<String, RequestInfo>>() {
+			public int compare(Map.Entry<String, RequestInfo> e1, Map.Entry<String, RequestInfo> e2) {
+				int v1 = (int) ((Map.Entry<String, RequestInfo>) e1).getValue().getGenerateTime();
+				int v2 = (int) ((Map.Entry<String, RequestInfo>) e2).getValue().getGenerateTime();
+				int flag = v1 - v2;
+				if (flag > 0) {
+					return 1;
+				} else if (flag == 0) {
+					return 0;
+				} else {
+					return -1;
+				}
+			}
+		});
+		requestsTrack.clear();
+		/*
+		for(int i=0; i<list.size(); i++){
+			requestsTrack.put(list.get(i).getKey(), list.get(i).getValue());
+		}*/
+		for(Iterator<Map.Entry<String,RequestInfo>> it=list.iterator(); it.hasNext();)  
+        {  
+			RequestInfo requestInfo = it.next().getValue();  
+			request.TrackOfRequestSta(requestStaFilePath, requestInfo);
+        }
+		/*
 		Iterator<Entry<String, RequestInfo>> iter = requestsTrack.entrySet().iterator();
 		
 		while (iter.hasNext()){
@@ -56,7 +84,7 @@ public class Track {
 			RequestInfo requestInfo = entry.getValue();
 		
 		    request.TrackOfRequestSta(requestStaFilePath, requestInfo);
-		}	
+		}	*/
 	}
 	
 	

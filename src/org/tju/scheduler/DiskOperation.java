@@ -3,11 +3,6 @@ package org.tju.scheduler;
 import org.tju.bean.DiskInfo;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * @author yuan
- *
- * @date 2015年12月14日 下午3:06:28
- */
 public class DiskOperation {
 	
 	//Value of configure files
@@ -20,7 +15,7 @@ public class DiskOperation {
 	public static int idleTimeTh = valueOfConfigureFile.getIdleTimeTh();
 	
 	
-	//Close data disks
+	//Close data disks, not used
 	public static void closeDisks(DiskInfo[] disks){
 		
 		for(int i=0; i<disks.length; i++){
@@ -32,10 +27,10 @@ public class DiskOperation {
 	
 	//Close disk
 	public static void closeDisk(DiskInfo disk){
-		
+//		IdleTimeManager.updateIdleTime(disk.getIdleTime());
 		disk.setDiskState(0);
 		disk.setIdleTime(0-openTime);
-		
+		System.out.println("[Disk] Disk is closed, diskId: " + disk.getDiskId());
 	}
 	
 	
@@ -49,14 +44,24 @@ public class DiskOperation {
 	
 	//Open disk
 	public static void openDisk(DiskInfo disk){
+		//
+		if(disk.getDiskState()==0){
+			disk.setDiskState(1);
+			disk.setIdleTime(0-openTime);
+			
+			// add
+			disk.setStartedCount(disk.getStartedCount() + 1);
+			disk.setStartedTime(disk.getStartedTime() - 10);
+			System.out.println("[Disk] Disk is opend, diskId: " + disk.getDiskId());
+		}
 		
-		disk.setDiskState(1);
-		disk.setIdleTime(0-openTime);
+	//	disk.setDiskState(1);
+	//	disk.setIdleTime(0-openTime);
 		
 	}
 	
 	
-	//Open cache disk
+	//Open cache disk (SSD + Cache)
 	public static void openCache(DiskInfo disk){
 		
 		disk.setDiskState(1);
@@ -65,9 +70,15 @@ public class DiskOperation {
 		disk.setBlockList(null);
 		disk.setLeftSpace(disk.getTotalSpace());
 		
+		System.out.println("[Disk] SSD or Cache Disk is opened, diskId: " + disk.getDiskId());
+		
+		// add
+		disk.setStartedCount(disk.getStartedCount() + 1);
+		disk.setStartedTime(disk.getStartedTime() - 10);
+		
 	}
 	
-	//Close cache disk
+	//Close cache disk (SSD + Cache)
 	public static void closeCache(DiskInfo disk){
 		
 		disk.setDiskState(0);
@@ -75,6 +86,7 @@ public class DiskOperation {
 		disk.setBlockAmount(0);
 		disk.setLeftSpace(disk.getTotalSpace());
 		
+		System.out.println("[Disk] SSD or Cache Disk is closed, diskId: " + disk.getDiskId());
 	}
 	
 	
@@ -110,6 +122,7 @@ public class DiskOperation {
 	public static void checkDD(DiskInfo dataDisk){
 		
 		if(dataDisk.getIdleTime() > idleTimeTh){
+//		if(dataDisk.getIdleTime() > IdleTimeManager.getIdleTimeTh()){//added
 			closeDisk(dataDisk);			
 		}
 		

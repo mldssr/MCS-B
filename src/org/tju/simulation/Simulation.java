@@ -16,11 +16,6 @@ import org.tju.track.bean.ArrivalRate;
 import org.tju.track.bean.DiskState;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * @author yuan
- *
- * @date 2015年12月16日 上午8:48:30
- */
 public class Simulation {
 	
 	//Random
@@ -59,6 +54,9 @@ public class Simulation {
 	//Transmission time
 	public static int transTime = 0;
 	
+	//Request correlations: key---blockId, value---correlate blockIds
+//	public static HashMap<Integer, Integer[]> requestCorrelatins = new HashMap<Integer, Integer[]>();
+	
 	
 	//Main function
 	public static void main(String[] args){
@@ -72,7 +70,7 @@ public class Simulation {
 		DiskInfo[] dataDisks = init.getDataDisks();
 		
 		
-		//Lables of Data Disks
+		//Lables of Data Disks: Time Disk-1 Disk-2 ... Disk-dataDisks.length Total
 		String[] dataDiskLables = new String[dataDisks.length+2];
 		dataDiskLables[0] = "Time";
 		for(int i=1; i<dataDiskLables.length-1; i++){
@@ -82,7 +80,7 @@ public class Simulation {
 		dataDiskLables[dataDiskLables.length-1] = "Total";
 		
 			
-		//Lables of Cache Disks
+		//Lables of Cache Disks: Time Cache-1 Cache-2 ... Cache-cacheDisks.length Total
 		String[] cacheDiskLables = new String[cacheDisks.length+2];
 		cacheDiskLables[0] = "Time";
 		for(int i=1; i<cacheDiskLables.length-1; i++){
@@ -92,7 +90,7 @@ public class Simulation {
 		cacheDiskLables[cacheDiskLables.length-1] = "Total";
 		
 		
-		//Lables of Response
+		//Lables of Response: SSD-0 ... Cache-0... DataDisk-0
 		String[] responseLables = new String[SSDDisks.length+cacheDisks.length+dataDisks.length];
 		
 		int m = 0;
@@ -109,15 +107,15 @@ public class Simulation {
 		
 		//Generate Requests
 		//Requests List of all
-		HashMap<Integer, HashMap<String, RequestInfo>> requestsList = requests.generateRequest();;
+		HashMap<Integer, HashMap<String, RequestInfo>> requestsList = requests.generateRequest();
 		
 		//Specifies the requests' generation time
 		requests.specifiesRequestTime(requestsList);
 		
-		
-		
+		System.out.println("requestsList.size()" + requestsList.size());
+		System.out.println("Start to run!");
 		//Start to run
-		for(int i=0; i<requestsList.size(); i++){
+		for(int i=0; i<requestsList.size(); i++){//i为timeWindow
 			HashMap<String, RequestInfo> requestsPerWindow = requestsList.get(i);
 			
 			double arrivalRate = ((double)requestsPerWindow.size())/requests.slidingWindowSize;
@@ -125,10 +123,14 @@ public class Simulation {
 			//Track of arrivalRate
 			ArrivalRate R = new ArrivalRate(i, arrivalRate);
 			arrivalRateTrack.put(i, R);
-			
+			//j means time point
 			for(int j=i*requests.slidingWindowSize; j<(i+1)*requests.slidingWindowSize; j++){
 				
-				//refresh Countdown
+				//added by xx begin
+				System.out.println("**** time "+j+" ****");
+				//added by xx end
+				
+				//refresh Countdown   ?????
 				int refreshCountdown = (j+1)%refreshTime;
 				
 				//update blocks' transmissionTime in cache disks
@@ -155,7 +157,7 @@ public class Simulation {
 						int blockId = Integer.valueOf(names[1]);					
 						
 						//search Disks
-						if(SearchInDisks.searchInSSD(SSDDisks, fileName, blockId)){
+						if(SearchInDisks.searchInSSD(SSDDisks, fileName, blockId)){//find in SSD
 							transTime = TransTimeOperation.getTransTime(SSDDisks, blockId);
 							
 							//update requests' info
@@ -166,8 +168,8 @@ public class Simulation {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Found In SSD!");
-						} else if (SearchInDisks.searchInCache(cacheDisks, fileName, blockId)) {
+							System.out.println("     "+request.getRequestFileName() + " : Found In SSD!");
+						} else if (SearchInDisks.searchInCache(cacheDisks, fileName, blockId)) {//find in Cache
 							transTime = TransTimeOperation.getTransTime(cacheDisks, blockId);
 							
 							//update requests' info
@@ -178,8 +180,9 @@ public class Simulation {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Found In Cache Disk!");
-						} else if (SearchInDisks.searchInDD(dataDisks, fileName, diskId, blockId)) {
+							System.out.println("     "+request.getRequestFileName() + " : Found In Cache Disk!");
+						} else if (SearchInDisks.searchInDD(dataDisks, fileName, diskId, blockId)) {//find in dataDisk
+							diskId = SearchInDisks.searchBetterInDD(dataDisks, blockId);//add
 							transTime = TransTimeOperation.getTransTime(dataDisks[diskId], blockId);
 							
 							//update requests' info
@@ -190,7 +193,7 @@ public class Simulation {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
+							System.out.println("     "+request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
 						
 							
 							//Data Migration: From Data Disk To Cache Disks
@@ -209,7 +212,7 @@ public class Simulation {
 							requestsTrack.put(request.getRequestFileName(), request);				
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Not Found!");	
+							System.out.println("     "+request.getRequestFileName() + " : Not Found!");	
 						}													
 					}				
 				}

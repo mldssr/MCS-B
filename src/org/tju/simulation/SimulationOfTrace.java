@@ -17,11 +17,6 @@ import org.tju.track.bean.ArrivalRate;
 import org.tju.track.bean.DiskState;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * @author yuan
- *
- * @date 2015年12月16日 上午8:48:30
- */
 public class SimulationOfTrace {
 	
 	//Random
@@ -117,10 +112,21 @@ public class SimulationOfTrace {
 //		//Specifies the requests' generation time
 //		requests.specifiesRequestTime(requestsList);
 		
-		recoveyRequest = new GenerateRequestByTrace("recovery/RequestSta.csv");
+		recoveyRequest = new GenerateRequestByTrace("track/tmp/RequestSta.csv");
 		//Generate Requests
 		//Requests List of all
 		HashMap<Integer, HashMap<String, RequestInfo>> requestsList = recoveyRequest.readLine();
+		System.out.println("requestsList.size(): " + requestsList.size());
+		int totalRequestsNum=0;
+		for (HashMap.Entry<Integer, HashMap<String, RequestInfo>> entry : requestsList.entrySet()) {
+			HashMap<String, RequestInfo> entry2 = entry.getValue();
+		    System.out.println("Key = " + entry.getKey() + ", Size = " + entry2.size());
+		    totalRequestsNum += entry2.size();
+		    for (HashMap.Entry<String, RequestInfo> entry3 : entry2.entrySet()) {
+			    System.out.println("     Key = " + entry3.getKey() + ", Value = " + entry3.getValue());
+			}
+		}
+		System.out.println("totalRequestsNum: " + totalRequestsNum);
 		
 		//Specifies the requests' generation time
 //		requests.specifiesRequestTime(requestsList);
@@ -138,6 +144,10 @@ public class SimulationOfTrace {
 			arrivalRateTrack.put(i, R);
 			
 			for(int j=i*requests.slidingWindowSize; j<(i+1)*requests.slidingWindowSize; j++){
+				
+				//added by xx begin
+				System.out.println("**** time "+j+" ****");
+				//added by xx end
 				
 				//refresh Countdown
 				int refreshCountdown = (j+1)%refreshTime;
@@ -177,7 +187,7 @@ public class SimulationOfTrace {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Found In SSD!");
+							System.out.println("     "+request.getRequestFileName() + " : Found In SSD!");
 						} else if (SearchInDisks.searchInCache(cacheDisks, fileName, blockId)) {
 							transTime = TransTimeOperation.getTransTime(cacheDisks, blockId);
 							
@@ -189,7 +199,7 @@ public class SimulationOfTrace {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Found In Cache Disk!");
+							System.out.println("     "+request.getRequestFileName() + " : Found In Cache Disk!");
 						} else if (SearchInDisks.searchInDD(dataDisks, fileName, diskId, blockId)) {
 							transTime = TransTimeOperation.getTransTime(dataDisks[diskId], blockId);
 							
@@ -201,7 +211,7 @@ public class SimulationOfTrace {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
+							System.out.println("     "+request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
 						
 							
 							//Data Migration: From Data Disk To Cache Disks
@@ -220,7 +230,7 @@ public class SimulationOfTrace {
 							requestsTrack.put(request.getRequestFileName(), request);				
 							
 							//Message
-							System.out.println(request.getRequestFileName() + " : Not Found!");	
+							System.out.println("     "+request.getRequestFileName() + " : Not Found!");	
 						}													
 					}				
 				}
@@ -273,7 +283,7 @@ public class SimulationOfTrace {
 		Track.trackOfArrivalRate(arrivalRateTrack);
 		Track.trackOfDataDiskState(dataDiskStateTrack, dataDiskLables);
 		Track.trackOfCacheDiskState(cacheDiskStateTrack, cacheDiskLables);
-		Track.trackOfResponse(SSDDisks, cacheDisks, dataDisks, responseLables);
+		Track.trackOfResponse(SSDDisks, cacheDisks, dataDisks, responseLables); 
 				
 	}
 

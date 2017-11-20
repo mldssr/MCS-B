@@ -1,10 +1,5 @@
 package org.tju.track.bean;
 
-/**
- * @author yuan
- *
- * @date 2015年12月17日 下午4:29:53
- */
 public class DiskState {
 	
 	private int time;

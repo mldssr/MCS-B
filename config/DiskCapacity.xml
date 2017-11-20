@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package>
-	<action ssdblockamount="1000" cacheblockamount="2000" blockamount="1500" skyzone="50"> </action>
+	<action ssdblockamount="1000" cacheblockamount="2000" blockamount="600" skyzone="4"> </action>
 </package>
