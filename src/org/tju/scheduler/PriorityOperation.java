@@ -69,7 +69,7 @@ public class PriorityOperation {
 			cacheDisk.getBlockList().put(entry.getKey(), block);			
 		}
 		
-		System.out.println("calculatePriority of diskId " + cacheDisk.getDiskId());
+//		System.out.println("calculatePriority of diskId " + cacheDisk.getDiskId());
 	}
 
 }

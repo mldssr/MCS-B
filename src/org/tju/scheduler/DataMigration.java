@@ -35,7 +35,7 @@ public class DataMigration {
 		SSDDisk.getBlockList().put(blockId, block);
 		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
 		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
-		System.out.println("Data Disk ====>> SSD (normal), blockId: " + blockId);
+		System.out.println("[CACHE] Data Disk " + dataDisk.getDiskId() + "====>> SSD " + SSDDisk.getDiskId() + "(normal), blockId: " + blockId);
 
 		// add
 		// 把相关块迁移进SSD
@@ -48,7 +48,7 @@ public class DataMigration {
 						SSDDisk.getBlockList().put(corrs[i], block);// ???????
 						SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
 						SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
-						System.out.println("Data Disk ====>> SSD (related), blockId: " + corrs[i]);
+						System.out.println("[CACHE] Data Disk " + dataDisk.getDiskId() + "====>> SSD " + SSDDisk.getDiskId() + "(related), blockId: " + corrs[i]);
 					}
 				}
 			}
@@ -82,7 +82,7 @@ public class DataMigration {
 		cacheDisk.getBlockList().put(blockId, block);
 		cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
 		cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
-		System.out.println("Data Disk ====>> Cache Disk (normal), blockId: " + blockId);
+		System.out.println("[CACHE] Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk " + cacheDisk.getDiskId() + "(normal), blockId: " + blockId);
 
 		// add
 		// 把相关块迁移进SSD
@@ -95,7 +95,7 @@ public class DataMigration {
 						cacheDisk.getBlockList().put(corrs[i], block);// ???????
 						cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
 						cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
-						System.out.println("Data Disk ====>> Cache Disk (related), blockId: " + corrs[i]);
+						System.out.println("[CACHE] Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk " + cacheDisk.getDiskId() + "(related), blockId: " + corrs[i]);
 					}
 				}
 			}
@@ -197,6 +197,11 @@ public class DataMigration {
 		}
 
 	}
+	
+	private void displaySSDCacheDisk(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks) {
+		System.out.println("================ Situation on SSDs and CacheDisks ================");
+		
+	}
 
 	// Refresh Replacement Strategy
 	public static void RefreshReplacement(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks) {
@@ -207,6 +212,7 @@ public class DataMigration {
 		for (int i = 0; i < SSDDisks.length; i++) {
 			totalBlocks.putAll(SSDDisks[i].getBlockList());
 			SSDDisks[i].setBlockList(new HashMap<Integer, BlockInfo>());
+			// FIXME: No need to close SSDs
 			DiskOperation.closeCache(SSDDisks[i]);
 		}
 
@@ -214,6 +220,7 @@ public class DataMigration {
 		for (int i = 0; i < cacheDisks.length; i++) {
 			totalBlocks.putAll(cacheDisks[i].getBlockList());
 			cacheDisks[i].setBlockList(new HashMap<Integer, BlockInfo>());
+			// FIXME: No need to close CacheDisks
 			DiskOperation.closeCache(cacheDisks[i]);
 		}
 		// 去除空块
@@ -237,10 +244,9 @@ public class DataMigration {
 			}
 		}
 
-		// A bug here: This method does not have blockList sorted by priority
-		// correctly
-		// Sorted By Blocks' Priority
-		// PriorityOperation.sortedByPriority(totalBlocks);
+//		 A bug here: This method does not have blockList sorted by priority correctly
+		 // Sorted By Blocks' Priority
+//		 PriorityOperation.sortedByPriority(totalBlocks);
 
 		// add begin
 
@@ -290,40 +296,37 @@ public class DataMigration {
 
 		// add end
 
-		// Iterator<Entry<Integer,BlockInfo>> iterTotal =
-		// totalBlocks.entrySet().iterator();
-		//
-		// int SSDId = 0;
-		// int cacheId = 0;
-		//
-		// while (iterTotal.hasNext()){
-		// Entry<Integer,BlockInfo> entry = iterTotal.next();
-		//
-		// if(SSDDisks[SSDId].getBlockAmount() <=blockInSSD){//not full:，应为<
-		// SSDDisks[SSDId].setDiskState(1);
-		// SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
-		// SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount()+1);
-		// SSDDisks[SSDId].setLeftSpace(SSDDisks[SSDId].getLeftSpace()-1);
-		// } else if(SSDId+1 < SSDDisks.length){//if not the last one:
-		// SSDDisks[++SSDId].setDiskState(1);
-		// SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
-		// SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount()+1);
-		// SSDDisks[SSDId].setLeftSpace(SSDDisks[SSDId].getLeftSpace()-1);
-		// } else if(cacheDisks[cacheId].getBlockAmount() <= blockInCache){//not
-		// full:
-		// cacheDisks[cacheId].setDiskState(1);
-		// cacheDisks[cacheId].getBlockList().put(entry.getKey(),
-		// entry.getValue());
-		// cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount()+1);
-		// cacheDisks[cacheId].setLeftSpace(cacheDisks[cacheId].getLeftSpace()-1);
-		// }else if (cacheId+1 < cacheDisks.length){//if not the last one:
-		// cacheDisks[++cacheId].setDiskState(1);
-		// cacheDisks[cacheId].getBlockList().put(entry.getKey(),
-		// entry.getValue());
-		// cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount()+1);
-		// cacheDisks[cacheId].setLeftSpace(cacheDisks[cacheId].getLeftSpace()-1);
-		// }
-		// }
+//		Iterator<Entry<Integer, BlockInfo>> iterTotal = totalBlocks.entrySet().iterator();
+//
+//		int SSDId = 0;
+//		int cacheId = 0;
+//
+//		while (iterTotal.hasNext()) {
+//			Entry<Integer, BlockInfo> entry = iterTotal.next();
+//
+//			if (SSDDisks[SSDId].getBlockAmount() <= blockInSSD) {// not
+//																	// full:，应为<
+//				SSDDisks[SSDId].setDiskState(1);
+//				SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
+//				SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount() + 1);
+//				SSDDisks[SSDId].setLeftSpace(SSDDisks[SSDId].getLeftSpace() - 1);
+//			} else if (SSDId + 1 < SSDDisks.length) {// if not the last one:
+//				SSDDisks[++SSDId].setDiskState(1);
+//				SSDDisks[SSDId].getBlockList().put(entry.getKey(), entry.getValue());
+//				SSDDisks[SSDId].setBlockAmount(SSDDisks[SSDId].getBlockAmount() + 1);
+//				SSDDisks[SSDId].setLeftSpace(SSDDisks[SSDId].getLeftSpace() - 1);
+//			} else if (cacheDisks[cacheId].getBlockAmount() <= blockInCache) {// not
+//				full: cacheDisks[cacheId].setDiskState(1);
+//				cacheDisks[cacheId].getBlockList().put(entry.getKey(), entry.getValue());
+//				cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount() + 1);
+//				cacheDisks[cacheId].setLeftSpace(cacheDisks[cacheId].getLeftSpace() - 1);
+//			} else if (cacheId + 1 < cacheDisks.length) {// if not the last one:
+//				cacheDisks[++cacheId].setDiskState(1);
+//				cacheDisks[cacheId].getBlockList().put(entry.getKey(), entry.getValue());
+//				cacheDisks[cacheId].setBlockAmount(cacheDisks[cacheId].getBlockAmount() + 1);
+//				cacheDisks[cacheId].setLeftSpace(cacheDisks[cacheId].getLeftSpace() - 1);
+//			}
+//		}
 	}
 
 }

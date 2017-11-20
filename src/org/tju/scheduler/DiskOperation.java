@@ -30,7 +30,7 @@ public class DiskOperation {
 //		IdleTimeManager.updateIdleTime(disk.getIdleTime());
 		disk.setDiskState(0);
 		disk.setIdleTime(0-openTime);
-		System.out.println("[Disk] Disk is closed, diskId: " + disk.getDiskId());
+		System.out.println("[DISK]  Power off DataDisk " + disk.getDiskId() + ".");
 	}
 	
 	
@@ -52,7 +52,7 @@ public class DiskOperation {
 			// add
 			disk.setStartedCount(disk.getStartedCount() + 1);
 			disk.setStartedTime(disk.getStartedTime() - 10);
-			System.out.println("[Disk] Disk is opend, diskId: " + disk.getDiskId());
+			System.out.println("[DISK]  Power on DataDisk " + disk.getDiskId() + ".");
 		}
 		
 	//	disk.setDiskState(1);
@@ -70,7 +70,7 @@ public class DiskOperation {
 		disk.setBlockList(null);
 		disk.setLeftSpace(disk.getTotalSpace());
 		
-		System.out.println("[Disk] SSD or Cache Disk is opened, diskId: " + disk.getDiskId());
+		System.out.println("[DISK]  Power on SSD or Cache Disk " + disk.getDiskId() + ".");
 		
 		// add
 		disk.setStartedCount(disk.getStartedCount() + 1);
@@ -86,7 +86,7 @@ public class DiskOperation {
 		disk.setBlockAmount(0);
 		disk.setLeftSpace(disk.getTotalSpace());
 		
-		System.out.println("[Disk] SSD or Cache Disk is closed, diskId: " + disk.getDiskId());
+		System.out.println("[DISK]  Power off SSD or Cache Disk " + disk.getDiskId() + ".");
 	}
 	
 	

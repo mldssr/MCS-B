@@ -59,8 +59,7 @@ public class SearchInDisks {
 		if (block != null) {
 			// added by xx begin
 			if (dataDisks[diskId].getDiskState() == 1 && dataDisks[diskId].getIdleTime() >= 0) {
-				System.out.println("          The disk whose ID == " + diskId
-						+ " is hitted when truely opened, idleTime = " + dataDisks[diskId].getIdleTime());
+				System.out.println("        The disk " + diskId + " is hitted when completely opened, idleTime = " + dataDisks[diskId].getIdleTime());
 //				IdleTimeManager.updateIdleTime(dataDisks[diskId].getIdleTime());
 				dataDisks[diskId].setIdleTime(-1);
 			}

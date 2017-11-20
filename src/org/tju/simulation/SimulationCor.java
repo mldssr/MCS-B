@@ -140,7 +140,7 @@ public class SimulationCor {
 			for(int j=i*requests.slidingWindowSize; j<(i+1)*requests.slidingWindowSize; j++){
 				
 				//added by xx begin
-				System.out.println("**** time "+ j +" ****");
+				System.out.println("================================ time "+ j +" ================================");
 				//added by xx end
 				
 				//refresh Countdown   ?????
@@ -181,7 +181,7 @@ public class SimulationCor {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println("     "+request.getRequestFileName() + " : Found In SSD!");
+							System.out.println("[HIT]   "+request.getRequestFileName() + " : Found In SSD!");
 						} else if (SearchInDisks.searchInCache(cacheDisks, fileName, blockId)) {//find in Cache
 							transTime = TransTimeOperation.getTransTime(cacheDisks, blockId);
 							
@@ -193,7 +193,7 @@ public class SimulationCor {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println("     "+request.getRequestFileName() + " : Found In Cache Disk!");
+							System.out.println("[HIT]   "+request.getRequestFileName() + " : Found In Cache Disk!");
 						} else if (SearchInDisks.searchInDD(dataDisks, fileName, diskId, blockId)) {//find in dataDisk
 							diskId = SearchInDisks.searchBetterInDD(dataDisks, blockId);//add
 							transTime = TransTimeOperation.getTransTime(dataDisks[diskId], blockId);
@@ -206,7 +206,7 @@ public class SimulationCor {
 							requestsTrack.put(request.getRequestFileName(), request);
 							
 							//Message
-							System.out.println("     "+request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
+							System.out.println("[HIT]   "+request.getRequestFileName() + " : Found In Data Disk " + diskId + "!");	
 						
 							
 							//Data Migration: From Data Disk To Cache Disks

@@ -299,7 +299,7 @@ public class GenerateRequest {
 				}
 			}
 		}
-		System.out.println("No. " + count_generateRequestInLight + " generateRequestInLight end.");
+		System.out.println("");
 		count_generateRequestInLight++;
 		
 		// add
