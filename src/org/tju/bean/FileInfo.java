@@ -8,9 +8,9 @@ public class FileInfo {
 	private int observeTime;
 	private int skyZone;
 	private int blockId;
-	private int isHit;                  //(0,1)is(Miss,Hit)
-	private int requestNum;
-	private double priority;
+	private int isHit;                  // (0,1)is(Miss,Hit), not used
+	private int requestNum;				// Not used
+	private double priority;			// Not used
 	
 	
 	

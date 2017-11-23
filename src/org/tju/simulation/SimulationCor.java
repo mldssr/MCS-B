@@ -30,6 +30,11 @@ public class SimulationCor {
 	public static int cacheResponseTime = valueOfConfigureFile.getCacheResponseTime();
 	public static int dataResponseTime = valueOfConfigureFile.getDataResponseTime();
 	
+	// get Cache Correlation
+	public static int cacheCorrelation = valueOfConfigureFile.getCacheCorrelation();
+	// get requests' correlation size
+	public static int requestCorrelation = valueOfConfigureFile.getRequestCorrelation();
+	
 	//Refresh time
 	public static int refreshTime = valueOfConfigureFile.getRefreshTime();
 	
@@ -140,7 +145,7 @@ public class SimulationCor {
 			for(int j=i*requests.slidingWindowSize; j<(i+1)*requests.slidingWindowSize; j++){
 				
 				//added by xx begin
-				System.out.println("================================ time "+ j +" ================================");
+				System.out.println("================================================================ time "+ j);
 				//added by xx end
 				
 				//refresh Countdown   ?????
@@ -167,7 +172,8 @@ public class SimulationCor {
 						//diskID-blockId-skyzone-observeTime
 						String[] names = fileName.split("-");
 						int diskId = Integer.valueOf(names[0]);
-						int blockId = Integer.valueOf(names[1]);					
+						int blockId = Integer.valueOf(names[1]);	
+						int observeTime = Integer.valueOf(names[1]);
 						
 						//search Disks
 						if(SearchInDisks.searchInSSD(SSDDisks, fileName, blockId)){//find in SSD
@@ -211,6 +217,13 @@ public class SimulationCor {
 							
 							//Data Migration: From Data Disk To Cache Disks
 							Cache.DataMigration(SSDDisks, cacheDisks, dataDisks[diskId], blockId, refreshCountdown);
+							if (cacheCorrelation == 0) {
+								if (observeTime % 5 == 0) {
+									Cache.DataMigration(SSDDisks, cacheDisks, dataDisks[diskId], blockId - 1, refreshCountdown);
+								} else if (observeTime % 5 == 4) {
+									Cache.DataMigration(SSDDisks, cacheDisks, dataDisks[diskId], blockId + 1, refreshCountdown);
+								}
+							}
 							
 							
 							//Disk Operation

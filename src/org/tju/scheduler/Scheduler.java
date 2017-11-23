@@ -17,7 +17,12 @@ public class Scheduler {
 	public static int blockInCache = valueOfConfigureFile.getBlockInCache();
 	
 	
-	//Scheduler of All Disks, when is time to refresh，计算一二级缓存的优先级，并清除低优先级的块
+	/**
+	 * Scheduler of All Disks, when is time to refresh
+	 * 计算一二级缓存的优先级，并清除低优先级的块，Refresh时使用
+	 * @param SSDDisks
+	 * @param cacheDisks
+	 */
 	public static void SchedulerOfDisks(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks){
 		
 		//Calculate blocks' priority 

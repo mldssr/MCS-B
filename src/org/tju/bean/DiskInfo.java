@@ -5,15 +5,15 @@ import java.util.HashMap;
 public class DiskInfo {
 	
 	private int diskId;
-	private int diskType;            //(0,1,2)is(First Level Cache,Second Level Cache, Data Disks)
-	private int diskState;           //(0,1)is(Down,Up)
+	private int diskType;           //(0,1,2)is(First Level Cache,Second Level Cache, Data Disks)
+	private int diskState;			//(0,1)is(Down,Up)
 	private int totalSpace;
-	private int leftSpace;
-	private int blockAmount;
-	private int idleTime;
-	private int requestNum;
+	private int leftSpace;			// Need up-to-date
+	private int blockAmount;		// Need up-to-date
+	private int idleTime;			// Need up-to-date
+	private int requestNum;			// Need up-to-date
 	
-	private double operPower;        //Operational Power
+	private double operPower;       //Operational Power
 	
 	// add
 	private int startedTime;

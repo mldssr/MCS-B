@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 所存文件总数目 -->
 <package>
 	<action amount="12000"> </action>
 </package>

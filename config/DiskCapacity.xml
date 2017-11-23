@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- SSD 中块的数量上限 -->
+<!-- Cache 中块的数量上限 -->
+<!-- DataDisk 中块的数量上限 -->
+<!-- DataDisk 中天区数量上限 -->
 <package>
 	<action ssdblockamount="1000" cacheblockamount="2000" blockamount="600" skyzone="4"> </action>
 </package>

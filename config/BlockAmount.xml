@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 块的总数量，应等于  ObserverInfo.xml中 time * skyzone -->
+<!-- 每个块包含的文件数量 -->
+<!-- 块的大小（MB） -->
 <package>
 	<action amount="12000" fileamount="1" size="200"> </action>
 </package>

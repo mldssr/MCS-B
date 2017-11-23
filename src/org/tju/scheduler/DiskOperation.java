@@ -42,7 +42,10 @@ public class DiskOperation {
 	}
 	
 	
-	//Open disk
+	/**
+	 * Open given DataDisk
+	 * @param disk
+	 */
 	public static void openDisk(DiskInfo disk){
 		//
 		if(disk.getDiskState()==0){
@@ -61,7 +64,10 @@ public class DiskOperation {
 	}
 	
 	
-	//Open cache disk (SSD + Cache)
+	/**
+	 * Open given CacheDisk (SSD + Cache)
+	 * @param disk
+	 */
 	public static void openCache(DiskInfo disk){
 		
 		disk.setDiskState(1);
@@ -78,7 +84,10 @@ public class DiskOperation {
 		
 	}
 	
-	//Close cache disk (SSD + Cache)
+	/**
+	 * Close given CacheDisk (SSD + Cache)
+	 * @param disk
+	 */
 	public static void closeCache(DiskInfo disk){
 		
 		disk.setDiskState(0);
@@ -90,7 +99,10 @@ public class DiskOperation {
 	}
 	
 	
-	//update Data Disks' info: idleTime
+	/**
+	 * Update Data Disks' info: idleTime += 1
+	 * @param dataDisks
+	 */
 	public static void updateDDs(DiskInfo[] dataDisks){
 		
 		for(int i=0; i<dataDisks.length; i++){
@@ -110,7 +122,10 @@ public class DiskOperation {
 	}
 	
 	
-	//Check disks' idle time: if idleTime > TH then close disk endif
+	/**
+	 * Check disks' idle time: if idleTime > TH then close disk
+	 * @param dataDisks
+	 */
 	public static void checkDDs(DiskInfo[] dataDisks){
 		for(int i=0; i<dataDisks.length; i++){
 			checkDD(dataDisks[i]);

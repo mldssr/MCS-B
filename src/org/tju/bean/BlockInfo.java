@@ -10,13 +10,13 @@ public class BlockInfo {
 	private int observeTime;
 	private int skyZone;
 	private int diskId;
-	private int isHit;                  //(0,1)is(Miss,Hit)
-	private int requestNum;
-	private double priority;
-	private int idleTime;
-	private int transmissionTime;		//if disk is off += diskOpenTime
+	private int isHit;                  // (0,1)is(Miss,Hit)
+	private int requestNum;				// Need up-to-date
+	private double priority;			// Need up-to-date
+	private int idleTime;				// Need up-to-date
+	private int transmissionTime;		// Need up-to-date && if disk is off += diskOpenTime
 	
-	private int fileAmount;				//The amount of file in this block
+	private int fileAmount;				// The amount of file in this block
 	private HashMap<String, FileInfo> filesList;	//Stored Files' List in this block
 	
 	
