@@ -44,6 +44,13 @@ public class TrackOfRequest {
 	}
 	
 	
+	public void CloseRequestGenFile() {
+
+		fileOper.CloseFile();
+
+	}
+	
+	
 	//Track of requests' statistic info
 	public void TrackOfRequestSta(String filePath, RequestInfo request){
 		
@@ -80,6 +87,12 @@ public class TrackOfRequest {
 		
 	}
 	
+	
+	public void CloseRequestStaFile() {
+
+		fileOper.CloseFile();
+
+	}
 	
 	
 	//test

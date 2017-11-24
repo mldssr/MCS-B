@@ -48,6 +48,11 @@ public class TrackOfBlockExchange {
 	}
 	
 	
+	public void CloseBlockExchangeFile() {
+
+		fileOper.CloseFile();
+
+	}
 	
 	
 	//test

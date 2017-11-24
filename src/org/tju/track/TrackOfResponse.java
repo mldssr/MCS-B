@@ -54,6 +54,13 @@ public class TrackOfResponse {
 		
 		fileOper.FileAppend(filePath, content);
 		
-	}		
+	}
+	
+	
+	public void CloseResponseFile() {
+
+		fileOper.CloseFile();
+
+	}
 
 }

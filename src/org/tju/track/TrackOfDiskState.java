@@ -41,5 +41,12 @@ public class TrackOfDiskState {
 		fileOper.FileAppend(filePath, content);
 		
 	}
+	
+	
+	public void CloseDiskStateFile() {
+
+		fileOper.CloseFile();
+
+	}
 
 }

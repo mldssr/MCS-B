@@ -41,5 +41,12 @@ public class TrackOfArrivalRate {
 		fileOper.FileAppend(filePath, content);
 		
 	}
+	
+	
+	public void CloseArrivalRateFile() {
+
+		fileOper.CloseFile();
+
+	}
 
 }

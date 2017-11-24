@@ -168,5 +168,12 @@ public class Track {
 		
 	}
 	
+	public static void CloseAllTrackFile() {
+		request.CloseRequestStaFile();
+		arrivalRate.CloseArrivalRateFile();
+		diskState.CloseDiskStateFile();
+		cacheDiskState.CloseDiskStateFile();
+		response.CloseResponseFile();
+	}
 	
 }

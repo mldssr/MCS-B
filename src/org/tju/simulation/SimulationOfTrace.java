@@ -284,7 +284,7 @@ public class SimulationOfTrace {
 		Track.trackOfDataDiskState(dataDiskStateTrack, dataDiskLables);
 		Track.trackOfCacheDiskState(cacheDiskStateTrack, cacheDiskLables);
 		Track.trackOfResponse(SSDDisks, cacheDisks, dataDisks, responseLables); 
-				
+		Track.CloseAllTrackFile();
 	}
 
 }
