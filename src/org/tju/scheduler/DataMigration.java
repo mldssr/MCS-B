@@ -77,7 +77,7 @@ public class DataMigration {
 	// Data Disk ====>> Cache Disk Replacement Strategy,
 	// 把目标块及其前后各cacheCorrelation块迁移进CacheDisk
 	public static void DD2Cache(DiskInfo dataDisk, DiskInfo cacheDisk, int blockId) {
-
+		// 把目标block缓存
 		BlockInfo block = dataDisk.getBlockList().get(blockId);
 		cacheDisk.getBlockList().put(blockId, block);
 		cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
@@ -85,7 +85,7 @@ public class DataMigration {
 		System.out.println("[CACHE] Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk " + cacheDisk.getDiskId() + "(normal), blockId: " + blockId);
 
 		// add
-		// 把相关块迁移进SSD
+		// 把（学习到的）相关块迁移进cacheDisk
 		if (RequestCorrelation.hasKey(blockId)) {
 			Integer[] corrs = RequestCorrelation.getCorr(blockId);
 			for (int i = 0; i < RequestCorrelation.getCorrelationNum(); i++) {
@@ -100,39 +100,41 @@ public class DataMigration {
 				}
 			}
 		}
-
-		// for(int i=cacheCorrelation; i>0; i--){
-		// block = dataDisk.getBlockList().get(blockId-i);
-		// if(block!=null){
-		// cacheDisk.getBlockList().put(blockId-i, block);
-		// cacheDisk.setBlockAmount(cacheDisk.getBlockAmount()+1);
-		// cacheDisk.setLeftSpace(cacheDisk.getLeftSpace()-1);
-		// }
-		// }
-		// 把目标块及其前后各1块迁移进CacheDisk
+		
+//		// 把目标块之前cacheCorrelation个block缓存
+//		for (int i = cacheCorrelation; i > 0; i--) {
+//			block = dataDisk.getBlockList().get(blockId - i);
+//			if (block != null) {
+//				cacheDisk.getBlockList().put(blockId - i, block);
+//				cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
+//				cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
+//			}
+//		}
+//		
+//		// 把目标块之后cacheCorrelation个block缓存
+//		for (int i = cacheCorrelation; i > 0; i--) {
+//			block = dataDisk.getBlockList().get(blockId + i);
+//			if (block != null) {
+//				cacheDisk.getBlockList().put(blockId + i, block);
+//				cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
+//				cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
+//			}
+//		}
+		
+		// 把目标块前1块迁移进CacheDisk
 		/*
 		 * BlockInfo block = dataDisk.getBlockList().get(blockId-1);
 		 * cacheDisk.getBlockList().put(blockId-1, block);
 		 * cacheDisk.setBlockAmount(cacheDisk.getBlockAmount()+1);
 		 * cacheDisk.setLeftSpace(cacheDisk.getLeftSpace()-1);
 		 */
-
-		// for(int i=cacheCorrelation; i>0; i--){
-		// block = dataDisk.getBlockList().get(blockId+i);
-		// if(block!=null){
-		// cacheDisk.getBlockList().put(blockId+i, block);
-		// cacheDisk.setBlockAmount(cacheDisk.getBlockAmount()+1);
-		// cacheDisk.setLeftSpace(cacheDisk.getLeftSpace()-1);
-		// }
-		// }
-		// , 把目标块及其前后各1块迁移进CacheDisk
+		// 把目标块后1块迁移进CacheDisk
 		/*
 		 * block = dataDisk.getBlockList().get(blockId+1);
 		 * cacheDisk.getBlockList().put(blockId+1, block);
 		 * cacheDisk.setBlockAmount(cacheDisk.getBlockAmount()+1);
 		 * cacheDisk.setLeftSpace(cacheDisk.getLeftSpace()-1);
 		 */
-
 	}
 
 	// Cache Disk ====>> SSD Replacement

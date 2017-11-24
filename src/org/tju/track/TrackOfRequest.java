@@ -53,8 +53,23 @@ public class TrackOfRequest {
 	
 	//Track of requests' statistic info
 	public void TrackOfRequestSta(String filePath, RequestInfo request){
+		String fileName = request.getRequestFileName();
 		
-		String content = request.getRequestFileName() + "," + 
+		//diskID-blockId-skyzone-observeTime
+		String[] names = fileName.split("-");
+		int diskId = Integer.valueOf(names[0]);
+		int blockId = Integer.valueOf(names[1]);
+		int skyzone = Integer.valueOf(names[2]);
+		int observeTime = Integer.valueOf(names[3]);
+		
+		String newFileName = 
+				String.format("%2d", diskId) + "-" +
+				String.format("%5d", blockId) + "-" +
+				String.format("%3d", skyzone) + "-" +
+				String.format("%3d", observeTime);
+		
+//		String content = request.getRequestFileName() + "," +
+		String content = newFileName + "," +
 							request.getGenerateTime() + "," +
 							request.getResponseTime() + "," +
 							request.getQos() + "\n";

@@ -10,7 +10,7 @@ public class BlockInfo {
 	private int observeTime;
 	private int skyZone;
 	private int diskId;
-	private int isHit;                  // (0,1)is(Miss,Hit)
+	private int isHit;					// (0,1)is(Miss,Hit), not used
 	private int requestNum;				// Need up-to-date
 	private double priority;			// Need up-to-date
 	private int idleTime;				// Need up-to-date

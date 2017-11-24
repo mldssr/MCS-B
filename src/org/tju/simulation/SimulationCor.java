@@ -172,8 +172,8 @@ public class SimulationCor {
 						//diskID-blockId-skyzone-observeTime
 						String[] names = fileName.split("-");
 						int diskId = Integer.valueOf(names[0]);
-						int blockId = Integer.valueOf(names[1]);	
-						int observeTime = Integer.valueOf(names[1]);
+						int blockId = Integer.valueOf(names[1]);
+						int observeTime = Integer.valueOf(names[3]);
 						
 						//search Disks
 						if(SearchInDisks.searchInSSD(SSDDisks, fileName, blockId)){//find in SSD

@@ -5,12 +5,22 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 public class RequestCorrelation {
-	
+	/**
+	 * correlationNum indicates the max number of correlate blocks a block could have;<br>
+	 * If overflow, the new one will replace the oldest one.
+	 */
 	private static int correlationNum = 5;
+	
+	/***
+	 * key: blokcId
+	 * value: an array of blockId of correlate blocks;<br>
+	 *        First correlationNum(5) elements stores correlate blockIds;<br>
+	 *        Last element stores the next position to write at.
+	 */
 	private static HashMap<Integer, Integer[]> correlations = new HashMap<Integer, Integer[]>();
 	
 	
-
+	
 	public static void put(Integer keyBlockId, Integer valueBlockId) {
 		if (keyBlockId != valueBlockId) {
 			if (correlations.containsKey(keyBlockId)) {
@@ -118,7 +128,7 @@ public class RequestCorrelation {
 	public static int getCorrelationNum() {
 		return correlationNum;
 	}
-
+	
 	public static void setCorrelationNum(int correlationNum) {
 		RequestCorrelation.correlationNum = correlationNum;
 	}

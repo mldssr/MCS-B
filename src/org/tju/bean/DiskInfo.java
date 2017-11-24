@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class DiskInfo {
 	
 	private int diskId;
-	private int diskType;           //(0,1,2)is(First Level Cache,Second Level Cache, Data Disks)
+	private int diskType;			//(0,1,2)is(First Level Cache,Second Level Cache, Data Disks)
 	private int diskState;			//(0,1)is(Down,Up)
 	private int totalSpace;
 	private int leftSpace;			// Need up-to-date
