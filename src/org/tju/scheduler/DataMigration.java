@@ -27,16 +27,29 @@ public class DataMigration {
 	// get Cache Correlation
 	public static int cacheCorrelation = valueOfConfigureFile.getCacheCorrelation();
 
-	// Data Disk ====>> SSD Replacement
-	// Strategy,把目标块及其前后各cacheCorrelation块迁移进SSD
+	/**
+	 * Data Disk ====>> SSD Replacement Strategy<br>
+	 * 把目标块blockId及其前后各cacheCorrelation块dataDisk从迁移进SSDDisk
+	 * @param dataDisk
+	 * @param SSDDisk
+	 * @param blockId
+	 */
 	public static void DD2SSD(DiskInfo dataDisk, DiskInfo SSDDisk, int blockId) {
 
 		BlockInfo block = dataDisk.getBlockList().get(blockId);
+		// Note: The block in DD and the cached one are exactly the same one!!
 		SSDDisk.getBlockList().put(blockId, block);
 		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
-		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
+		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - block.getTotalSpace());
 		System.out.println("[CACHE] Data Disk " + dataDisk.getDiskId() + "====>> SSD " + SSDDisk.getDiskId() + "(normal), blockId: " + blockId);
 
+		// Test:
+		System.out.println("Test: Is the cached block in DD the same as in SSD?");
+		BlockInfo blockInDD = dataDisk.getBlockList().get(blockId);
+		BlockInfo blockInSSD = SSDDisk.getBlockList().get(blockId);
+		System.out.println(blockInDD.equals(blockInSSD));
+		
+		
 		// add
 		// 把相关块迁移进SSD
 		if (RequestCorrelation.hasKey(blockId)) {
@@ -54,28 +67,34 @@ public class DataMigration {
 			}
 		}
 
-		// for(int i=cacheCorrelation; i>0; i--){
-		// block = dataDisk.getBlockList().get(blockId-i);
-		// if(block!=null){
-		// SSDDisk.getBlockList().put(blockId-i, block);//???????
-		// SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
-		// SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
-		// }
-		// }
-		//
-		// for(int i=cacheCorrelation; i>0; i--){
-		// block = dataDisk.getBlockList().get(blockId+i);
-		// if(block!=null){
-		// SSDDisk.getBlockList().put(blockId+i, block);
-		// SSDDisk.setBlockAmount(SSDDisk.getBlockAmount()+1);
-		// SSDDisk.setLeftSpace(SSDDisk.getLeftSpace()-1);
-		// }
-		// }
+//		// 把目标块之前cacheCorrelation个block缓存
+//		for (int i = cacheCorrelation; i > 0; i--) {
+//			block = dataDisk.getBlockList().get(blockId - i);
+//			if (block != null) {
+//				SSDDisk.getBlockList().put(blockId - i, block);// ???????
+//				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
+//				SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
+//			}
+//		}
+//		// 把目标块之后cacheCorrelation个block缓存
+//		for (int i = cacheCorrelation; i > 0; i--) {
+//			block = dataDisk.getBlockList().get(blockId + i);
+//			if (block != null) {
+//				SSDDisk.getBlockList().put(blockId + i, block);
+//				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
+//				SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
+//			}
+//		}
 
 	}
 
-	// Data Disk ====>> Cache Disk Replacement Strategy,
-	// 把目标块及其前后各cacheCorrelation块迁移进CacheDisk
+	/**
+	 * Data Disk ====>> Cache Disk Replacement Strategy<br>
+	 * 把目标块blockId及其前后各cacheCorrelation块从dataDisk迁移进CacheDisk
+	 * @param dataDisk
+	 * @param cacheDisk
+	 * @param blockId
+	 */
 	public static void DD2Cache(DiskInfo dataDisk, DiskInfo cacheDisk, int blockId) {
 		// 把目标block缓存
 		BlockInfo block = dataDisk.getBlockList().get(blockId);

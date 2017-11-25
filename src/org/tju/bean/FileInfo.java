@@ -3,7 +3,7 @@ package org.tju.bean;
 public class FileInfo {
 	
 	private int fileId;
-	private String fileName;
+	private String fileName;			// fileName: diskId-blockId-skyzone-observeTime
 	private int size;
 	private int observeTime;
 	private int skyZone;

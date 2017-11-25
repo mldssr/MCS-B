@@ -6,8 +6,8 @@ public class BlockInfo {
 	
 	private int blockId;
 	private int totalSpace;
-	private int leftSpace;
-	private int observeTime;
+	private int leftSpace;				// In MB
+	private int observeTime;			// Stores the minimum observeTime of files it contains
 	private int skyZone;
 	private int diskId;
 	private int isHit;					// (0,1)is(Miss,Hit), not used
@@ -17,7 +17,7 @@ public class BlockInfo {
 	private int transmissionTime;		// Need up-to-date && if disk is off += diskOpenTime
 	
 	private int fileAmount;				// The amount of file in this block
-	private HashMap<String, FileInfo> filesList;	//Stored Files' List in this block
+	private HashMap<String, FileInfo> filesList;	// Stored Files List in this block, <fileName, FileInfo>
 	
 	
 	

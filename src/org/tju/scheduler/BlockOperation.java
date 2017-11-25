@@ -27,7 +27,14 @@ public class BlockOperation {
 	}
 	
 	
-	//initialize data disk's blocks' list，设置关闭状态磁盘所有Block的idleTime/transmissionTime/requestNum
+	/**
+	 * Initialize data disk's blocks' list<br>
+	 * 设置关闭状态DataDisk所有Block的<br>
+	 * idleTime = 0 - openTime<br>
+	 * transmissionTime = openTime<br>
+	 * requestNum = 0
+	 * @param dataDisk
+	 */
 	public static void initBlocksList(DiskInfo dataDisk){
 		
 		//tmp blocks' List
@@ -43,7 +50,7 @@ public class BlockOperation {
 				BlockInfo block = entry.getValue();
 				block.setIdleTime(0-openTime);	
 				block.setTransmissionTime(openTime);	
-				block.setRequestNum(1);  //Why not 0?
+				block.setRequestNum(0);  //Why not 0?
 				tmpBlocks.put(block.getBlockId(), block);
 			}
 			

@@ -154,7 +154,7 @@ public class InitEnvironment {
 			//skyzone in disk0:   0- 49
 			//skyzone in disk1:  49- 98
 			//skyzone in disk0:  98-147
-			for( ; skyzone < skyzoneInDisk*(i-dataDiskStartId+1)-(i-dataDiskStartId) && skyzone<skyzoneAmount; skyzone++){
+			for( ; skyzone < (skyzoneInDisk-duplicateAmount)*(i-dataDiskStartId)+skyzoneInDisk && skyzone<skyzoneAmount; skyzone++){
 				//initialize block
 				//the files in block
 				HashMap<String, FileInfo> filesList = new HashMap<String, FileInfo>();
@@ -162,8 +162,10 @@ public class InitEnvironment {
 				//block left space
 				int blockLeftSpace = blockSize;
 				
-				//initialize file					
+				//initialize file
+				// l means observeTime
 				for(int l=0; l<timeAmount; l++){
+					// fileName: diskId-blockId-skyzone-observeTime
 					String fileName = String.valueOf(i)+"-"+String.valueOf(blockId)+"-"+String.valueOf(skyzone)+"-"+String.valueOf(l);
 					int fileSize = fileBasicSize + random.nextInt()%fileSizeErr;
 					
@@ -174,10 +176,11 @@ public class InitEnvironment {
 					//如果生成的文件刚好组成一个block，则。。。如果l不是fileInBlock的整倍数，多余的文件会被抛弃
 					if((l+1)%fileInBlock == 0){
 						BlockInfo block = new BlockInfo(blockId++, blockSize, blockLeftSpace, l+1-fileInBlock, skyzone, i, 0, 0, 0, 0, openTime, fileInBlock, filesList);
-//						System.out.println("A new block is created, contains " + filesList.size()+" files.");
+//						System.out.println("A new block is created, contains " + block.getFilesList().size() +" files.");
 //						System.out.println("blockLeftSpace: " + blockLeftSpace);
 						//add:
-						filesList.clear();
+//						filesList.clear();
+						filesList = new HashMap<String, FileInfo>();
 						blocksList.put(block.getBlockId(), block);
 						blockLeftSpace = blockSize;
 						diskLeftSpace -= blockSize;
@@ -227,340 +230,12 @@ public class InitEnvironment {
 		init.initEnvironment();
 	}
 	
-	
-	/**
-	 * @return the random
-	 */
-	public Random getRandom() {
-		return random;
-	}
-
-	
-	/**
-	 * @param random the random to set
-	 */
-	public void setRandom(Random random) {
-		this.random = random;
-	}
-
-
-	/**
-	 * @return the skyzone
-	 */
-	public int getSkyzone() {
-		return skyzone;
-	}
-
-
-	/**
-	 * @param skyzone the skyzone to set
-	 */
-	public void setSkyzone(int skyzone) {
-		this.skyzone = skyzone;
-	}
-
-
-	/**
-	 * @return the fileId
-	 */
-	public int getFileId() {
-		return fileId;
-	}
-
-
-	/**
-	 * @param fileId the fileId to set
-	 */
-	public void setFileId(int fileId) {
-		this.fileId = fileId;
-	}
-
-
-	/**
-	 * @return the blockId
-	 */
-	public int getBlockId() {
-		return blockId;
-	}
-
-
-	/**
-	 * @param blockId the blockId to set
-	 */
-	public void setBlockId(int blockId) {
-		this.blockId = blockId;
-	}
-
-
-	/**
-	 * @return the diskId
-	 */
-	public int getDiskId() {
-		return diskId;
-	}
-
-	
-	/**
-	 * @param diskId the diskId to set
-	 */
-	public void setDiskId(int diskId) {
-		this.diskId = diskId;
-	}
-
-
-	/**
-	 * @return the dataDiskStartId
-	 */
-	public int getDataDiskStartId() {
-		return dataDiskStartId;
-	}
-
-
-	/**
-	 * @param dataDiskStartId the dataDiskStartId to set
-	 */
-	public void setDataDiskStartId(int dataDiskStartId) {
-		this.dataDiskStartId = dataDiskStartId;
-	}
-
-
-	/**
-	 * @return the cacheDiskStartId
-	 */
-	public int getCacheDiskStartId() {
-		return cacheDiskStartId;
-	}
-
-
-	/**
-	 * @param cacheDiskStartId the cacheDiskStartId to set
-	 */
-	public void setCacheDiskStartId(int cacheDiskStartId) {
-		this.cacheDiskStartId = cacheDiskStartId;
-	}
-
-
-	/**
-	 * @return the sSDDiskStartId
-	 */
-	public int getSSDDiskStartId() {
-		return SSDDiskStartId;
-	}
-
-
-	/**
-	 * @param sSDDiskStartId the sSDDiskStartId to set
-	 */
-	public void setSSDDiskStartId(int sSDDiskStartId) {
-		SSDDiskStartId = sSDDiskStartId;
-	}
-
-
-	/**
-	 * @return the fileAmount
-	 */
-	public int getFileAmount() {
-		return fileAmount;
-	}
-
-
-	/**
-	 * @param fileAmount the fileAmount to set
-	 */
-	public void setFileAmount(int fileAmount) {
-		this.fileAmount = fileAmount;
-	}
-
-
-	/**
-	 * @return the fileBasicSize
-	 */
-	public int getFileBasicSize() {
-		return fileBasicSize;
-	}
-
-
-	/**
-	 * @param fileBasicSize the fileBasicSize to set
-	 */
-	public void setFileBasicSize(int fileBasicSize) {
-		this.fileBasicSize = fileBasicSize;
-	}
-
-
-	/**
-	 * @return the fileSizeErr
-	 */
-	public int getFileSizeErr() {
-		return fileSizeErr;
-	}
-
-
-	/**
-	 * @param fileSizeErr the fileSizeErr to set
-	 */
-	public void setFileSizeErr(int fileSizeErr) {
-		this.fileSizeErr = fileSizeErr;
-	}
-
-
-	/**
-	 * @return the blockAmount
-	 */
-	public int getBlockAmount() {
-		return blockAmount;
-	}
-
-
-	/**
-	 * @param blockAmount the blockAmount to set
-	 */
-	public void setBlockAmount(int blockAmount) {
-		this.blockAmount = blockAmount;
-	}
-
-
-	/**
-	 * @return the blockSize
-	 */
-	public int getBlockSize() {
-		return blockSize;
-	}
-
-
-	/**
-	 * @param blockSize the blockSize to set
-	 */
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
-	}
-
-
-	/**
-	 * @return the fileInBlock
-	 */
-	public int getFileInBlock() {
-		return fileInBlock;
-	}
-
-
-	/**
-	 * @param fileInBlock the fileInBlock to set
-	 */
-	public void setFileInBlock(int fileInBlock) {
-		this.fileInBlock = fileInBlock;
-	}
-
-
-	/**
-	 * @return the timeAmount
-	 */
-	public int getTimeAmount() {
-		return timeAmount;
-	}
-
-
-	/**
-	 * @param timeAmount the timeAmount to set
-	 */
-	public void setTimeAmount(int timeAmount) {
-		this.timeAmount = timeAmount;
-	}
-
-
-	/**
-	 * @return the skyzoneAmount
-	 */
-	public int getSkyzoneAmount() {
-		return skyzoneAmount;
-	}
-
-
-	/**
-	 * @param skyzoneAmount the skyzoneAmount to set
-	 */
-	public void setSkyzoneAmount(int skyzoneAmount) {
-		this.skyzoneAmount = skyzoneAmount;
-	}
-
-
-	/**
-	 * @return the duplicateAmount
-	 */
-	public int getDuplicateAmount() {
-		return duplicateAmount;
-	}
-
-
-	/**
-	 * @param duplicateAmount the duplicateAmount to set
-	 */
-	public void setDuplicateAmount(int duplicateAmount) {
-		this.duplicateAmount = duplicateAmount;
-	}
-
-
-	/**
-	 * @return the sSDAmount
-	 */
-	public int getSSDAmount() {
-		return SSDAmount;
-	}
-
-
-	/**
-	 * @param sSDAmount the sSDAmount to set
-	 */
-	public void setSSDAmount(int sSDAmount) {
-		SSDAmount = sSDAmount;
-	}
-
-
-	/**
-	 * @return the cacheAmount
-	 */
-	public int getCacheAmount() {
-		return cacheAmount;
-	}
-
-
-	/**
-	 * @param cacheAmount the cacheAmount to set
-	 */
-	public void setCacheAmount(int cacheAmount) {
-		this.cacheAmount = cacheAmount;
-	}
-
-
-	/**
-	 * @return the dataDiskAmount
-	 */
-	public int getDataDiskAmount() {
-		return dataDiskAmount;
-	}
-
-
-	/**
-	 * @param dataDiskAmount the dataDiskAmount to set
-	 */
-	public void setDataDiskAmount(int dataDiskAmount) {
-		this.dataDiskAmount = dataDiskAmount;
-	}
-
 
 	/**
 	 * @return the sSDDisk
 	 */
 	public DiskInfo[] getSSDDisk() {
 		return SSDDisk;
-	}
-
-
-	/**
-	 * @param sSDDisk the sSDDisk to set
-	 */
-	public void setSSDDisk(DiskInfo[] sSDDisk) {
-		SSDDisk = sSDDisk;
 	}
 
 
@@ -573,123 +248,10 @@ public class InitEnvironment {
 
 
 	/**
-	 * @param cacheDisks the cacheDisks to set
-	 */
-	public void setCacheDisks(DiskInfo[] cacheDisks) {
-		this.cacheDisks = cacheDisks;
-	}
-
-
-	/**
 	 * @return the dataDisks
 	 */
 	public DiskInfo[] getDataDisks() {
 		return dataDisks;
 	}
 
-
-	/**
-	 * @param dataDisks the dataDisks to set
-	 */
-	public void setDataDisks(DiskInfo[] dataDisks) {
-		this.dataDisks = dataDisks;
-	}
-
-
-	/**
-	 * @return the diskSize
-	 */
-	public int getDiskSize() {
-		return diskSize;
-	}
-
-
-	/**
-	 * @param diskSize the diskSize to set
-	 */
-	public void setDiskSize(int diskSize) {
-		this.diskSize = diskSize;
-	}
-
-
-	/**
-	 * @return the diskOperPower
-	 */
-	public double getDiskOperPower() {
-		return diskOperPower;
-	}
-
-
-	/**
-	 * @param diskOperPower the diskOperPower to set
-	 */
-	public void setDiskOperPower(double diskOperPower) {
-		this.diskOperPower = diskOperPower;
-	}
-
-
-	/**
-	 * @return the sSDSize
-	 */
-	public int getSSDSize() {
-		return SSDSize;
-	}
-
-
-	/**
-	 * @param sSDSize the sSDSize to set
-	 */
-	public void setSSDSize(int sSDSize) {
-		SSDSize = sSDSize;
-	}
-
-
-	/**
-	 * @return the sSDOperPower
-	 */
-	public double getSSDOperPower() {
-		return SSDOperPower;
-	}
-
-
-	/**
-	 * @param sSDOperPower the sSDOperPower to set
-	 */
-	public void setSSDOperPower(double sSDOperPower) {
-		SSDOperPower = sSDOperPower;
-	}
-
-
-	/**
-	 * @return the blockInDisk
-	 */
-	public int getBlockInDisk() {
-		return blockInDisk;
-	}
-
-
-	/**
-	 * @param blockInDisk the blockInDisk to set
-	 */
-	public void setBlockInDisk(int blockInDisk) {
-		this.blockInDisk = blockInDisk;
-	}
-
-
-	/**
-	 * @return the skyzoneInDisk
-	 */
-	public int getSkyzoneInDisk() {
-		return skyzoneInDisk;
-	}
-
-
-	/**
-	 * @param skyzoneInDisk the skyzoneInDisk to set
-	 */
-	public void setSkyzoneInDisk(int skyzoneInDisk) {
-		this.skyzoneInDisk = skyzoneInDisk;
-	}
-	
-	
 }

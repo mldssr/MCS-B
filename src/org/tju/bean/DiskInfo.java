@@ -8,7 +8,7 @@ public class DiskInfo {
 	private int diskType;			//(0,1,2)is(First Level Cache,Second Level Cache, Data Disks)
 	private int diskState;			//(0,1)is(Down,Up)
 	private int totalSpace;
-	private int leftSpace;			// Need up-to-date
+	private int leftSpace;			// Need up-to-date, In MB
 	private int blockAmount;		// Need up-to-date
 	private int idleTime;			// Need up-to-date
 	private int requestNum;			// Need up-to-date
@@ -19,7 +19,7 @@ public class DiskInfo {
 	private int startedTime;
 	private int startedCount;
 	
-	private HashMap<Integer, BlockInfo> blocksList;		//Stored Blocks' List
+	private HashMap<Integer, BlockInfo> blocksList;		// Store Blocks List, <blockId, BlockInfo>
 
 	
 	
@@ -73,6 +73,8 @@ public class DiskInfo {
 	 * @param idleTime
 	 * @param operPower
 	 * @param blocksList
+	 * @param startedTime
+	 * @param startedCount
 	 */
 	public DiskInfo(int diskId, int diskType, int diskState, int totalSpace,
 			int leftSpace, int blockAmount, int idleTime, int requestNum,
