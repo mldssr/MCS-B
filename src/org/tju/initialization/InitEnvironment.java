@@ -178,6 +178,7 @@ public class InitEnvironment {
 						BlockInfo block = new BlockInfo(blockId++, blockSize, blockLeftSpace, l+1-fileInBlock, skyzone, i, 0, 0, 0, 0, openTime, fileInBlock, filesList);
 //						System.out.println("A new block is created, contains " + block.getFilesList().size() +" files.");
 //						System.out.println("blockLeftSpace: " + blockLeftSpace);
+//						System.out.println(block);
 						//add:
 //						filesList.clear();
 						filesList = new HashMap<String, FileInfo>();

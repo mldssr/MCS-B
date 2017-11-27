@@ -1,7 +1,9 @@
 package org.tju.bean;
 
-public class FileInfo {
-	
+import java.io.Serializable;
+
+public class FileInfo implements Serializable{
+	private static final long serialVersionUID = -1207337555085106524L;
 	private int fileId;
 	private String fileName;			// fileName: diskId-blockId-skyzone-observeTime
 	private int size;
@@ -13,6 +15,18 @@ public class FileInfo {
 	private double priority;			// Not used
 	
 	
+	public String toString() {
+		return "======================================== FileInfo\n"
+				+ "fileId " + fileId
+				+ "  fileName " + fileName
+				+ "  size " + size
+				+ "  observeTime " + observeTime
+				+ "  skyZone " + skyZone
+				+ "  blockId " + blockId
+				+ "  isHit " + isHit
+				+ "  requestNum " + requestNum
+				+ "  priority " + priority + "\n";
+	}
 	
 	/**
 	 * @param fileId

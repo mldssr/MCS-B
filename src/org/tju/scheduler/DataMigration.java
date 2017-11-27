@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
+import org.tju.bean.FileInfo;
 import org.tju.request.RequestCorrelation;
 import org.tju.util.ValueOfConfigureFile;
 
@@ -36,18 +37,34 @@ public class DataMigration {
 	 */
 	public static void DD2SSD(DiskInfo dataDisk, DiskInfo SSDDisk, int blockId) {
 
-		BlockInfo block = dataDisk.getBlockList().get(blockId);
 		// Note: The block in DD and the cached one are exactly the same one!!
+	//	BlockInfo block = dataDisk.getBlockList().get(blockId);
+		BlockInfo block = dataDisk.getBlockList().get(blockId).deepClone();
 		SSDDisk.getBlockList().put(blockId, block);
 		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
 		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - block.getTotalSpace());
 		System.out.println("[CACHE] Data Disk " + dataDisk.getDiskId() + "====>> SSD " + SSDDisk.getDiskId() + "(normal), blockId: " + blockId);
 
 		// Test:
-		System.out.println("Test: Is the cached block in DD the same as in SSD?");
-		BlockInfo blockInDD = dataDisk.getBlockList().get(blockId);
-		BlockInfo blockInSSD = SSDDisk.getBlockList().get(blockId);
-		System.out.println(blockInDD.equals(blockInSSD));
+//		BlockInfo blockInDD = dataDisk.getBlockList().get(blockId);
+//		blockInDD.setIsHit(8);
+//		Iterator<Entry<String, FileInfo>> iter = blockInDD.getFilesList().entrySet().iterator();
+//		while (iter.hasNext()){
+//			Entry<String, FileInfo> entry = iter.next();
+//			FileInfo file = entry.getValue();
+//			file.setIsHit(9);
+//		}
+//		BlockInfo blockInSSD = SSDDisk.getBlockList().get(blockId);
+//		blockInSSD.setIsHit(10);
+//		Iterator<Entry<String, FileInfo>> iter1 = blockInSSD.getFilesList().entrySet().iterator();
+//		while (iter1.hasNext()){
+//			Entry<String, FileInfo> entry1 = iter1.next();
+//			FileInfo file = entry1.getValue();
+//			file.setIsHit(11);
+//		}
+//		System.out.println("[TEST]  Is the cached block in DD the same as in SSD? " + blockInDD.equals(blockInSSD));
+//		System.out.println(blockInDD);
+//		System.out.println(blockInSSD);
 		
 		
 		// add
@@ -56,7 +73,8 @@ public class DataMigration {
 			Integer[] corrs = RequestCorrelation.getCorr(blockId);
 			for (int i = 0; i < RequestCorrelation.getCorrelationNum(); i++) {
 				if (corrs[i] != null) {
-					block = dataDisk.getBlockList().get(corrs[i]);
+				//	block = dataDisk.getBlockList().get(corrs[i]);
+					block = dataDisk.getBlockList().get(corrs[i]).deepClone();
 					if (block != null) {
 						SSDDisk.getBlockList().put(corrs[i], block);// ???????
 						SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
@@ -69,7 +87,8 @@ public class DataMigration {
 
 //		// 把目标块之前cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//			block = dataDisk.getBlockList().get(blockId - i);
+//		//	block = dataDisk.getBlockList().get(blockId - i);
+//			block = dataDisk.getBlockList().get(blockId - i).deepClone();
 //			if (block != null) {
 //				SSDDisk.getBlockList().put(blockId - i, block);// ???????
 //				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
@@ -78,7 +97,8 @@ public class DataMigration {
 //		}
 //		// 把目标块之后cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//			block = dataDisk.getBlockList().get(blockId + i);
+//		//	block = dataDisk.getBlockList().get(blockId + i);
+//			block = dataDisk.getBlockList().get(blockId + i).deepClone();
 //			if (block != null) {
 //				SSDDisk.getBlockList().put(blockId + i, block);
 //				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
@@ -97,7 +117,8 @@ public class DataMigration {
 	 */
 	public static void DD2Cache(DiskInfo dataDisk, DiskInfo cacheDisk, int blockId) {
 		// 把目标block缓存
-		BlockInfo block = dataDisk.getBlockList().get(blockId);
+	//	BlockInfo block = dataDisk.getBlockList().get(blockId);
+		BlockInfo block = dataDisk.getBlockList().get(blockId).deepClone();
 		cacheDisk.getBlockList().put(blockId, block);
 		cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
 		cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
@@ -122,7 +143,8 @@ public class DataMigration {
 		
 //		// 把目标块之前cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//			block = dataDisk.getBlockList().get(blockId - i);
+//		//	block = dataDisk.getBlockList().get(blockId - i);
+//			block = dataDisk.getBlockList().get(blockId - i).deepClone();
 //			if (block != null) {
 //				cacheDisk.getBlockList().put(blockId - i, block);
 //				cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
@@ -132,7 +154,8 @@ public class DataMigration {
 //		
 //		// 把目标块之后cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//			block = dataDisk.getBlockList().get(blockId + i);
+//		//	block = dataDisk.getBlockList().get(blockId + i);
+//			block = dataDisk.getBlockList().get(blockId + i).deepClone();
 //			if (block != null) {
 //				cacheDisk.getBlockList().put(blockId + i, block);
 //				cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);

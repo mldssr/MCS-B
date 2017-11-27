@@ -1,9 +1,17 @@
 package org.tju.bean;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
-public class BlockInfo {
-	
+public class BlockInfo implements Serializable{
+	private static final long serialVersionUID = -5252685802462694367L;
 	private int blockId;
 	private int totalSpace;
 	private int leftSpace;				// In MB
@@ -20,6 +28,45 @@ public class BlockInfo {
 	private HashMap<String, FileInfo> filesList;	// Stored Files List in this block, <fileName, FileInfo>
 	
 	
+	public BlockInfo deepClone() {
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(this);
+
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			return (BlockInfo) ois.readObject();
+		} catch (IOException e) {
+			return null;
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+	}
+	
+	public String toString() {
+		String basicInfo = "================================================ BlockInfo\n"
+				+ "blockId " + blockId
+				+ "  totalSpace " + totalSpace
+				+ "  leftSpace " + leftSpace
+				+ "  observeTime " + observeTime
+				+ "  skyZone " + skyZone
+				+ "  diskId " + diskId
+				+ "  isHit " + isHit
+				+ "  requestNum " + requestNum
+				+ "  priority " + priority
+				+ "  idleTime " + idleTime
+				+ "  transmissionTime " + transmissionTime
+				+ "  fileAmount " + fileAmount + "\n";
+		String filesInfo = "";
+		Iterator<Entry<String, FileInfo>> iter = filesList.entrySet().iterator();
+		while (iter.hasNext()){
+			Entry<String, FileInfo> entry = iter.next();
+			FileInfo file = entry.getValue();
+			filesInfo += file;
+		}
+		return basicInfo + filesInfo;
+	}
 	
 	/**
 	 * @param blockId
