@@ -1,6 +1,10 @@
 package org.tju.bean;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class DiskInfo {
 	
@@ -21,8 +25,6 @@ public class DiskInfo {
 	
 	private HashMap<Integer, BlockInfo> blocksList;		// Store Blocks List, <blockId, BlockInfo>
 
-	
-	
 	/**
 	 * @param diskId
 	 * @param diskType

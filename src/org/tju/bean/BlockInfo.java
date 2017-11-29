@@ -100,6 +100,7 @@ public class BlockInfo implements Serializable{
 	 * @param requestNum
 	 * @param priority
 	 * @param idleTime
+	 * @param transmissionTime
 	 * @param fileAmount
 	 * @param filesList
 	 */

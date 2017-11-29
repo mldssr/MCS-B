@@ -63,6 +63,10 @@ public class GenerateRequest {
 	public int blockAmount = valueOfConfigureFile.getBlockAmount();
 
 	// Generate request function
+	/**
+	 * @return HashMap (Integer, HashMap(String, RequestInfo)) means <br>
+	 * HashMap(timeWindow, HashMap(fileName, RequestInfo))
+	 */
 	public HashMap<Integer, HashMap<String, RequestInfo>> generateRequest() {
 
 		// Request List of all
@@ -130,8 +134,7 @@ public class GenerateRequest {
 		RequestInfo[] requestInfos = new RequestInfo[requestCorrelation * 2 + 1];
 		// generate the attributes of the file you wanted: diskId, skyzone,
 		// observeTime && blockId
-		// note: First generate skyzone && observeTime which determines diskId
-		// && blockId
+		// NOTE: First generate diskId, skyzone & observeTime which determines blockId
 		int diskId = dataDiskStartId + random.nextInt(dataDiskAmount);
 		int skyzone = skyzoneInDisk * (diskId - dataDiskStartId) - (diskId - dataDiskStartId)
 				+ random.nextInt(skyzoneInDisk);
@@ -145,15 +148,15 @@ public class GenerateRequest {
 				break;
 			}
 		}
-		// observeTime ranges from requestCorrelation to timeAmount -
-		// requestCorrelation
+		// observeTime range [requestCorrelation ~ (timeAmount - requestCorrelation)]
+		// to get all correlate files within a single disk
 		int observeTime = requestCorrelation + random.nextInt(timeAmount - 2 * requestCorrelation);
 
 		int blockId;
 
 		// Request info
 		String requestFileName;
-		// Generate requests for the last requestCorrelation days but of the
+		// Generate requests for the past requestCorrelation days but of the
 		// same skyzone
 		for (int i = requestCorrelation; i > 0; i--) {
 

@@ -43,7 +43,14 @@ public class Scheduler {
 	}
 	
 	
-	//Scheduler of All Disks per second
+	/**
+	 * Scheduler of All Disks per second<br>
+	 * 如果磁盘开着，将其中每个非空block的idleTime加1;<br>
+	 * 计算优先级
+	 * @param SSDDisks
+	 * @param cacheDisks
+	 * @param dataDisks
+	 */
 	public static void SchedulerOfSecond(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks, DiskInfo[] dataDisks){
 	
 		//update blocks' info in cache disks
@@ -59,7 +66,12 @@ public class Scheduler {
 	}
 	
 	
-	//Scheduler of Disks per second
+	/**
+	 * Scheduler of Disks per second<br>
+	 * 如果磁盘开着，将其中每个非空block的idleTime加1;<br>
+	 * 计算优先级
+	 * @param Disks
+	 */
 	public static void SchedulerOfSecond(DiskInfo[] Disks){
 		
 		//update blocks' info in cache disks and data disks
@@ -79,7 +91,7 @@ public class Scheduler {
 					if(block == null){
 						continue ;
 					} else {
-						block.setIdleTime(block.getIdleTime()+1);				
+						block.setIdleTime(block.getIdleTime()+1);
 						tmpBlocks.put(block.getBlockId(), block);
 					}			
 				}

@@ -146,6 +146,7 @@ public class InitEnvironment {
 			
 			//add duplicate block list to disk block list
 			if(duplicateBlocksList.size()!=0){
+//				System.out.println("[DUPLI] Add " + duplicateBlocksList.size() + " dup blocks to disk " + i);
 				blocksList.putAll(duplicateBlocksList);
 				duplicateBlocksList = new HashMap<Integer, BlockInfo>();
 			}
@@ -154,6 +155,7 @@ public class InitEnvironment {
 			//skyzone in disk0:   0- 49
 			//skyzone in disk1:  49- 98
 			//skyzone in disk0:  98-147
+			//skyzone in disk0:  931-979, 0
 			for( ; skyzone < (skyzoneInDisk-duplicateAmount)*(i-dataDiskStartId)+skyzoneInDisk && skyzone<skyzoneAmount; skyzone++){
 				//initialize block
 				//the files in block
@@ -189,16 +191,19 @@ public class InitEnvironment {
 						
 						//add duplicate to duplicate block list which would be added into next disk later
 						if(skyzone+duplicateAmount >= skyzoneInDisk*(i+1)-i){
-							duplicateBlocksList.put(block.getBlockId(), block);
+							BlockInfo dupBlock = block.deepClone();
+							duplicateBlocksList.put(dupBlock.getBlockId(), dupBlock);
+//							System.out.println("[DUPLI] Skyzone: " + skyzone + " blockId: " + dupBlock.getBlockId() + " total dup blocks " + duplicateBlocksList.size());
 						}
 						
 						//add first duplicate to duplicate block list
 						if(skyzone < duplicateAmount) {
-							firstduplicateBlocksList.put(block.getBlockId(), block);
+							BlockInfo dupBlock = block.deepClone();
+							firstduplicateBlocksList.put(dupBlock.getBlockId(), dupBlock);
 						}
 					}
-				}
-			}
+				} // end l (timeAmount)
+			} // end skyzone
 			
 			//add the first duplicate to the last disk
 			if(i == dataDiskAmount-1){
@@ -214,7 +219,7 @@ public class InitEnvironment {
 //		    System.out.println();
 //		    System.out.println(blocksList.keySet());
 		    System.out.println();
-		}
+		} // end i (diskId)
 		
 		//initialize data disks' blocks' list 
 		BlockOperation.initBlocksList(dataDisks);

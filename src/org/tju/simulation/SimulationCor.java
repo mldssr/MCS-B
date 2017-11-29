@@ -6,7 +6,9 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import org.tju.bean.DiskInfo;
+import org.tju.initialization.InitEnvByTime;
 import org.tju.initialization.InitEnvironment;
+import org.tju.request.GenReqFrCsv;
 import org.tju.request.GenerateRequest;
 import org.tju.request.RequestCorrelation;
 import org.tju.request.RequestInfo;
@@ -40,10 +42,14 @@ public class SimulationCor {
 	
 	
 	//initialize basic environment
-	public static InitEnvironment init = new InitEnvironment();
+	public static InitEnvByTime init = new InitEnvByTime();
 	
 	//Generate Requests
-	public static GenerateRequest requests = new GenerateRequest();
+//	public static GenerateRequest requests = new GenerateRequest();
+	public static GenReqFrCsv requests = new GenReqFrCsv("track/0_ReqGen.csv");
+	
+	// get sliding window size
+	public static int slidingWindowSize = valueOfConfigureFile.getSlidingWindowSize();
 	
 	//Track of all requests
 	public static HashMap<String, RequestInfo> requestsTrack = new HashMap<String, RequestInfo>();
@@ -113,10 +119,7 @@ public class SimulationCor {
 		
 		//Generate Requests
 		//Requests List of all
-		HashMap<Integer, HashMap<String, RequestInfo>> requestsList = requests.generateRequest();
-		
-		//Specifies the requests' generation time
-		requests.specifiesRequestTime(requestsList);
+		HashMap<Integer, HashMap<String, RequestInfo>> requestsList = requests.readLine();
 		
 		System.out.println("requestsList.size()" + requestsList.size());
 		
@@ -136,13 +139,13 @@ public class SimulationCor {
 				reqCorTrain.clear();
 			}
 			
-			double arrivalRate = ((double)requestsPerWindow.size())/requests.slidingWindowSize;
+			double arrivalRate = ((double)requestsPerWindow.size())/slidingWindowSize;
 			
 			//Track of arrivalRate
 			ArrivalRate R = new ArrivalRate(i, arrivalRate);
 			arrivalRateTrack.put(i, R);
 			//j means time point
-			for(int j=i*requests.slidingWindowSize; j<(i+1)*requests.slidingWindowSize; j++){
+			for(int j=i*slidingWindowSize; j<(i+1)*slidingWindowSize; j++){
 				
 				//added by xx begin
 				System.out.println("================================================================ time "+ j);
@@ -157,23 +160,24 @@ public class SimulationCor {
 				
 				//update blocks' transmissionTime in Cache
 				TransTimeOperation.UpdateTranTime(cacheDisks);
+				
+				//update blocks' transmissionTime in DataDisk
+				TransTimeOperation.UpdateTranTime(dataDisks);
 						
 				
 				Iterator<Entry<String, RequestInfo>> iter = requestsPerWindow.entrySet().iterator();
-				
 				while (iter.hasNext()){
 					Entry<String, RequestInfo> entry = iter.next();
-					
 					RequestInfo request = entry.getValue();
 					
 					if(request.getGenerateTime() == j){
 						//start service
 						String fileName = request.getRequestFileName();
-						//diskID-blockId-skyzone-observeTime
+						// (diskID-blockId-) skyzone-observeTime
 						String[] names = fileName.split("-");
-						int diskId = Integer.valueOf(names[0]);
-						int blockId = Integer.valueOf(names[1]);
-						int observeTime = Integer.valueOf(names[3]);
+						int diskId = -1;
+						int blockId = InitEnvByTime.fileName_BlockId.get(fileName);
+						int observeTime = Integer.valueOf(names[1]);
 						
 						//search Disks
 						if(SearchInDisks.searchInSSD(SSDDisks, fileName, blockId)){//find in SSD
@@ -248,7 +252,7 @@ public class SimulationCor {
 				
 				//update data disks
 				//update data disks state
-				DiskOperation.updateDDs(dataDisks);
+//				DiskOperation.updateDDs(dataDisks);
 				
 				//check data disks' idle time
 				DiskOperation.checkDDs(dataDisks);

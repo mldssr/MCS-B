@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class FileInfo implements Serializable{
 	private static final long serialVersionUID = -1207337555085106524L;
 	private int fileId;
-	private String fileName;			// fileName: diskId-blockId-skyzone-observeTime
+	private String fileName;			// fileName: skyzone-observeTime
 	private int size;
 	private int observeTime;
 	private int skyZone;

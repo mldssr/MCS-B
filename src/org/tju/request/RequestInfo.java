@@ -5,7 +5,7 @@ public class RequestInfo {
 	private String requestFileName;
 	private int generateTime;
 	private int responseTime;
-	private double qos;
+	private int qos;
 	
 	
 	
@@ -17,7 +17,7 @@ public class RequestInfo {
 	 * @param qos
 	 */
 	public RequestInfo(String requestFileName,
-			int generateTime, int responseTime, double qos) {
+			int generateTime, int responseTime, int qos) {
 		super();
 		this.requestFileName = requestFileName;
 		this.generateTime = generateTime;
@@ -78,7 +78,7 @@ public class RequestInfo {
 	/**
 	 * @return the qos
 	 */
-	public double getQos() {
+	public int getQos() {
 		return qos;
 	}
 
@@ -86,7 +86,7 @@ public class RequestInfo {
 	/**
 	 * @param qos the qos to set
 	 */
-	public void setQos(double qos) {
+	public void setQos(int qos) {
 		this.qos = qos;
 	}
 	

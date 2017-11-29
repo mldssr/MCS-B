@@ -14,12 +14,16 @@ public class SearchInDisks {
 		for (int i = 0; i < SSDDisks.length; i++) {
 			BlockInfo block = SSDDisks[i].getBlockList().get(blockId);
 			if (block != null) {
-				block.setIdleTime(-1);
+				if (block.getIdleTime() >= 0) {
+					block.setIdleTime(-1);
+				}
 				block.setRequestNum(block.getRequestNum() + 1);
 				SSDDisks[i].getBlockList().put(blockId, block);
 				SSDDisks[i].setRequestNum(SSDDisks[i].getRequestNum() + 1);
 				// added by xx begin
-				SSDDisks[i].setIdleTime(-1);
+				if (SSDDisks[i].getIdleTime() >= 0) {
+					SSDDisks[i].setIdleTime(-1);
+				}
 				// added by xx end
 				return true;
 			}
@@ -34,12 +38,16 @@ public class SearchInDisks {
 		for (int i = 0; i < cacheDisks.length; i++) {
 			BlockInfo block = cacheDisks[i].getBlockList().get(blockId);
 			if (block != null) {
-				block.setIdleTime(-1);
+				if (block.getIdleTime() >= 0) {
+					block.setIdleTime(-1);
+				}
 				block.setRequestNum(block.getRequestNum() + 1);
 				cacheDisks[i].getBlockList().put(blockId, block);
 				cacheDisks[i].setRequestNum(cacheDisks[i].getRequestNum() + 1);
 				// added by xx begin
-				cacheDisks[i].setIdleTime(-1);
+				if (cacheDisks[i].getIdleTime() >= 0) {
+					cacheDisks[i].setIdleTime(-1);
+				}
 				// added by xx end
 				return true;
 			}
@@ -57,9 +65,13 @@ public class SearchInDisks {
 		BlockInfo block = dataDisks[diskId].getBlockList().get(blockId);
 
 		if (block != null) {
+			if (block.getIdleTime() >= 0) {
+				block.setIdleTime(-1);
+			}
+			block.setRequestNum(block.getRequestNum() + 1);
 			// added by xx begin
 			if (dataDisks[diskId].getDiskState() == 1 && dataDisks[diskId].getIdleTime() >= 0) {
-				System.out.println("        The disk " + diskId + " is hitted when completely opened, idleTime = " + dataDisks[diskId].getIdleTime());
+				System.out.println("[SERCH] The DataDisk " + diskId + " is hitted when completely opened, idleTime = " + dataDisks[diskId].getIdleTime());
 //				IdleTimeManager.updateIdleTime(dataDisks[diskId].getIdleTime());
 				dataDisks[diskId].setIdleTime(-1);
 			}
@@ -67,6 +79,9 @@ public class SearchInDisks {
 			if (dataDisks[diskId].getDiskState() != 1) {
 				DiskOperation.openDisk(dataDisks[diskId]);
 				BlockOperation.initBlocksList(dataDisks[diskId]);
+			}
+			if (dataDisks[diskId].getIdleTime() >= 0) {
+				dataDisks[diskId].setIdleTime(-1);
 			}
 			dataDisks[diskId].setRequestNum(dataDisks[diskId].getRequestNum() + 1);
 			return true;

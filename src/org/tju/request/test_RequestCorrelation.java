@@ -16,6 +16,9 @@ public class test_RequestCorrelation {
 		RequestCorrelation.put(0, 3);
 		RequestCorrelation.display();
 		
+		RequestCorrelation.put(0, 3);
+		RequestCorrelation.display();
+		
 		RequestCorrelation.put(0, 4);
 		RequestCorrelation.display();
 		
@@ -35,6 +38,9 @@ public class test_RequestCorrelation {
 		RequestCorrelation.display();
 		
 		RequestCorrelation.put(1, 2);
+		RequestCorrelation.display();
+		
+		RequestCorrelation.put(0, 6);
 		RequestCorrelation.display();
 	}
 

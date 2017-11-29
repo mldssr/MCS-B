@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.tju.initialization.InitEnvByTime;
+
+/**
+ * @author Lxx
+ *
+ */
 public class RequestCorrelation {
 	/**
 	 * correlationNum indicates the max number of correlate blocks a block could have;<br>
@@ -25,8 +31,17 @@ public class RequestCorrelation {
 		if (keyBlockId != valueBlockId) {
 			if (correlations.containsKey(keyBlockId)) {
 				Integer[] corr = correlations.get(keyBlockId);
+				for (int k = 0; k < correlationNum; k++) {
+					if (corr[k] == null) {
+						continue;
+					}
+					if (corr[k] != null && corr[k] == valueBlockId) {
+						return;
+					}
+				}
 				int index = corr[correlationNum];
 				corr[index] = valueBlockId;
+				System.out.println("[RECOR] Add " + keyBlockId +" " + valueBlockId);
 				corr[correlationNum] = (index + 1) % correlationNum;
 			} else {
 				Integer[] corr = new Integer[correlationNum + 1];
@@ -45,13 +60,13 @@ public class RequestCorrelation {
 		return correlations.get(keyBlockId);
 	}
 
-	public static void updateCorr(HashMap<String, RequestInfo> requestsPerWindow) {
-		int size = requestsPerWindow.size();
+	public static void updateCorr(HashMap<String, RequestInfo> requests) {
+		int size = requests.size();
 		int[] blockIds = new int[size];
 		int[] skyzones = new int[size];
 		int[] observeTime = new int[size];
 
-		Iterator<Entry<String, RequestInfo>> iter = requestsPerWindow.entrySet().iterator();
+		Iterator<Entry<String, RequestInfo>> iter = requests.entrySet().iterator();
 		int index = 0;
 
 		while (iter.hasNext()) {
@@ -59,11 +74,11 @@ public class RequestCorrelation {
 			RequestInfo request = entry.getValue();
 
 			String fileName = request.getRequestFileName();
-			// diskID-blockId-skyzone-observeTime
+			// (diskID-blockId-) skyzone-observeTime
 			String[] names = fileName.split("-");
-			blockIds[index] = Integer.valueOf(names[1]);
-			skyzones[index] = Integer.valueOf(names[2]);
-			observeTime[index] = Integer.valueOf(names[3]);
+			skyzones[index] = Integer.valueOf(names[0]);
+			observeTime[index] = Integer.valueOf(names[1]);
+			blockIds[index] = InitEnvByTime.fileName_BlockId.get(fileName);
 			index ++;
 		}
 		
@@ -122,7 +137,7 @@ public class RequestCorrelation {
 			}
 			System.out.println("");
 		}
-		System.out.println("==========>>> Display <<<==========");
+		System.out.println("");
 	}
 	
 	public static int getCorrelationNum() {

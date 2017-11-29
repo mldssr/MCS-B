@@ -46,6 +46,9 @@ public class PriorityOperation {
 	
 	//Priority Calculation: Calculate blocks' priority in cache disk and SSD
 	public static void calculatePriority(DiskInfo cacheDisk){
+		if (cacheDisk.getDiskState() == 0) {
+			return;
+		}
 		
 		Iterator<Entry<Integer, BlockInfo>> iter = cacheDisk.getBlockList().entrySet().iterator();
 		
