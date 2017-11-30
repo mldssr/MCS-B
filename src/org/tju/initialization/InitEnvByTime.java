@@ -12,6 +12,8 @@ import org.tju.scheduler.BlockOperation;
 import org.tju.util.ValueOfConfigureFile;
 
 public class InitEnvByTime {
+	
+	public static HashMap<String, Integer> fileName_BlockId = new HashMap<String, Integer>();
 
 	// Random
 	public Random random = new Random();
@@ -124,7 +126,6 @@ public class InitEnvByTime {
 
 	}
 	
-	public static HashMap<String, Integer> fileName_BlockId = new HashMap<>();
 	
 	private void addFile(DiskInfo disk, FileInfo file) {
 //		System.out.println("[INIT]  Add the following file to disk " + diskId);

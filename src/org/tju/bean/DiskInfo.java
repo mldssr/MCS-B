@@ -1,10 +1,6 @@
 package org.tju.bean;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
 
 public class DiskInfo {
 	
@@ -20,11 +16,27 @@ public class DiskInfo {
 	private double operPower;       //Operational Power
 	
 	// add
-	private int startedTime;
-	private int startedCount;
+	private int startedTime;		// Duration of being opened
+	private int startedCount;		// Times of powered on
 	
 	private HashMap<Integer, BlockInfo> blocksList;		// Store Blocks List, <blockId, BlockInfo>
 
+	public String toString() {
+		String basicInfo = "========================================================= DiskInfo\n"
+				+ "diskId " + diskId
+				+ "  diskType " + diskType
+				+ "  diskState " + diskState
+				+ "  totalSpace " + totalSpace
+				+ "  leftSpace " + leftSpace
+				+ "  blockAmount " + blockAmount
+				+ "  idleTime " + idleTime
+				+ "  requestNum " + requestNum
+				+ "  operPower " + operPower
+				+ "  startedTime " + startedTime
+				+ "  startedCount " + startedCount + "\n";
+		return basicInfo;
+	}
+	
 	/**
 	 * @param diskId
 	 * @param diskType

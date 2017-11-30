@@ -1,7 +1,12 @@
 package org.tju.request;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.tju.initialization.InitEnvByTime;
@@ -27,29 +32,38 @@ public class RequestCorrelation {
 	
 	
 	
-	public static void put(Integer keyBlockId, Integer valueBlockId) {
-		if (keyBlockId != valueBlockId) {
+	public static void putIntoCorr(Integer keyBlockId, Integer valueBlockId) {
+//		System.out.println("[RECOR] Going to put in ( " + keyBlockId + " " + valueBlockId + " )");
+		// NOTE: not keyBlockId != valueBlockId
+		if (keyBlockId.intValue() != valueBlockId.intValue()) {
 			if (correlations.containsKey(keyBlockId)) {
 				Integer[] corr = correlations.get(keyBlockId);
 				for (int k = 0; k < correlationNum; k++) {
+//					System.out.println("[RECOR] k " + k + " corr[k] " + corr[k]);
 					if (corr[k] == null) {
+//						System.out.println("[RECOR] Continue!");
 						continue;
 					}
-					if (corr[k] != null && corr[k] == valueBlockId) {
+					if (corr[k] != null && corr[k].intValue() == valueBlockId.intValue()) {
+//						System.out.println("[RECOR] Skip for already exists! corr[k] == valueBlockId " + corr[k]);
 						return;
 					}
 				}
 				int index = corr[correlationNum];
 				corr[index] = valueBlockId;
-				System.out.println("[RECOR] Add " + keyBlockId +" " + valueBlockId);
+//				System.out.println("[RECOR] Add " + keyBlockId +" " + valueBlockId);
 				corr[correlationNum] = (index + 1) % correlationNum;
 			} else {
+//				System.out.println("[RECOR] New entry!");
 				Integer[] corr = new Integer[correlationNum + 1];
 				corr[0] = valueBlockId;
 				corr[correlationNum] = 1;// Store next pos
 				correlations.put(keyBlockId, corr);
 			}
 		}
+//		else {
+//			System.out.println("[RECOR] Skip for no sense!");
+//		}
 	}
 	
 	public static boolean hasKey(int key) {
@@ -68,7 +82,6 @@ public class RequestCorrelation {
 
 		Iterator<Entry<String, RequestInfo>> iter = requests.entrySet().iterator();
 		int index = 0;
-
 		while (iter.hasNext()) {
 			Entry<String, RequestInfo> entry = iter.next();
 			RequestInfo request = entry.getValue();
@@ -76,8 +89,8 @@ public class RequestCorrelation {
 			String fileName = request.getRequestFileName();
 			// (diskID-blockId-) skyzone-observeTime
 			String[] names = fileName.split("-");
-			skyzones[index] = Integer.valueOf(names[0]);
-			observeTime[index] = Integer.valueOf(names[1]);
+			skyzones[index] = Integer.parseInt(names[0]);
+			observeTime[index] = Integer.parseInt(names[1]);
 			blockIds[index] = InitEnvByTime.fileName_BlockId.get(fileName);
 			index ++;
 		}
@@ -86,7 +99,7 @@ public class RequestCorrelation {
 			for (int j = 0; j < size; j++) {
 				if (i != j && skyzones[i] == skyzones[j] && java.lang.Math.abs(observeTime[i] - observeTime[j]) < 4) {
 //					System.out.println("skyzone: " + skyzone + "  blockId: " + blockIds[i] + "  " + blockIds[j]);
-					put(blockIds[i], blockIds[j]);
+					putIntoCorr(Integer.valueOf(blockIds[i]), Integer.valueOf(blockIds[j]));
 				}
 			}
 		}
@@ -126,18 +139,33 @@ public class RequestCorrelation {
 	public static void display() {
 		System.out.println("==========>>> Display <<<==========");
 		System.out.println("correlationNum: " + correlationNum);
-		Iterator<Entry<Integer, Integer[]>> iter = correlations.entrySet().iterator();
-		while (iter.hasNext()) {
-			Entry<Integer, Integer[]> entry = iter.next();
+		
+		List<Entry<Integer, Integer[]>> list = new ArrayList<Entry<Integer, Integer[]>>(correlations.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<Integer, Integer[]>>() {
+			public int compare(Map.Entry<Integer, Integer[]> e1, Map.Entry<Integer, Integer[]> e2) {
+				int v1 = ((Map.Entry<Integer, Integer[]>) e1).getKey().intValue();
+				int v2 = ((Map.Entry<Integer, Integer[]>) e2).getKey().intValue();
+				int flag = v1 - v2;
+				if (flag > 0) {
+					return 1;
+				} else if (flag == 0) {
+					return 0;
+				} else {
+					return -1;
+				}
+			}
+		});
+		
+		for (int i = 0; i < list.size(); i++) {
+			Entry<Integer, Integer[]> entry = list.get(i);
 			System.out.print("Key: " + entry.getKey() + "      ");
 			Integer[] corr = entry.getValue();
 			System.out.print("Value: ");
-			for (int i = 0; i < correlationNum; i++) {
-				System.out.print(corr[i] + "  ");
+			for (int j = 0; j < correlationNum; j++) {
+				System.out.print(corr[j] + "  ");
 			}
 			System.out.println("");
 		}
-		System.out.println("");
 	}
 	
 	public static int getCorrelationNum() {

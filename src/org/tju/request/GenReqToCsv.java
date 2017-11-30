@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Map.Entry;
 
-import org.tju.bean.BlockInfo;
 import org.tju.util.FileOperation;
 import org.tju.util.ValueOfConfigureFile;
 
@@ -413,7 +412,7 @@ public class GenReqToCsv {
 						+ entry3.getValue().getGenerateTime());
 			}
 			
-			RequestCorrelation.updateCorr(requests);
+//			RequestCorrelation.updateCorr(requests);
 		}
 		System.out.println("totalRequestsNum: " + totalRequestsNum);
 		System.out.println("");

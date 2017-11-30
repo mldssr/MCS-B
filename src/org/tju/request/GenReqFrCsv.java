@@ -32,7 +32,7 @@ public class GenReqFrCsv {
 		HashMap<Integer, HashMap<String, RequestInfo>> requestList = new HashMap<Integer, HashMap<String, RequestInfo>>();
 		try {
 			// Throw first line ---- lables
-			String firstLine = br.readLine();
+			br.readLine();
 			int i = 1;
 			while (true) {
 				// Ò»ÐÐ

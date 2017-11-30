@@ -7,9 +7,7 @@ import java.util.Map.Entry;
 
 import org.tju.bean.DiskInfo;
 import org.tju.initialization.InitEnvByTime;
-import org.tju.initialization.InitEnvironment;
 import org.tju.request.GenReqFrCsv;
-import org.tju.request.GenerateRequest;
 import org.tju.request.RequestCorrelation;
 import org.tju.request.RequestInfo;
 import org.tju.scheduler.DiskOperation;
@@ -252,7 +250,7 @@ public class SimulationCor {
 				
 				//update data disks
 				//update data disks state
-//				DiskOperation.updateDDs(dataDisks);
+				DiskOperation.updateDDs(dataDisks);
 				
 				//check data disks' idle time
 				DiskOperation.checkDDs(dataDisks);

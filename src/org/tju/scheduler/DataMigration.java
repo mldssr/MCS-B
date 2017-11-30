@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 
 import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
-import org.tju.bean.FileInfo;
 import org.tju.request.RequestCorrelation;
 import org.tju.util.ValueOfConfigureFile;
 
@@ -27,6 +26,50 @@ public class DataMigration {
 
 	// get Cache Correlation
 	public static int cacheCorrelation = valueOfConfigureFile.getCacheCorrelation();
+	
+	/**
+	 * @param dataDisk
+	 * @param SSD_cache_Disk
+	 * @param blockId
+	 */
+	private static boolean cacheBlock(DiskInfo dataDisk, DiskInfo SSD_cache_Disk, int blockId) {
+		if (dataDisk.getDiskState() == 0) {
+			return false;
+		}
+		if (SSD_cache_Disk.getBlockList().get(blockId) != null) { // Already cached
+			return false;
+		}
+		BlockInfo block = dataDisk.getBlockList().get(blockId);
+		if (block != null) { // Find target block
+			block = block.deepClone();
+			SSD_cache_Disk.getBlockList().put(blockId, block);// ??????? No problem!
+			SSD_cache_Disk.setBlockAmount(SSD_cache_Disk.getBlockAmount() + 1);
+			SSD_cache_Disk.setLeftSpace(SSD_cache_Disk.getLeftSpace() - block.getTotalSpace());
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Suppose that we have learned Correlation of Requests very well, <br>
+	 * we cache given blockId's correlate blocks in given DataDisk<br>
+	 * FIXME: 980 means the distance of correlate blockIds under default
+	 * configuration. I'm a lazy boy.
+	 * 
+	 * @param dataDisk
+	 * @param SSDDisk
+	 * @param blockId
+	 */
+	private static void cahceCorBlocks(DiskInfo dataDisk, DiskInfo SSDDisk, int blockId) {
+		if (cacheBlock(dataDisk, SSDDisk, blockId - 980)) {
+			System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> SSD or Cache "
+					+ SSDDisk.getDiskId() + " blockId: " + (blockId - 980));
+		}
+		if (cacheBlock(dataDisk, SSDDisk, blockId + 980)) {
+			System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> SSD or Cache "
+					+ SSDDisk.getDiskId() + " blockId: " + (blockId + 980));
+		}
+	}
 
 	/**
 	 * Data Disk ====>> SSD Replacement Strategy<br>
@@ -39,12 +82,10 @@ public class DataMigration {
 	public static void DD2SSD(DiskInfo dataDisk, DiskInfo SSDDisk, int blockId) {
 
 		// Note: The block in DD and the cached one are exactly the same one!!
-	//	BlockInfo block = dataDisk.getBlockList().get(blockId);
-		BlockInfo block = dataDisk.getBlockList().get(blockId).deepClone();
-		SSDDisk.getBlockList().put(blockId, block);
-		SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
-		SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - block.getTotalSpace());
-		System.out.println("[CACHE] (normal) Data Disk " + dataDisk.getDiskId() + "====>> SSD " + SSDDisk.getDiskId() + " blockId: " + blockId);
+		if (cacheBlock(dataDisk, SSDDisk, blockId)) {
+			System.out.println("[CACHE] (normal) Data Disk " + dataDisk.getDiskId() + "====>> SSD "
+					+ SSDDisk.getDiskId() + " blockId: " + blockId);
+		}
 
 		// Test:
 //		BlockInfo blockInDD = dataDisk.getBlockList().get(blockId);
@@ -66,8 +107,7 @@ public class DataMigration {
 //		System.out.println("[TEST]  Is the cached block in DD the same as in SSD? " + blockInDD.equals(blockInSSD));
 //		System.out.println(blockInDD);
 //		System.out.println(blockInSSD);
-		
-		
+
 		// add
 		// 把这块DataDisk上的相关块迁移进SSD
 		// FIXME
@@ -75,36 +115,27 @@ public class DataMigration {
 			Integer[] corrs = RequestCorrelation.getCorr(blockId);
 			for (int i = 0; i < RequestCorrelation.getCorrelationNum(); i++) {
 				if (corrs[i] != null) {
-					block = dataDisk.getBlockList().get(corrs[i]);
-					if (block != null) {
-						block = block.deepClone();
-						SSDDisk.getBlockList().put(corrs[i], block);// ???????
-						SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
-						SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
-						System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> SSD " + SSDDisk.getDiskId() + " blockId: " + corrs[i]);
+					if (cacheBlock(dataDisk, SSDDisk, corrs[i])) {
+						System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> SSD "
+								+ SSDDisk.getDiskId() + " blockId: " + corrs[i]);
 					}
 				}
 			}
 		}
+		cahceCorBlocks(dataDisk, SSDDisk, blockId);
 
 //		// 把目标块之前cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//		//	block = dataDisk.getBlockList().get(blockId - i);
-//			block = dataDisk.getBlockList().get(blockId - i).deepClone();
-//			if (block != null) {
-//				SSDDisk.getBlockList().put(blockId - i, block);// ???????
-//				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
-//				SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
+//			if (cacheBlock(dataDisk, SSDDisk, blockId - i)) {
+//				System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> SSD "
+//						+ SSDDisk.getDiskId() + " blockId: " + (blockId - i));
 //			}
 //		}
 //		// 把目标块之后cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//		//	block = dataDisk.getBlockList().get(blockId + i);
-//			block = dataDisk.getBlockList().get(blockId + i).deepClone();
-//			if (block != null) {
-//				SSDDisk.getBlockList().put(blockId + i, block);
-//				SSDDisk.setBlockAmount(SSDDisk.getBlockAmount() + 1);
-//				SSDDisk.setLeftSpace(SSDDisk.getLeftSpace() - 1);
+//			if (cacheBlock(dataDisk, SSDDisk, blockId + i)) {
+//				System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> SSD "
+//						+ SSDDisk.getDiskId() + " blockId: " + (blockId + i));
 //			}
 //		}
 
@@ -113,18 +144,17 @@ public class DataMigration {
 	/**
 	 * Data Disk ====>> Cache Disk Replacement Strategy<br>
 	 * 把目标块blockId及其前后各cacheCorrelation块从dataDisk迁移进CacheDisk
+	 * 
 	 * @param dataDisk
 	 * @param cacheDisk
 	 * @param blockId
 	 */
 	public static void DD2Cache(DiskInfo dataDisk, DiskInfo cacheDisk, int blockId) {
 		// 把目标block缓存
-	//	BlockInfo block = dataDisk.getBlockList().get(blockId);
-		BlockInfo block = dataDisk.getBlockList().get(blockId).deepClone();
-		cacheDisk.getBlockList().put(blockId, block);
-		cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
-		cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
-		System.out.println("[CACHE] (normal) Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk " + cacheDisk.getDiskId() + " blockId: " + blockId);
+		if (cacheBlock(dataDisk, cacheDisk, blockId)) {
+			System.out.println("[CACHE] (normal) Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk "
+					+ cacheDisk.getDiskId() + " blockId: " + blockId);
+		}
 
 		// add
 		// 把（学习到的）相关块迁移进cacheDisk
@@ -133,40 +163,30 @@ public class DataMigration {
 			Integer[] corrs = RequestCorrelation.getCorr(blockId);
 			for (int i = 0; i < RequestCorrelation.getCorrelationNum(); i++) {
 				if (corrs[i] != null) {
-					block = dataDisk.getBlockList().get(corrs[i]);
-					if (block != null) {
-						block = block.deepClone();
-						cacheDisk.getBlockList().put(corrs[i], block);// ???????
-						cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
-						cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
-						System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk " + cacheDisk.getDiskId() + " blockId: " + corrs[i]);
+					if (cacheBlock(dataDisk, cacheDisk, corrs[i])) {
+						System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk "
+								+ cacheDisk.getDiskId() + " blockId: " + corrs[i]);
 					}
 				}
 			}
 		}
-		
+		cahceCorBlocks(dataDisk, cacheDisk, blockId);
+
 //		// 把目标块之前cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//		//	block = dataDisk.getBlockList().get(blockId - i);
-//			block = dataDisk.getBlockList().get(blockId - i).deepClone();
-//			if (block != null) {
-//				cacheDisk.getBlockList().put(blockId - i, block);
-//				cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
-//				cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
+//			if (cacheBlock(dataDisk, cacheDisk, blockId - i)) {
+//				System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk "
+//						+ cacheDisk.getDiskId() + " blockId: " + (blockId - i));
 //			}
 //		}
-//		
 //		// 把目标块之后cacheCorrelation个block缓存
 //		for (int i = cacheCorrelation; i > 0; i--) {
-//		//	block = dataDisk.getBlockList().get(blockId + i);
-//			block = dataDisk.getBlockList().get(blockId + i).deepClone();
-//			if (block != null) {
-//				cacheDisk.getBlockList().put(blockId + i, block);
-//				cacheDisk.setBlockAmount(cacheDisk.getBlockAmount() + 1);
-//				cacheDisk.setLeftSpace(cacheDisk.getLeftSpace() - 1);
+//			if (cacheBlock(dataDisk, cacheDisk, blockId + i)) {
+//				System.out.println("[CACHE] (related) Data Disk " + dataDisk.getDiskId() + "====>> Cache Disk "
+//						+ cacheDisk.getDiskId() + " blockId: " + (blockId + i));
 //			}
 //		}
-		
+
 		// 把目标块前1块迁移进CacheDisk
 		/*
 		 * BlockInfo block = dataDisk.getBlockList().get(blockId-1);

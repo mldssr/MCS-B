@@ -69,9 +69,9 @@ public class TrackOfRequest {
 				String.format("%3d", observeTime);
 		
 //		String content = request.getRequestFileName() + "," +
-		int genTime = Integer.valueOf(request.getGenerateTime());
-		int resTime = Integer.valueOf(request.getResponseTime());
-		int qos = Integer.valueOf(request.getQos());
+		int genTime = request.getGenerateTime();
+		int resTime = request.getResponseTime();
+		int qos = request.getQos();
 		String content = newFileName + "," +
 							String.format("%5d", genTime) + "," +
 							String.format("%5d", resTime) + "," +

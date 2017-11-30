@@ -27,10 +27,11 @@ public class DiskOperation {
 	
 	//Close disk
 	public static void closeDisk(DiskInfo disk){
+		System.out.println("[DISK]  Power off DataDisk " + disk.getDiskId() + ".");
+		System.out.println(disk);
 //		IdleTimeManager.updateIdleTime(disk.getIdleTime());
 		disk.setDiskState(0);
 		disk.setIdleTime(0-openTime);
-		System.out.println("[DISK]  Power off DataDisk " + disk.getDiskId() + ".");
 	}
 	
 	
