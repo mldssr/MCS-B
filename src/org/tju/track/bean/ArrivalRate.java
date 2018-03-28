@@ -1,10 +1,5 @@
 package org.tju.track.bean;
 
-/**
- * @author yuan
- *
- * @date 2015年12月17日 下午3:02:24
- */
 public class ArrivalRate {
 	
 	private int windowNum;

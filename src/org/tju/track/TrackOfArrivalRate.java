@@ -3,18 +3,13 @@ package org.tju.track;
 import org.tju.track.bean.ArrivalRate;
 import org.tju.util.FileOperation;
 
-/**
- * @author yuan
- *
- * @date 2015年12月17日 下午2:49:37
- */
 public class TrackOfArrivalRate {
 	
 	//get file operation
 	public FileOperation fileOper= new FileOperation();
 	
 	
-	//Track of Arrival Rate
+	//Track of Arrival Rate: Append
 	public void TrackOfRate(String filePath, ArrivalRate arrivalRate){
 		
 		String content = arrivalRate.getWindowNum() + "," + arrivalRate.getArrivalRate() + "\n";
@@ -45,6 +40,13 @@ public class TrackOfArrivalRate {
 		
 		fileOper.FileAppend(filePath, content);
 		
+	}
+	
+	
+	public void CloseArrivalRateFile() {
+
+		fileOper.CloseFile();
+
 	}
 
 }

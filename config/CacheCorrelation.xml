@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 缓存时预读取的 block 的数目 -->
 <package>
 	<action correlation="2"> </action>
 </package>

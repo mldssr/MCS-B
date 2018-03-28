@@ -8,11 +8,6 @@ import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * @author yuan
- *
- * @date 2015年12月14日 上午10:57:13
- */
 public class Scheduler {
 	
 	//get parameters
@@ -22,7 +17,12 @@ public class Scheduler {
 	public static int blockInCache = valueOfConfigureFile.getBlockInCache();
 	
 	
-	//Scheduler of All Disks, when is time to refresh
+	/**
+	 * Scheduler of All Disks, when is time to refresh
+	 * 计算一二级缓存的优先级，并清除低优先级的块，Refresh时使用
+	 * @param SSDDisks
+	 * @param cacheDisks
+	 */
 	public static void SchedulerOfDisks(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks){
 		
 		//Calculate blocks' priority 
@@ -43,7 +43,14 @@ public class Scheduler {
 	}
 	
 	
-	//Scheduler of All Disks per second
+	/**
+	 * Scheduler of All Disks per second<br>
+	 * 如果磁盘开着，将其中每个非空block的idleTime加1;<br>
+	 * 计算优先级
+	 * @param SSDDisks
+	 * @param cacheDisks
+	 * @param dataDisks
+	 */
 	public static void SchedulerOfSecond(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks, DiskInfo[] dataDisks){
 	
 		//update blocks' info in cache disks
@@ -59,14 +66,19 @@ public class Scheduler {
 	}
 	
 	
-	//Scheduler of Disks per second
+	/**
+	 * Scheduler of Disks per second<br>
+	 * 如果磁盘开着，将其中每个非空block的idleTime加1;<br>
+	 * 计算优先级
+	 * @param Disks
+	 */
 	public static void SchedulerOfSecond(DiskInfo[] Disks){
 		
-		//update blocks' info in cache disks
+		//update blocks' info in cache disks and data disks
 		for(int i=0; i<Disks.length; i++){
 			//tmp blocks' List
 			HashMap<Integer, BlockInfo> tmpBlocks = new HashMap<Integer, BlockInfo>();
-			
+			//如果磁盘开着，将其中每个非空block的idleTime加1
 			if(Disks[i].getDiskState()==1){
 				HashMap<Integer, BlockInfo> blocks = Disks[i].getBlockList();
 				Iterator<Entry<Integer, BlockInfo>> iter = blocks.entrySet().iterator();
@@ -79,7 +91,7 @@ public class Scheduler {
 					if(block == null){
 						continue ;
 					} else {
-						block.setIdleTime(block.getIdleTime()+1);				
+						block.setIdleTime(block.getIdleTime()+1);
 						tmpBlocks.put(block.getBlockId(), block);
 					}			
 				}
@@ -88,11 +100,14 @@ public class Scheduler {
 				Disks[i].setBlockList(new HashMap<Integer, BlockInfo>());
 				Disks[i].setBlockList(tmpBlocks);
 //				tmpBlocks.clear();
+				
+				// add
+				Disks[i].setStartedTime(Disks[i].getStartedTime() + 1);
 			}	
 		}
 		
 			
-		//Calculate blocks' priority 
+		//Calculate blocks' priority
 		for(int i=0; i<Disks.length; i++){
 			PriorityOperation.calculatePriority(Disks[i]);
 		}

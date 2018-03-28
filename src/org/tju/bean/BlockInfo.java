@@ -1,33 +1,72 @@
 package org.tju.bean;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
-/**
- * Name: BlockInfo
- * Description: Blocks' basic Information
- * 
- * @author yuan
- *
- * @date 2015年12月10日 上午10:24:57
- */
-public class BlockInfo {
-	
+public class BlockInfo implements Serializable{
+	private static final long serialVersionUID = -5252685802462694367L;
 	private int blockId;
 	private int totalSpace;
-	private int leftSpace;
-	private int observeTime;
+	private int leftSpace;				// In MB
+	private int observeTime;			// Stores the minimum observeTime of files it contains
 	private int skyZone;
 	private int diskId;
-	private int isHit;                  //(0,1)is(Miss,Hit)
-	private int requestNum;
-	private double priority;
-	private int idleTime;
-	private int transmissionTime;		//if disk is off += diskOpenTime
+	private int isHit;					// (0,1)is(Miss,Hit), not used
+	private int requestNum;				// Need up-to-date
+	private double priority;			// Need up-to-date
+	private int idleTime;				// Need up-to-date
+	private int transmissionTime;		// Need up-to-date && if disk is off += diskOpenTime
 	
-	private int fileAmount;				//The amount of file in this block
-	private HashMap<String, FileInfo> filesList;	//Stored Files' List in this block
+	private int fileAmount;				// The amount of file in this block
+	private HashMap<String, FileInfo> filesList;	// Stored Files List in this block, <fileName, FileInfo>
 	
 	
+	public BlockInfo deepClone() {
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(this);
+
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			return (BlockInfo) ois.readObject();
+		} catch (IOException e) {
+			return null;
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+	}
+	
+	public String toString() {
+		String basicInfo = "================================================ BlockInfo\n"
+				+ "blockId " + blockId
+				+ "  totalSpace " + totalSpace
+				+ "  leftSpace " + leftSpace
+				+ "  observeTime " + observeTime
+				+ "  skyZone " + skyZone
+				+ "  diskId " + diskId
+				+ "  isHit " + isHit
+				+ "  requestNum " + requestNum
+				+ "  priority " + priority
+				+ "  idleTime " + idleTime
+				+ "  transmissionTime " + transmissionTime
+				+ "  fileAmount " + fileAmount + "\n";
+		String filesInfo = "";
+		Iterator<Entry<String, FileInfo>> iter = filesList.entrySet().iterator();
+		while (iter.hasNext()){
+			Entry<String, FileInfo> entry = iter.next();
+			FileInfo file = entry.getValue();
+			filesInfo += file;
+		}
+		return basicInfo + filesInfo;
+	}
 	
 	/**
 	 * @param blockId
@@ -61,6 +100,7 @@ public class BlockInfo {
 	 * @param requestNum
 	 * @param priority
 	 * @param idleTime
+	 * @param transmissionTime
 	 * @param fileAmount
 	 * @param filesList
 	 */

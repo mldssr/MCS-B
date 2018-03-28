@@ -14,11 +14,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
-/**
- * @author yuan
- *
- * @date 2015年12月12日 下午1:05:41
- */
 public class Excel {
 	
 	//Create data to excel file

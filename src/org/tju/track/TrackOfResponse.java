@@ -3,11 +3,6 @@ package org.tju.track;
 import org.tju.bean.DiskInfo;
 import org.tju.util.FileOperation;
 
-/**
- * @author yuan
- *
- * @date 2015年12月19日 上午9:41:21
- */
 public class TrackOfResponse {
 	
 	//get file operation
@@ -59,6 +54,13 @@ public class TrackOfResponse {
 		
 		fileOper.FileAppend(filePath, content);
 		
-	}		
+	}
+	
+	
+	public void CloseResponseFile() {
+
+		fileOper.CloseFile();
+
+	}
 
 }

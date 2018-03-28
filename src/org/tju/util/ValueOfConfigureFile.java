@@ -1,10 +1,5 @@
 package org.tju.util;
 
-/**
- * @author yuan
- *
- * @date 2015年12月11日 下午7:45:08
- */
 public class ValueOfConfigureFile {
 	
 	//get blocks' info from BlockAmount.xml
@@ -17,7 +12,7 @@ public class ValueOfConfigureFile {
 	public int cacheAmount = Integer.valueOf(ReadXml.readname("config/DiskAmount.xml", "cachedisk"));
 	public int dataDiskAmount = Integer.valueOf(ReadXml.readname("config/DiskAmount.xml", "datadisk"));
 	
-	//get disks' capacity from DiskCapacity.xml 
+	//get disks' capacity from DiskCapacity.xml
 	public int blockInSSD = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "ssdblockamount"));
 	public int blockInCache = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "cacheblockamount"));
 	public int blockInDisk = Integer.valueOf(ReadXml.readname("config/DiskCapacity.xml", "blockamount"));
@@ -53,7 +48,7 @@ public class ValueOfConfigureFile {
 	//get refresh time from RefreshTime.xml
 	public int refreshTime = Integer.valueOf(ReadXml.readname("config/RefreshTime.xml", "refreshtime"));
 
-	//get request information from RequestInfo.xml 
+	//get request information from RequestInfo.xml
 	//get sliding window size
 	public int slidingWindowSize = Integer.valueOf(ReadXml.readname("config/RequestInfo.xml", "slidingwindow"));
 	
@@ -171,7 +166,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the blockAmount
+	 * @return the blockAmount from BlockAmount.xml
 	 */
 	public int getBlockAmount() {
 		return blockAmount;
@@ -179,7 +174,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the blockSize
+	 * @return the blockSize from BlockAmount.xml
 	 */
 	public int getBlockSize() {
 		return blockSize;
@@ -187,7 +182,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the fileInBlock
+	 * @return the fileInBlock from BlockAmount.xml
 	 */
 	public int getFileInBlock() {
 		return fileInBlock;
@@ -195,7 +190,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the sSDAmount
+	 * @return the sSDAmount from DiskAmount.xml
 	 */
 	public int getSSDAmount() {
 		return SSDAmount;
@@ -203,7 +198,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the cacheAmount
+	 * @return the cacheAmount from DiskAmount.xml
 	 */
 	public int getCacheAmount() {
 		return cacheAmount;
@@ -211,7 +206,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the dataDiskAmount
+	 * @return the dataDiskAmount from DiskAmount.xml
 	 */
 	public int getDataDiskAmount() {
 		return dataDiskAmount;
@@ -219,7 +214,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the blockInSSD
+	 * @return the blockInSSD from DiskCapacity.xml
 	 */
 	public int getBlockInSSD() {
 		return blockInSSD;
@@ -227,7 +222,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the blockInCache
+	 * @return the blockInCache from DiskCapacity.xml
 	 */
 	public int getBlockInCache() {
 		return blockInCache;
@@ -235,7 +230,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the blockInDisk
+	 * @return the blockInDisk from DiskCapacity.xml
 	 */
 	public int getBlockInDisk() {
 		return blockInDisk;
@@ -243,7 +238,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the skyzoneInDisk
+	 * @return the skyzoneInDisk from DiskCapacity.xml
 	 */
 	public int getSkyzoneInDisk() {
 		return skyzoneInDisk;
@@ -251,7 +246,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the dataDiskStartId
+	 * @return the dataDiskStartId from DiskNum.xml
 	 */
 	public int getDataDiskStartId() {
 		return dataDiskStartId;
@@ -259,7 +254,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the cacheDiskStartId
+	 * @return the cacheDiskStartId from DiskNum.xml
 	 */
 	public int getCacheDiskStartId() {
 		return cacheDiskStartId;
@@ -267,7 +262,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the sSDDiskStartId
+	 * @return the sSDDiskStartId from DiskNum.xml
 	 */
 	public int getSSDDiskStartId() {
 		return SSDDiskStartId;
@@ -275,7 +270,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the duplicateAmount
+	 * @return the duplicateAmount from Duplicate.xml
 	 */
 	public int getDuplicateAmount() {
 		return duplicateAmount;
@@ -283,7 +278,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the fileAmount
+	 * @return the fileAmount from FileAmount.xml
 	 */
 	public int getFileAmount() {
 		return fileAmount;
@@ -291,7 +286,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the fileBasicSize
+	 * @return the fileBasicSize from FileInfo.xml
 	 */
 	public int getFileBasicSize() {
 		return fileBasicSize;
@@ -299,7 +294,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the fileSizeErr
+	 * @return the fileSizeErr from FileInfo.xml
 	 */
 	public int getFileSizeErr() {
 		return fileSizeErr;
@@ -307,7 +302,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the diskSize
+	 * @return the diskSize from HDDDisk.xml
 	 */
 	public int getDiskSize() {
 		return diskSize;
@@ -315,7 +310,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the diskOperPower
+	 * @return the diskOperPower from HDDDisk.xml
 	 */
 	public double getDiskOperPower() {
 		return diskOperPower;
@@ -323,7 +318,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the openTime
+	 * @return the openTime from HDDDisk.xml
 	 */
 	public int getOpenTime() {
 		return openTime;
@@ -331,7 +326,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the timeAmount
+	 * @return the timeAmount from ObserveInfo.xml
 	 */
 	public int getTimeAmount() {
 		return timeAmount;
@@ -339,7 +334,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the skyzoneAmount
+	 * @return the skyzoneAmount from ObserveInfo.xml
 	 */
 	public int getSkyzoneAmount() {
 		return skyzoneAmount;
@@ -347,7 +342,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the refreshTime
+	 * @return the refreshTime RefreshTime.xml
 	 */
 	public int getRefreshTime() {
 		return refreshTime;
@@ -355,7 +350,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the slidingWindowSize
+	 * @return the slidingWindowSize from RequestInfo.xml
 	 */
 	public int getSlidingWindowSize() {
 		return slidingWindowSize;
@@ -363,7 +358,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the mode
+	 * @return the mode from RequestInfo.xml
 	 */
 	public String getMode() {
 		return mode;
@@ -371,7 +366,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the requestAmount
+	 * @return the requestAmount from RequestInfo.xml
 	 */
 	public int getRequestAmount() {
 		return requestAmount;
@@ -379,7 +374,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the lightRequestArrivalRate
+	 * @return the lightRequestArrivalRate from RequestInfo.xml
 	 */
 	public int getLightRequestArrivalRate() {
 		return lightRequestArrivalRate;
@@ -387,7 +382,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the normalRequestArrivalRate
+	 * @return the normalRequestArrivalRate from RequestInfo.xml
 	 */
 	public int getNormalRequestArrivalRate() {
 		return normalRequestArrivalRate;
@@ -395,7 +390,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the err
+	 * @return the err from RequestInfo.xml
 	 */
 	public int getErr() {
 		return err;
@@ -403,7 +398,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the requestGenerateRule
+	 * @return the requestGenerateRule from RequestInfo.xml
 	 */
 	public String getRequestGenerateRule() {
 		return requestGenerateRule;
@@ -411,7 +406,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the requestCorrelation
+	 * @return the requestCorrelation from RequestInfo.xml
 	 */
 	public int getRequestCorrelation() {
 		return requestCorrelation;
@@ -419,7 +414,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the windowNum
+	 * @return the windowNum from RequestInfo.xml
 	 */
 	public int getWindowNum() {
 		return windowNum;
@@ -427,7 +422,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the sSDSize
+	 * @return the SSDSize from SSDDisk.xml
 	 */
 	public int getSSDSize() {
 		return SSDSize;
@@ -435,7 +430,7 @@ public class ValueOfConfigureFile {
 	
 	
 	/**
-	 * @return the sSDOperPower
+	 * @return the sSDOperPower from SSDDisk.xml
 	 */
 	public double getSSDOperPower() {
 		return SSDOperPower;
@@ -499,7 +494,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the sSDSizeTh
+	 * @return the sSDSizeTh from Threshold.xml
 	 */
 	public int getSSDSizeTh() {
 		return SSDSizeTh;
@@ -507,7 +502,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the cacheSizeTh
+	 * @return the cacheSizeTh from Threshold.xml
 	 */
 	public int getCacheSizeTh() {
 		return cacheSizeTh;
@@ -515,7 +510,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the arrivalRateTh
+	 * @return the arrivalRateTh from Threshold.xml
 	 */
 	public double getArrivalRateTh() {
 		return arrivalRateTh;
@@ -523,7 +518,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the lowPriorityTh
+	 * @return the lowPriorityTh from Threshold.xml
 	 */
 	public double getLowPriorityTh() {
 		return lowPriorityTh;
@@ -531,7 +526,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the highPriorityTh
+	 * @return the highPriorityTh from Threshold.xml
 	 */
 	public double getHighPriorityTh() {
 		return highPriorityTh;
@@ -539,7 +534,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the idleTimeTh
+	 * @return the idleTimeTh from Threshold.xml
 	 */
 	public int getIdleTimeTh() {
 		return idleTimeTh;
@@ -547,7 +542,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the sSDResponseTime
+	 * @return the SSDResponseTime from ResponseTime.xml
 	 */
 	public int getSSDResponseTime() {
 		return SSDResponseTime;
@@ -555,7 +550,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the cacheResponseTime
+	 * @return the cacheResponseTime from ResponseTime.xml
 	 */
 	public int getCacheResponseTime() {
 		return cacheResponseTime;
@@ -563,7 +558,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the dataResponseTime
+	 * @return the dataResponseTime from ResponseTime.xml
 	 */
 	public int getDataResponseTime() {
 		return dataResponseTime;
@@ -571,7 +566,7 @@ public class ValueOfConfigureFile {
 
 
 	/**
-	 * @return the refreshTh
+	 * @return the refreshTh from Threshold.xml
 	 */
 	public int getRefreshTh() {
 		return refreshTh;

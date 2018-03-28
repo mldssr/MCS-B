@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 二者乘机应等于 BlockAmount.xml 的 amout * fileamount -->
 <package>
 	<action time="150" skyzone="980"> </action>
 </package>

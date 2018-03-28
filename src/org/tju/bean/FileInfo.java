@@ -1,26 +1,32 @@
 package org.tju.bean;
 
-/**
- * Name: FileInfo
- * Description: Files' basic Information
- * 
- * @author yuan
- *
- * @date 2015年12月10日 上午10:19:26
- */
-public class FileInfo {
-	
+import java.io.Serializable;
+
+public class FileInfo implements Serializable{
+	private static final long serialVersionUID = -1207337555085106524L;
 	private int fileId;
-	private String fileName;
+	private String fileName;			// fileName: skyzone-observeTime
 	private int size;
 	private int observeTime;
 	private int skyZone;
 	private int blockId;
-	private int isHit;                  //(0,1)is(Miss,Hit)
-	private int requestNum;
-	private double priority;
+	private int isHit;                  // (0,1)is(Miss,Hit), not used
+	private int requestNum;				// Not used
+	private double priority;			// Not used
 	
 	
+	public String toString() {
+		return "======================================== FileInfo\n"
+				+ "fileId " + fileId
+				+ "  fileName " + fileName
+				+ "  size " + size
+				+ "  observeTime " + observeTime
+				+ "  skyZone " + skyZone
+				+ "  blockId " + blockId
+				+ "  isHit " + isHit
+				+ "  requestNum " + requestNum
+				+ "  priority " + priority + "\n";
+	}
 	
 	/**
 	 * @param fileId

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 磁盘容量,(MB) -->
 <package>
 	<action size="2000000" operpower="8.0" opentime="10"> </action>
 </package>

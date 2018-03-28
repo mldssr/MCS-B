@@ -1,10 +1,5 @@
 package org.tju.track.bean;
 
-/**
- * @author yuan
- *
- * @date 2015年12月13日 上午10:30:54
- */
 public class BlockExchange {
 	
 	private int time;

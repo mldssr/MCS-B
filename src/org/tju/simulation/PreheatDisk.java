@@ -4,11 +4,6 @@ import org.tju.bean.DiskInfo;
 import org.tju.scheduler.DiskOperation;
 import org.tju.util.ValueOfConfigureFile;
 
-/**
- * @author yuan
- *
- * @date 2015年12月17日 下午1:11:33
- */
 public class PreheatDisk {
 	
 	
@@ -36,16 +31,17 @@ public class PreheatDisk {
 	public static void PreheatCaches(DiskInfo[] SSDDisks, DiskInfo[] cacheDisks, double arrivalRate){
 		
 		if(arrivalRate > arrivalRateTh){
-			//preheat SSD
+			// Only when arrivalRate is big enough can we preheat SSD or cacheDisk
 			int i=0;
 			for( ; i<SSDDisks.length-1; i++){
-				if(SSDDisks[i].getLeftSpace()<SSDSizeTh && SSDDisks[i+1].getDiskState()==0){
+				if(SSDDisks[i].getLeftSpace()<SSDSizeTh && SSDDisks[i+1].getDiskState()==0){///bug
 					PreheatCache(SSDDisks[i+1]);
 					return ;
 				}		
 			}
 			
 			if(i == SSDDisks.length-1){
+				// SSD已满，预热下一块空闲的cache
 				for(int j=0; j<cacheDisks.length-1; j++){
 					if(cacheDisks[i].getDiskState() == 0){
 						PreheatCache(cacheDisks[i]);

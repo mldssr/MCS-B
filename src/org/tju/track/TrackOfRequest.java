@@ -3,11 +3,6 @@ package org.tju.track;
 import org.tju.request.RequestInfo;
 import org.tju.util.FileOperation;
 
-/**
- * @author yuan
- *
- * @date 2015年12月13日 上午10:26:43
- */
 public class TrackOfRequest {
 	
 	//get file operation
@@ -49,15 +44,43 @@ public class TrackOfRequest {
 	}
 	
 	
+	public void CloseRequestGenFile() {
+
+		fileOper.CloseFile();
+
+	}
+	
+	
 	//Track of requests' statistic info
 	public void TrackOfRequestSta(String filePath, RequestInfo request){
+		String fileName = request.getRequestFileName();
 		
-		String content = request.getRequestFileName() + "," + 
-							request.getGenerateTime() + "," +
-							request.getResponseTime() + "," +
-							request.getQos() + "\n";
+		//diskID-blockId-skyzone-observeTime
+		String[] names = fileName.split("-");
+//		int diskId = Integer.valueOf(names[0]);
+//		int blockId = Integer.valueOf(names[1]);
+		int skyzone = Integer.valueOf(names[0]);
+		int observeTime = Integer.valueOf(names[1]);
 		
-		AppendRequestGenFile(filePath, content);		
+		String newFileName = 
+//				String.format("%2d", diskId) + "-" +
+//				String.format("%5d", blockId) + "-" +
+				String.format("%3d", skyzone) + "-" +
+				String.format("%3d", observeTime);
+		
+//		String content = request.getRequestFileName() + "," +
+		int genTime = request.getGenerateTime();
+		int resTime = request.getResponseTime();
+		int qos = request.getQos();
+		String content = newFileName + "," +
+							String.format("%5d", genTime) + "," +
+							String.format("%5d", resTime) + "," +
+							String.format("%2d", qos) + "\n";
+//							request.getGenerateTime() + "," +
+//							request.getResponseTime() + "," +
+//							request.getQos() + "\n";
+		
+		AppendRequestStaFile(filePath, content);		
 		
 	}
 	
@@ -85,6 +108,12 @@ public class TrackOfRequest {
 		
 	}
 	
+	
+	public void CloseRequestStaFile() {
+
+		fileOper.CloseFile();
+
+	}
 	
 	
 	//test

@@ -7,14 +7,12 @@ import java.util.Map.Entry;
 import org.tju.bean.BlockInfo;
 import org.tju.bean.DiskInfo;
 
-/**
- * @author yuan
- *
- * @date 2015年12月16日 下午1:21:11
- */
 public class TransTimeOperation {
 	
-	//update disks' blocks' transmissionTime in cache disks
+	/**
+	 * Update disks' blocks' transmissionTime in cache disks
+	 * @param disks
+	 */
 	public static void UpdateTranTime(DiskInfo[] disks){
 		
 		for(int i=0; i<disks.length; i++){
@@ -24,8 +22,14 @@ public class TransTimeOperation {
 	}
 	
 	
-	//update disk's blocks' transmissionTime
+	/**
+	 * Update disk's blocks' transmissionTime 将磁盘上所有block的transmissionTime(>0)-1
+	 * @param disk
+	 */
 	public static void UpdateTranTime(DiskInfo disk){
+		if (disk.getDiskState() == 0) {
+			return;
+		}
 		
 		HashMap<Integer, BlockInfo> blocks = disk.getBlockList();
 		

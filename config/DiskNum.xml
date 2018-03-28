@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 各层磁盘起始编号 -->
 <package>
 	<action datadisk="0" cache="100" ssd="1000"> </action>
 </package>
